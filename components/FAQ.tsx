@@ -7,7 +7,7 @@ const FAQItem: React.FC<{ question: string; answer: string }> = ({ question, ans
 
   return (
     <div className="border-b border-white/10">
-      <button 
+      <button
         onClick={() => setIsOpen(!isOpen)}
         className="w-full py-6 flex items-center justify-between text-left hover:text-primary-light transition-colors group"
       >
@@ -31,7 +31,7 @@ const FAQ: React.FC = () => {
   const { t } = useLanguage();
 
   return (
-    <section className="py-24 px-6 relative overflow-hidden bg-primary/20">
+    <section id="faq" className="py-24 px-6 relative overflow-hidden bg-primary/20">
       <div className="max-w-4xl mx-auto relative z-10">
         <div className="text-center mb-16">
           <span className="text-sm font-bold text-primary-light uppercase tracking-widest mb-4 inline-block">

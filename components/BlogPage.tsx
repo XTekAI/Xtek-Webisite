@@ -67,7 +67,7 @@ const BlogPage: React.FC = () => {
                         const email = (form[1] as HTMLInputElement).value;
 
                         try {
-                            await fetch('https://prueba1-n8n.fihoy6.easypanel.host/webhook/XTEK-WEBCONTACTFORM', {
+                            await fetch('https://prueba1-n8n.fihoy6.easypanel.host/webhook-test/xtek', {
                                 method: 'POST',
                                 headers: { 'Content-Type': 'application/json' },
                                 body: JSON.stringify({ name, email, source: 'newsletter_form' }),
@@ -91,7 +91,7 @@ const BlogPage: React.FC = () => {
                             required
                             className="w-full px-6 py-4 bg-white/5 border border-white/10 rounded-xl focus:outline-none focus:border-primary-light transition-colors text-white"
                         />
-                        <button className="w-full px-8 py-4 bg-primary text-white rounded-xl font-bold hover:bg-primary-dark transition-colors">
+                        <button type="submit" className="w-full px-8 py-4 bg-primary text-white rounded-xl font-bold hover:bg-primary-dark transition-colors">
                             {t.blog.newsletter_cta}
                         </button>
                     </form>

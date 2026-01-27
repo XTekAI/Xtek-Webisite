@@ -34,6 +34,8 @@ const Header: React.FC = () => {
           <a href="#about" onClick={(e) => handleSmoothScroll(e, 'about')} className="text-sm font-medium hover:text-primary-light transition-colors">{t.nav.about}</a>
           <a href="#services" onClick={(e) => handleSmoothScroll(e, 'services')} className="text-sm font-medium hover:text-primary-light transition-colors">{t.nav.services}</a>
           <a href="#success-stories" onClick={(e) => handleSmoothScroll(e, 'success-stories')} className="text-sm font-medium hover:text-primary-light transition-colors">{t.nav.testimonials}</a>
+          <a href="#blog" onClick={(e) => handleSmoothScroll(e, 'blog')} className="text-sm font-medium hover:text-primary-light transition-colors">{t.nav.blog}</a>
+          <a href="#faq" onClick={(e) => handleSmoothScroll(e, 'faq')} className="text-sm font-medium hover:text-primary-light transition-colors">{t.nav.faq}</a>
           <a href="#contact" onClick={(e) => handleSmoothScroll(e, 'contact')} className="text-sm font-medium hover:text-primary-light transition-colors">{t.nav.contact}</a>
         </nav>
 
@@ -78,6 +80,8 @@ const Header: React.FC = () => {
           <a href="#about" onClick={(e) => { handleSmoothScroll(e, 'about'); setIsMenuOpen(false); }} className="text-2xl font-bold hover:text-primary-light transition-colors">{t.nav.about}</a>
           <a href="#services" onClick={(e) => { handleSmoothScroll(e, 'services'); setIsMenuOpen(false); }} className="text-2xl font-bold hover:text-primary-light transition-colors">{t.nav.services}</a>
           <a href="#success-stories" onClick={(e) => { handleSmoothScroll(e, 'success-stories'); setIsMenuOpen(false); }} className="text-2xl font-bold hover:text-primary-light transition-colors">{t.nav.testimonials}</a>
+          <a href="#blog" onClick={(e) => { handleSmoothScroll(e, 'blog'); setIsMenuOpen(false); }} className="text-2xl font-bold hover:text-primary-light transition-colors">{t.nav.blog}</a>
+          <a href="#faq" onClick={(e) => { handleSmoothScroll(e, 'faq'); setIsMenuOpen(false); }} className="text-2xl font-bold hover:text-primary-light transition-colors">{t.nav.faq}</a>
           <a href="#contact" onClick={(e) => { handleSmoothScroll(e, 'contact'); setIsMenuOpen(false); }} className="text-2xl font-bold hover:text-primary-light transition-colors">{t.nav.contact}</a>
           <a href="#contact" onClick={(e) => { handleSmoothScroll(e, 'contact'); setIsMenuOpen(false); }} className="px-8 py-3 bg-primary-light text-white rounded-full font-bold text-xl">{t.nav.cta}</a>
         </div>

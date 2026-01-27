@@ -5,6 +5,8 @@ export const translations = {
       about: "About Us",
       services: "Services",
       testimonials: "Success Stories",
+      blog: "Blog",
+      faq: "FAQ",
       contact: "Contact",
       cta: "Get Started"
     },
@@ -170,6 +172,8 @@ export const translations = {
       about: "Sobre Nosotros",
       services: "Servicios",
       testimonials: "Casos de Éxito",
+      blog: "Blog",
+      faq: "Preguntas Frecuentes",
       contact: "Contacto",
       cta: "Empezar Ahora"
     },
