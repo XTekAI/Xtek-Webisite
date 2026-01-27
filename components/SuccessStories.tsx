@@ -74,7 +74,7 @@ const SuccessStories: React.FC = () => {
   return (
     <section id="success-stories" className="py-24 md:py-32 px-6">
       <div className="max-w-7xl mx-auto">
-        <div className="flex flex-col md:flex-row items-end justify-between mb-16 gap-8">
+        <div className="flex flex-col md:flex-row items-center md:items-end justify-between mb-16 gap-8 text-center md:text-left">
           <div className="max-w-2xl">
             <span className="text-sm font-bold text-primary-light uppercase tracking-widest mb-4 inline-block">
               {t.testimonials.badge}
@@ -89,19 +89,19 @@ const SuccessStories: React.FC = () => {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-20">
-          <StoryItem 
+          <StoryItem
             title="Finance Automation for Logistics"
             client="RetailPro USA"
             result="95% Manual Data Reduction"
             image="https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&q=80&w=800"
           />
-          <StoryItem 
+          <StoryItem
             title="AEO Healthcare Strategy"
             client="HealthFirst USA"
             result="+25% Conversion Rate"
             image="https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&q=80&w=800"
           />
-          <StoryItem 
+          <StoryItem
             title="Content Engine for SaaS"
             client="SaaS Matrix"
             result="300% Content Output"
@@ -110,21 +110,21 @@ const SuccessStories: React.FC = () => {
         </div>
 
         <div className="text-center mb-20">
-           <button 
-             onClick={() => { setPage('stories'); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
-             className="inline-flex items-center gap-3 text-white/60 hover:text-primary-light font-bold text-lg transition-colors group"
-           >
-             {t.testimonials.view_all}
-             <svg className="w-5 h-5 transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-             </svg>
-           </button>
+          <button
+            onClick={() => { setPage('stories'); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
+            className="inline-flex items-center gap-3 text-white/60 hover:text-primary-light font-bold text-lg transition-colors group"
+          >
+            {t.testimonials.view_all}
+            <svg className="w-5 h-5 transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+            </svg>
+          </button>
         </div>
 
         <div id="detailed-cases" className="pt-20">
           <h3 className="text-3xl font-bold mb-12 text-center gradient-text">Detailed Success Cases</h3>
-          
-          <CaseStudyDetail 
+
+          <CaseStudyDetail
             title="From Manual Invoicing to Autonomous Finance"
             client="RetailPro USA"
             challenge="RetailPro was losing 15 hours a week in manual invoice processing and data entry errors across 12 warehouses."
@@ -134,7 +134,7 @@ const SuccessStories: React.FC = () => {
             tags={["Automation", "Finance", "AI Agents"]}
           />
 
-          <CaseStudyDetail 
+          <CaseStudyDetail
             title="Optimizing the Human Journey with AEO"
             client="HealthFirst USA"
             challenge="Organic traffic was stagnant and traditional SEO wasn't answering specific patient questions on AI search engines."

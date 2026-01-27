@@ -60,15 +60,35 @@ const BlogPage: React.FC = () => {
 
                 <div className="glass rounded-[40px] border border-white/5 p-8 md:p-12 mb-16 text-center">
                     <h3 className="text-2xl font-bold mb-6">{t.blog.newsletter_title}</h3>
-                    <form className="max-w-md mx-auto space-y-4" onSubmit={(e) => e.preventDefault()}>
+                    <form className="max-w-md mx-auto space-y-4" onSubmit={async (e) => {
+                        e.preventDefault();
+                        const form = e.target as HTMLFormElement;
+                        const name = (form[0] as HTMLInputElement).value;
+                        const email = (form[1] as HTMLInputElement).value;
+
+                        try {
+                            await fetch('https://prueba1-n8n.fihoy6.easypanel.host/webhook/XTEK-WEBCONTACTFORM', {
+                                method: 'POST',
+                                headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify({ name, email, source: 'newsletter_form' }),
+                            });
+                            alert('Subscribed successfully!');
+                            form.reset();
+                        } catch (error) {
+                            console.error(error);
+                            alert('Error subscribing.');
+                        }
+                    }}>
                         <input
                             type="text"
                             placeholder={t.blog.newsletter_name}
+                            required
                             className="w-full px-6 py-4 bg-white/5 border border-white/10 rounded-xl focus:outline-none focus:border-primary-light transition-colors text-white"
                         />
                         <input
                             type="email"
                             placeholder={t.blog.newsletter_email}
+                            required
                             className="w-full px-6 py-4 bg-white/5 border border-white/10 rounded-xl focus:outline-none focus:border-primary-light transition-colors text-white"
                         />
                         <button className="w-full px-8 py-4 bg-primary text-white rounded-xl font-bold hover:bg-primary-dark transition-colors">

@@ -19,10 +19,19 @@ const ContactForm: React.FC = () => {
     setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Form submitted:', formData);
-    setSubmitted(true);
+    try {
+      await fetch('https://prueba1-n8n.fihoy6.easypanel.host/webhook/XTEK-WEBCONTACTFORM', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ...formData, source: 'contact_form' }),
+      });
+      setSubmitted(true);
+    } catch (error) {
+      console.error('Submission error:', error);
+      alert('There was an error submitting the form. Please try again.');
+    }
   };
 
   if (submitted) {
@@ -35,8 +44,11 @@ const ContactForm: React.FC = () => {
         </div>
         <h3 className="text-3xl font-bold mb-4">{t.contact.success_title}</h3>
         <p className="text-white/60 mb-8">{t.contact.success_desc} {formData.meetingDate}.</p>
-        <button 
-          onClick={() => setSubmitted(false)}
+        <button
+          onClick={() => {
+            setSubmitted(false);
+            setFormData({ name: '', businessName: '', niche: '', email: '', phone: '', meetingDate: '' });
+          }}
           className="text-primary-light font-bold hover:underline"
         >
           {t.contact.success_cta}
@@ -50,11 +62,11 @@ const ContactForm: React.FC = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
         <div className="flex flex-col gap-2">
           <label className="text-xs font-bold uppercase tracking-widest text-white/50 px-1">{t.contact.label_name}</label>
-          <input 
+          <input
             required
-            type="text" 
-            name="name" 
-            value={formData.name} 
+            type="text"
+            name="name"
+            value={formData.name}
             onChange={handleChange}
             placeholder="John Doe"
             className="bg-white/5 border border-white/10 rounded-xl px-4 py-3 outline-none focus:border-primary-light focus:bg-white/10 transition-all text-white placeholder:text-white/20"
@@ -62,11 +74,11 @@ const ContactForm: React.FC = () => {
         </div>
         <div className="flex flex-col gap-2">
           <label className="text-xs font-bold uppercase tracking-widest text-white/50 px-1">{t.contact.label_business}</label>
-          <input 
+          <input
             required
-            type="text" 
-            name="businessName" 
-            value={formData.businessName} 
+            type="text"
+            name="businessName"
+            value={formData.businessName}
             onChange={handleChange}
             placeholder="Company Inc."
             className="bg-white/5 border border-white/10 rounded-xl px-4 py-3 outline-none focus:border-primary-light focus:bg-white/10 transition-all text-white placeholder:text-white/20"
@@ -74,11 +86,11 @@ const ContactForm: React.FC = () => {
         </div>
         <div className="flex flex-col gap-2">
           <label className="text-xs font-bold uppercase tracking-widest text-white/50 px-1">{t.contact.label_niche}</label>
-          <input 
+          <input
             required
-            type="text" 
-            name="niche" 
-            value={formData.niche} 
+            type="text"
+            name="niche"
+            value={formData.niche}
             onChange={handleChange}
             placeholder={t.contact.placeholder_niche}
             className="bg-white/5 border border-white/10 rounded-xl px-4 py-3 outline-none focus:border-primary-light focus:bg-white/10 transition-all text-white placeholder:text-white/20"
@@ -86,11 +98,11 @@ const ContactForm: React.FC = () => {
         </div>
         <div className="flex flex-col gap-2">
           <label className="text-xs font-bold uppercase tracking-widest text-white/50 px-1">{t.contact.label_email}</label>
-          <input 
+          <input
             required
-            type="email" 
-            name="email" 
-            value={formData.email} 
+            type="email"
+            name="email"
+            value={formData.email}
             onChange={handleChange}
             placeholder="hello@company.com"
             className="bg-white/5 border border-white/10 rounded-xl px-4 py-3 outline-none focus:border-primary-light focus:bg-white/10 transition-all text-white placeholder:text-white/20"
@@ -98,11 +110,11 @@ const ContactForm: React.FC = () => {
         </div>
         <div className="flex flex-col gap-2">
           <label className="text-xs font-bold uppercase tracking-widest text-white/50 px-1">{t.contact.label_phone}</label>
-          <input 
+          <input
             required
-            type="tel" 
-            name="phone" 
-            value={formData.phone} 
+            type="tel"
+            name="phone"
+            value={formData.phone}
             onChange={handleChange}
             placeholder="+1 (201) 555-0123"
             className="bg-white/5 border border-white/10 rounded-xl px-4 py-3 outline-none focus:border-primary-light focus:bg-white/10 transition-all text-white placeholder:text-white/20"
@@ -110,19 +122,19 @@ const ContactForm: React.FC = () => {
         </div>
         <div className="flex flex-col gap-2">
           <label className="text-xs font-bold uppercase tracking-widest text-white/50 px-1">{t.contact.label_date}</label>
-          <input 
+          <input
             required
-            type="date" 
-            name="meetingDate" 
-            value={formData.meetingDate} 
+            type="date"
+            name="meetingDate"
+            value={formData.meetingDate}
             onChange={handleChange}
             className="bg-white/5 border border-white/10 rounded-xl px-4 py-3 outline-none focus:border-primary-light focus:bg-white/10 transition-all text-white [color-scheme:dark]"
           />
         </div>
       </div>
-      
-      <button 
-        type="submit" 
+
+      <button
+        type="submit"
         className="w-full py-4 bg-primary-light text-white font-bold rounded-xl hover:bg-secondary transition-all shadow-xl shadow-primary-light/20 flex items-center justify-center gap-2"
       >
         {t.contact.cta}
