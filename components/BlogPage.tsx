@@ -67,7 +67,7 @@ const BlogPage: React.FC = () => {
                         const email = (form[1] as HTMLInputElement).value;
 
                         try {
-                            await fetch('https://prueba1-n8n.fihoy6.easypanel.host/webhook/XTEK-WEBCONTACTFORM', {
+                            await fetch('https://prueba1-n8n.fihoy6.easypanel.host/webhook/xtekweb', {
                                 method: 'POST',
                                 headers: { 'Content-Type': 'application/json' },
                                 body: JSON.stringify({ name, email, source: 'newsletter_form' }),
