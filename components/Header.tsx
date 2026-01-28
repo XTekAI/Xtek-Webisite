@@ -5,7 +5,7 @@ import { useLanguage, handleSmoothScroll } from '../App';
 const Header: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const { lang, setLang, t } = useLanguage();
+  const { lang, setLang, t, page, setPage } = useLanguage();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -17,8 +17,34 @@ const Header: React.FC = () => {
 
   const scrollToTop = (e: React.MouseEvent) => {
     e.preventDefault();
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    if (page !== 'home') {
+      setPage('home');
+      setTimeout(() => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }, 100);
+    } else {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
     window.history.pushState("", document.title, window.location.pathname + window.location.search);
+  };
+
+  const handleNavigation = (e: React.MouseEvent, targetId: string) => {
+    e.preventDefault();
+    if (page !== 'home') {
+      setPage('home');
+      setTimeout(() => {
+        // Find the element again after rendering home
+        const element = document.getElementById(targetId);
+        if (element) {
+          const headerOffset = 80;
+          const elementPosition = element.getBoundingClientRect().top;
+          const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+          window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
+        }
+      }, 100);
+    } else {
+      handleSmoothScroll(e as React.MouseEvent<HTMLAnchorElement>, targetId);
+    }
   };
 
   return (
@@ -31,12 +57,12 @@ const Header: React.FC = () => {
 
         {/* Desktop Nav */}
         <nav className="hidden lg:flex items-center gap-8">
-          <a href="#about" onClick={(e) => handleSmoothScroll(e, 'about')} className="text-sm font-medium hover:text-primary-light transition-colors">{t.nav.about}</a>
-          <a href="#services" onClick={(e) => handleSmoothScroll(e, 'services')} className="text-sm font-medium hover:text-primary-light transition-colors">{t.nav.services}</a>
-          <a href="#success-stories" onClick={(e) => handleSmoothScroll(e, 'success-stories')} className="text-sm font-medium hover:text-primary-light transition-colors">{t.nav.testimonials}</a>
-          <a href="#blog" onClick={(e) => handleSmoothScroll(e, 'blog')} className="text-sm font-medium hover:text-primary-light transition-colors">{t.nav.blog}</a>
-          <a href="#faq" onClick={(e) => handleSmoothScroll(e, 'faq')} className="text-sm font-medium hover:text-primary-light transition-colors">{t.nav.faq}</a>
-          <a href="#contact" onClick={(e) => handleSmoothScroll(e, 'contact')} className="text-sm font-medium hover:text-primary-light transition-colors">{t.nav.contact}</a>
+          <a href="#about" onClick={(e) => handleNavigation(e, 'about')} className="text-sm font-medium hover:text-primary-light transition-colors">{t.nav.about}</a>
+          <a href="#services" onClick={(e) => handleNavigation(e, 'services')} className="text-sm font-medium hover:text-primary-light transition-colors">{t.nav.services}</a>
+          <a href="#success-stories" onClick={(e) => handleNavigation(e, 'success-stories')} className="text-sm font-medium hover:text-primary-light transition-colors">{t.nav.testimonials}</a>
+          <a href="#blog" onClick={(e) => handleNavigation(e, 'blog')} className="text-sm font-medium hover:text-primary-light transition-colors">{t.nav.blog}</a>
+          <a href="#faq" onClick={(e) => handleNavigation(e, 'faq')} className="text-sm font-medium hover:text-primary-light transition-colors">{t.nav.faq}</a>
+          <a href="#contact" onClick={(e) => handleNavigation(e, 'contact')} className="text-sm font-medium hover:text-primary-light transition-colors">{t.nav.contact}</a>
         </nav>
 
         <div className="flex items-center gap-4 relative z-50">
@@ -56,7 +82,7 @@ const Header: React.FC = () => {
           </div>
           <a
             href="#contact"
-            onClick={(e) => handleSmoothScroll(e, 'contact')}
+            onClick={(e) => handleNavigation(e, 'contact')}
             className="hidden sm:block text-sm font-semibold px-6 py-2.5 bg-primary-light hover:bg-white hover:text-primary transition-all duration-300 rounded-full"
           >
             {t.nav.cta}
@@ -77,13 +103,13 @@ const Header: React.FC = () => {
 
         {/* Mobile Menu Overlay */}
         <div className={`fixed inset-0 bg-primary/95 backdrop-blur-xl z-40 transition-all duration-300 flex flex-col items-center justify-center gap-8 ${isMenuOpen ? 'opacity-100 visible' : 'opacity-0 invisible pointer-events-none'}`}>
-          <a href="#about" onClick={(e) => { handleSmoothScroll(e, 'about'); setIsMenuOpen(false); }} className="text-2xl font-bold hover:text-primary-light transition-colors">{t.nav.about}</a>
-          <a href="#services" onClick={(e) => { handleSmoothScroll(e, 'services'); setIsMenuOpen(false); }} className="text-2xl font-bold hover:text-primary-light transition-colors">{t.nav.services}</a>
-          <a href="#success-stories" onClick={(e) => { handleSmoothScroll(e, 'success-stories'); setIsMenuOpen(false); }} className="text-2xl font-bold hover:text-primary-light transition-colors">{t.nav.testimonials}</a>
-          <a href="#blog" onClick={(e) => { handleSmoothScroll(e, 'blog'); setIsMenuOpen(false); }} className="text-2xl font-bold hover:text-primary-light transition-colors">{t.nav.blog}</a>
-          <a href="#faq" onClick={(e) => { handleSmoothScroll(e, 'faq'); setIsMenuOpen(false); }} className="text-2xl font-bold hover:text-primary-light transition-colors">{t.nav.faq}</a>
-          <a href="#contact" onClick={(e) => { handleSmoothScroll(e, 'contact'); setIsMenuOpen(false); }} className="text-2xl font-bold hover:text-primary-light transition-colors">{t.nav.contact}</a>
-          <a href="#contact" onClick={(e) => { handleSmoothScroll(e, 'contact'); setIsMenuOpen(false); }} className="px-8 py-3 bg-primary-light text-white rounded-full font-bold text-xl">{t.nav.cta}</a>
+          <a href="#about" onClick={(e) => { handleNavigation(e, 'about'); setIsMenuOpen(false); }} className="text-2xl font-bold hover:text-primary-light transition-colors">{t.nav.about}</a>
+          <a href="#services" onClick={(e) => { handleNavigation(e, 'services'); setIsMenuOpen(false); }} className="text-2xl font-bold hover:text-primary-light transition-colors">{t.nav.services}</a>
+          <a href="#success-stories" onClick={(e) => { handleNavigation(e, 'success-stories'); setIsMenuOpen(false); }} className="text-2xl font-bold hover:text-primary-light transition-colors">{t.nav.testimonials}</a>
+          <a href="#blog" onClick={(e) => { handleNavigation(e, 'blog'); setIsMenuOpen(false); }} className="text-2xl font-bold hover:text-primary-light transition-colors">{t.nav.blog}</a>
+          <a href="#faq" onClick={(e) => { handleNavigation(e, 'faq'); setIsMenuOpen(false); }} className="text-2xl font-bold hover:text-primary-light transition-colors">{t.nav.faq}</a>
+          <a href="#contact" onClick={(e) => { handleNavigation(e, 'contact'); setIsMenuOpen(false); }} className="text-2xl font-bold hover:text-primary-light transition-colors">{t.nav.contact}</a>
+          <a href="#contact" onClick={(e) => { handleNavigation(e, 'contact'); setIsMenuOpen(false); }} className="px-8 py-3 bg-primary-light text-white rounded-full font-bold text-xl">{t.nav.cta}</a>
         </div>
       </div>
     </header>
