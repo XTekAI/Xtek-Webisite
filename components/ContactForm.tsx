@@ -22,8 +22,9 @@ const ContactForm: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await fetch('https://prueba1-n8n.fihoy6.easypanel.host/webhook-test/xtek', {
+      await fetch('https://prueba1-n8n.fihoy6.easypanel.host/webhook/web', {
         method: 'POST',
+        mode: 'no-cors',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ ...formData, source: 'contact_form' }),
       });
