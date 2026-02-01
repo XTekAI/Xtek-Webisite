@@ -151,7 +151,7 @@ const Services: React.FC = () => {
               <p className="text-xl text-white/60 mb-12 max-w-2xl">{t.services.custom_desc}</p>
               <a
                 href="#contact"
-                className="px-12 py-5 bg-secondary text-white rounded-full text-xl font-bold hover:scale-105 transition-all shadow-xl shadow-secondary/30"
+                className="px-12 py-5 bg-secondary text-white rounded-full text-xl font-bold hover:bg-secondary/90 hover:scale-105 transition-all shadow-xl shadow-secondary/30"
               >
                 {t.services.custom_cta}
               </a>

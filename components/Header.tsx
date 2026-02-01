@@ -83,7 +83,7 @@ const Header: React.FC = () => {
           <a
             href="#contact"
             onClick={(e) => handleNavigation(e, 'contact')}
-            className="hidden sm:block text-sm font-semibold px-6 py-2.5 bg-primary-light hover:bg-white hover:text-primary transition-all duration-300 rounded-full"
+            className="hidden sm:block text-sm font-semibold px-6 py-2.5 bg-primary-light hover:bg-secondary text-white transition-all duration-300 rounded-full"
           >
             {t.nav.cta}
           </a>

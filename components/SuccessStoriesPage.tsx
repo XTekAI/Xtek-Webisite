@@ -28,7 +28,7 @@ const SuccessStoryDetail: React.FC<{
       <div className="p-8 lg:p-16">
         <h2 className="text-primary-light font-bold uppercase tracking-widest text-sm mb-6">Success Case Study</h2>
         <h3 className="text-4xl font-bold mb-8 leading-tight">{title}</h3>
-        
+
         <div className="space-y-8">
           <div>
             <h4 className="text-secondary font-bold text-lg mb-2">The Challenge</h4>
@@ -50,11 +50,11 @@ const SuccessStoryDetail: React.FC<{
 
 const SuccessStoriesPage: React.FC = () => {
   const { t, setPage } = useLanguage();
-  
+
   return (
     <div className="pt-40 pb-24 px-6 min-h-screen">
       <div className="max-w-7xl mx-auto">
-        <button 
+        <button
           onClick={() => setPage('home')}
           className="flex items-center gap-2 text-white/50 hover:text-primary-light transition-colors mb-12 group"
         >
@@ -71,7 +71,7 @@ const SuccessStoriesPage: React.FC = () => {
           </p>
         </div>
 
-        <SuccessStoryDetail 
+        <SuccessStoryDetail
           title="From Manual Invoicing to Autonomous Finance"
           client="RetailPro USA"
           challenge="RetailPro was losing 15 hours a week in manual invoice processing and data entry errors across 12 warehouses."
@@ -81,7 +81,7 @@ const SuccessStoriesPage: React.FC = () => {
           tags={["Automation", "Finance", "AI Agents"]}
         />
 
-        <SuccessStoryDetail 
+        <SuccessStoryDetail
           title="Optimizing the Human Journey with AEO"
           client="HealthFirst USA"
           challenge="Organic traffic was stagnant and traditional SEO wasn't answering specific patient questions on AI search engines."
@@ -91,7 +91,7 @@ const SuccessStoriesPage: React.FC = () => {
           tags={["AEO", "SEO", "Healthcare"]}
         />
 
-        <SuccessStoryDetail 
+        <SuccessStoryDetail
           title="Scalable Content for High-Performance SaaS"
           client="SaaS Matrix"
           challenge="The team couldn't keep up with the demand for personalized content for different US niche markets."
@@ -103,9 +103,25 @@ const SuccessStoriesPage: React.FC = () => {
 
         <div className="glass rounded-[40px] p-16 text-center">
           <h2 className="text-4xl font-bold mb-8">Your story could be next.</h2>
-          <button 
-            onClick={() => { setPage('home'); window.location.hash = '#contact'; }}
-            className="px-12 py-5 bg-primary-light text-white font-bold rounded-full text-xl hover:scale-105 transition-all shadow-xl shadow-primary-light/20"
+          <button
+            onClick={(e) => {
+              e.preventDefault();
+              setPage('home');
+              setTimeout(() => {
+                const element = document.getElementById('contact');
+                if (element) {
+                  const headerOffset = 80;
+                  const elementPosition = element.getBoundingClientRect().top;
+                  const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+                  window.scrollTo({
+                    top: offsetPosition,
+                    behavior: 'smooth'
+                  });
+                  window.history.pushState(null, '', '#contact');
+                }
+              }, 100);
+            }}
+            className="px-12 py-5 bg-primary-light text-white font-bold rounded-full text-xl hover:bg-secondary hover:scale-105 transition-all shadow-xl shadow-primary-light/20"
           >
             Start Your Journey
           </button>

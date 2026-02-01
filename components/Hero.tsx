@@ -32,7 +32,7 @@ const Hero: React.FC = () => {
           <a
             href="#contact"
             onClick={(e) => handleSmoothScroll(e, 'contact')}
-            className="w-full sm:w-auto px-8 py-4 bg-primary-light text-white font-bold rounded-full hover:scale-105 transition-transform shadow-lg shadow-primary-light/20 flex items-center justify-center gap-2"
+            className="w-full sm:w-auto px-8 py-4 bg-primary-light text-white font-bold rounded-full hover:bg-secondary hover:scale-105 transition-all shadow-lg shadow-primary-light/20 flex items-center justify-center gap-2"
           >
             {t.hero.cta_primary}
             <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
@@ -42,7 +42,7 @@ const Hero: React.FC = () => {
           <a
             href="#services"
             onClick={(e) => handleSmoothScroll(e, 'services')}
-            className="w-full sm:w-auto px-8 py-4 bg-white/5 text-white font-bold rounded-full border border-white/10 hover:bg-white/10 transition-colors"
+            className="w-full sm:w-auto px-8 py-4 bg-white/5 text-white font-bold rounded-full border border-white/10 hover:bg-secondary hover:border-secondary transition-all"
           >
             {t.hero.cta_secondary}
           </a>
