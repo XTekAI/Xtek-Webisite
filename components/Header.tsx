@@ -1,6 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { useLanguage, handleSmoothScroll } from '../App';
+import { MagnetizeButton } from './ui/magnetize-button';
 
 const Header: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -51,42 +52,28 @@ const Header: React.FC = () => {
     <header className={`fixed top-0 left-0 right-0 z-[100] transition-all duration-300 ${isScrolled ? 'bg-primary/80 backdrop-blur-md py-4' : 'bg-transparent py-6'}`}>
       <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
         <button onClick={scrollToTop} className="flex items-center gap-3 group relative z-50">
-          <div className="w-10 h-10 bg-primary-light rounded-lg flex items-center justify-center font-bold text-xl transition-transform group-hover:scale-110">X</div>
-          <span className="text-2xl font-bold tracking-tight uppercase">XTEK AI</span>
+          <div className="w-10 h-10 bg-primary-light rounded-lg flex items-center justify-center font-bold text-xl !text-white transition-transform group-hover:scale-110 notranslate">X</div>
+          <span className="text-2xl font-bold tracking-tight uppercase !text-white notranslate">XTEK AI</span>
         </button>
 
         {/* Desktop Nav */}
         <nav className="hidden lg:flex items-center gap-8">
-          <a href="#about" onClick={(e) => handleNavigation(e, 'about')} className="text-sm font-medium hover:text-primary-light transition-colors">{t.nav.about}</a>
-          <a href="#services" onClick={(e) => handleNavigation(e, 'services')} className="text-sm font-medium hover:text-primary-light transition-colors">{t.nav.services}</a>
-          <a href="#success-stories" onClick={(e) => handleNavigation(e, 'success-stories')} className="text-sm font-medium hover:text-primary-light transition-colors">{t.nav.testimonials}</a>
-          <a href="#blog" onClick={(e) => handleNavigation(e, 'blog')} className="text-sm font-medium hover:text-primary-light transition-colors">{t.nav.blog}</a>
-          <a href="#faq" onClick={(e) => handleNavigation(e, 'faq')} className="text-sm font-medium hover:text-primary-light transition-colors">{t.nav.faq}</a>
-          <a href="#contact" onClick={(e) => handleNavigation(e, 'contact')} className="text-sm font-medium hover:text-primary-light transition-colors">{t.nav.contact}</a>
+          <a href="#about" onClick={(e) => handleNavigation(e, 'about')} className="text-sm font-medium !text-white hover:text-primary-light transition-colors">{t.nav.about}</a>
+          <a href="#services" onClick={(e) => handleNavigation(e, 'services')} className="text-sm font-medium !text-white hover:text-primary-light transition-colors">{t.nav.services}</a>
+          <a href="#success-stories" onClick={(e) => handleNavigation(e, 'success-stories')} className="text-sm font-medium !text-white hover:text-primary-light transition-colors">{t.nav.testimonials}</a>
+          <a href="#blog" onClick={(e) => handleNavigation(e, 'blog')} className="text-sm font-medium !text-white hover:text-primary-light transition-colors">{t.nav.blog}</a>
+          <a href="#faq" onClick={(e) => handleNavigation(e, 'faq')} className="text-sm font-medium !text-white hover:text-primary-light transition-colors">{t.nav.faq}</a>
+          <a href="#contact" onClick={(e) => handleNavigation(e, 'contact')} className="text-sm font-medium !text-white hover:text-primary-light transition-colors">{t.nav.contact}</a>
         </nav>
 
         <div className="flex items-center gap-4 relative z-50">
-          <div className="flex items-center bg-white/5 border border-white/10 rounded-full p-1 mr-2">
-            <button
-              onClick={() => setLang('en')}
-              className={`px-3 py-1 text-[10px] font-bold rounded-full transition-all ${lang === 'en' ? 'bg-primary-light text-white' : 'text-white/40'}`}
-            >
-              EN
-            </button>
-            <button
-              onClick={() => setLang('es')}
-              className={`px-3 py-1 text-[10px] font-bold rounded-full transition-all ${lang === 'es' ? 'bg-primary-light text-white' : 'text-white/40'}`}
-            >
-              ES
-            </button>
-          </div>
-          <a
-            href="#contact"
+
+          <MagnetizeButton
             onClick={(e) => handleNavigation(e, 'contact')}
-            className="hidden sm:block text-sm font-semibold px-6 py-2.5 bg-primary-light hover:bg-secondary text-white transition-all duration-300 rounded-full"
+            className="hidden sm:inline-flex text-sm font-semibold px-6 py-2.5 bg-primary-light hover:bg-secondary text-white transition-all duration-300 rounded-full border-none h-auto"
           >
             {t.nav.cta}
-          </a>
+          </MagnetizeButton>
 
           {/* Mobile Menu Button */}
           <button
@@ -103,13 +90,13 @@ const Header: React.FC = () => {
 
         {/* Mobile Menu Overlay */}
         <div className={`fixed inset-0 bg-primary/95 backdrop-blur-xl z-40 transition-all duration-300 flex flex-col items-center justify-center gap-8 ${isMenuOpen ? 'opacity-100 visible' : 'opacity-0 invisible pointer-events-none'}`}>
-          <a href="#about" onClick={(e) => { handleNavigation(e, 'about'); setIsMenuOpen(false); }} className="text-2xl font-bold hover:text-primary-light transition-colors">{t.nav.about}</a>
-          <a href="#services" onClick={(e) => { handleNavigation(e, 'services'); setIsMenuOpen(false); }} className="text-2xl font-bold hover:text-primary-light transition-colors">{t.nav.services}</a>
-          <a href="#success-stories" onClick={(e) => { handleNavigation(e, 'success-stories'); setIsMenuOpen(false); }} className="text-2xl font-bold hover:text-primary-light transition-colors">{t.nav.testimonials}</a>
-          <a href="#blog" onClick={(e) => { handleNavigation(e, 'blog'); setIsMenuOpen(false); }} className="text-2xl font-bold hover:text-primary-light transition-colors">{t.nav.blog}</a>
-          <a href="#faq" onClick={(e) => { handleNavigation(e, 'faq'); setIsMenuOpen(false); }} className="text-2xl font-bold hover:text-primary-light transition-colors">{t.nav.faq}</a>
-          <a href="#contact" onClick={(e) => { handleNavigation(e, 'contact'); setIsMenuOpen(false); }} className="text-2xl font-bold hover:text-primary-light transition-colors">{t.nav.contact}</a>
-          <a href="#contact" onClick={(e) => { handleNavigation(e, 'contact'); setIsMenuOpen(false); }} className="px-8 py-3 bg-primary-light text-white rounded-full font-bold text-xl">{t.nav.cta}</a>
+          <a href="#about" onClick={(e) => { handleNavigation(e, 'about'); setIsMenuOpen(false); }} className="text-2xl font-bold !text-white hover:text-primary-light transition-colors">{t.nav.about}</a>
+          <a href="#services" onClick={(e) => { handleNavigation(e, 'services'); setIsMenuOpen(false); }} className="text-2xl font-bold !text-white hover:text-primary-light transition-colors">{t.nav.services}</a>
+          <a href="#success-stories" onClick={(e) => { handleNavigation(e, 'success-stories'); setIsMenuOpen(false); }} className="text-2xl font-bold !text-white hover:text-primary-light transition-colors">{t.nav.testimonials}</a>
+          <a href="#blog" onClick={(e) => { handleNavigation(e, 'blog'); setIsMenuOpen(false); }} className="text-2xl font-bold !text-white hover:text-primary-light transition-colors">{t.nav.blog}</a>
+          <a href="#faq" onClick={(e) => { handleNavigation(e, 'faq'); setIsMenuOpen(false); }} className="text-2xl font-bold !text-white hover:text-primary-light transition-colors">{t.nav.faq}</a>
+          <a href="#contact" onClick={(e) => { handleNavigation(e, 'contact'); setIsMenuOpen(false); }} className="text-2xl font-bold !text-white hover:text-primary-light transition-colors">{t.nav.contact}</a>
+          <a href="#contact" onClick={(e) => { handleNavigation(e, 'contact'); setIsMenuOpen(false); }} className="px-8 py-3 bg-primary-light !text-white rounded-full font-bold text-xl">{t.nav.cta}</a>
         </div>
       </div>
     </header>

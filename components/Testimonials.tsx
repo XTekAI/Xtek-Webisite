@@ -31,25 +31,25 @@ const Testimonials: React.FC = () => {
       <div className="max-w-7xl mx-auto">
         <div className="text-center mb-20">
           <h2 className="text-sm font-bold text-primary-light uppercase tracking-widest mb-4">{t.testimonials.badge}</h2>
-          <h3 className="text-4xl md:text-5xl font-bold">{t.testimonials.title}</h3>
+          <h3 className="text-4xl md:text-5xl font-bold !text-white">{t.testimonials.title}</h3>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          <TestimonialCard 
+          <TestimonialCard
             name={t.testimonials.t1_name}
             role={t.testimonials.t1_role}
             company={t.testimonials.t1_company}
             image="https://picsum.photos/100/100?random=1"
             quote={t.testimonials.t1_quote}
           />
-          <TestimonialCard 
+          <TestimonialCard
             name={t.testimonials.t2_name}
             role={t.testimonials.t2_role}
             company={t.testimonials.t2_company}
             image="https://picsum.photos/100/100?random=2"
             quote={t.testimonials.t2_quote}
           />
-          <TestimonialCard 
+          <TestimonialCard
             name={t.testimonials.t3_name}
             role={t.testimonials.t3_role}
             company={t.testimonials.t3_company}

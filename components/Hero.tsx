@@ -1,14 +1,26 @@
-
-import React from 'react';
+import React, { lazy, Suspense } from 'react';
 import { useLanguage, handleSmoothScroll } from '../App';
+import { MagnetizeButton } from './ui/magnetize-button';
+import NeuralBackground from './ui/flow-field-background';
 
 const Hero: React.FC = () => {
   const { t } = useLanguage();
   return (
-    <section className="relative pt-24 pb-20 md:pt-48 md:pb-32 px-6 overflow-hidden">
-      {/* Background Orbs */}
-      <div className="absolute top-[-10%] right-[-10%] w-[500px] h-[500px] bg-primary-light/20 blur-[120px] rounded-full pointer-events-none"></div>
-      <div className="absolute bottom-[10%] left-[-10%] w-[400px] h-[400px] bg-secondary/10 blur-[100px] rounded-full pointer-events-none"></div>
+    <section id="hero" className="relative min-h-screen flex items-center pt-20 overflow-hidden">
+      {/* Dynamic Background with Shooting Stars */}
+      <div className="absolute inset-0 z-0">
+        <NeuralBackground
+          color="#A7566A"
+          trailOpacity={0.15}
+          speed={0.6}
+          particleCount={400}
+        />
+      </div>
+
+      {/* Overlay gradient to ensure text readability */}
+      <div className="absolute inset-0 bg-gradient-to-b from-primary/80 via-primary/60 to-primary z-0 pointer-events-none"></div>
+
+      <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1639322537228-f710d846310a?auto=format&fit=crop&q=80')] bg-cover bg-center opacity-10 mix-blend-overlay z-0 pointer-events-none"></div>
 
       <div className="max-w-7xl mx-auto text-center relative z-10">
         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-primary-light text-xs font-bold uppercase tracking-widest mb-8 animate-fade-in-up">
@@ -19,7 +31,7 @@ const Hero: React.FC = () => {
           {t.hero.badge}
         </div>
 
-        <h1 className="text-4xl md:text-7xl lg:text-8xl font-bold tracking-tight mb-8 animate-fade-in-up [animation-delay:200ms]">
+        <h1 className="text-4xl md:text-7xl lg:text-8xl font-bold tracking-tight mb-8 animate-fade-in-up [animation-delay:200ms] !text-white">
           {t.hero.title_part1} <br />
           <span className="gradient-text">{t.hero.title_part2}</span>
         </h1>
@@ -29,16 +41,12 @@ const Hero: React.FC = () => {
         </p>
 
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4 animate-fade-in-up [animation-delay:600ms]">
-          <a
-            href="#contact"
+          <MagnetizeButton
             onClick={(e) => handleSmoothScroll(e, 'contact')}
-            className="w-full sm:w-auto px-8 py-4 bg-primary-light text-white font-bold rounded-full hover:bg-secondary hover:scale-105 transition-all shadow-lg shadow-primary-light/20 flex items-center justify-center gap-2"
+            className="w-full sm:w-auto px-8 py-4 bg-primary-light text-white font-bold rounded-full hover:bg-secondary hover:scale-105 transition-all shadow-lg shadow-primary-light/20 flex items-center justify-center gap-2 border-none h-auto"
           >
             {t.hero.cta_primary}
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-              <path fillRule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clipRule="evenodd" />
-            </svg>
-          </a>
+          </MagnetizeButton>
           <a
             href="#services"
             onClick={(e) => handleSmoothScroll(e, 'services')}

@@ -10,17 +10,24 @@ const ContactForm: React.FC = () => {
     niche: '',
     email: '',
     phone: '',
-    meetingDate: ''
+    meetingDate: '',
+    description: ''
   });
 
   const [submitted, setSubmitted] = useState(false);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    const { name, businessName, niche, email, phone, meetingDate, description } = formData;
+    if (!name || !businessName || !niche || !email || !phone || !meetingDate || !description) {
+      alert(t.contact.validation_error);
+      return;
+    }
     try {
       await fetch('https://prueba1-n8n.fihoy6.easypanel.host/webhook/web', {
         method: 'POST',
@@ -43,7 +50,7 @@ const ContactForm: React.FC = () => {
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
           </svg>
         </div>
-        <h3 className="text-3xl font-bold mb-4">{t.contact.success_title}</h3>
+        <h3 className="text-3xl font-bold mb-4 !text-white">{t.contact.success_title}</h3>
         <p className="text-white/60 mb-8">{t.contact.success_desc} {formData.meetingDate}.</p>
         <button
           onClick={() => {
@@ -130,6 +137,18 @@ const ContactForm: React.FC = () => {
             value={formData.meetingDate}
             onChange={handleChange}
             className="bg-white/5 border border-white/10 rounded-xl px-4 py-3 outline-none focus:border-primary-light focus:bg-white/10 transition-all text-white [color-scheme:dark]"
+          />
+        </div>
+        <div className="flex flex-col gap-2 md:col-span-2">
+          <label className="text-xs font-bold uppercase tracking-widest text-white/50 px-1">{t.contact.label_description}</label>
+          <textarea
+            required
+            name="description"
+            value={formData.description}
+            onChange={handleChange}
+            placeholder={t.contact.placeholder_description}
+            rows={4}
+            className="bg-white/5 border border-white/10 rounded-xl px-4 py-3 outline-none focus:border-primary-light focus:bg-white/10 transition-all text-white placeholder:text-white/20 resize-none"
           />
         </div>
       </div>

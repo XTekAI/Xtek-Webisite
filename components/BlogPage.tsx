@@ -1,16 +1,73 @@
 import React from 'react';
 import { useLanguage } from '../App';
+import { MagnetizeButton } from './ui/magnetize-button';
 
 const BlogPage: React.FC = () => {
     // @ts-ignore - Context updated in next step
-    const { t, setPage, activeBlog } = useLanguage();
+    const { t, setPage, activeBlog, setActiveBlog } = useLanguage();
 
     const post = t.blog.posts.find((p: any) => p.id === activeBlog);
 
+    // If no active post, show the list of all blogs
     if (!post) {
         return (
-            <div className="min-h-screen flex items-center justify-center">
-                <button onClick={() => setPage('home')} className="text-white">Return Home</button>
+            <div className="pt-40 pb-24 px-6 min-h-screen">
+                <div className="max-w-7xl mx-auto">
+                    <div className="text-center mb-16">
+                        <span className="text-sm font-bold text-primary-light uppercase tracking-widest mb-4 inline-block">
+                            {t.blog.badge}
+                        </span>
+                        <h1 className="text-4xl md:text-5xl font-bold mb-6">
+                            {t.blog.title}
+                        </h1>
+                        <p className="text-xl text-white/60 max-w-2xl mx-auto">
+                            {t.blog.subtitle}
+                        </p>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                        {t.blog.posts.map((post: any) => (
+                            <div key={post.id} className="glass rounded-[32px] overflow-hidden border border-white/5 group hover:border-primary-light/30 transition-all duration-500 flex flex-col h-full">
+                                <div className="h-48 overflow-hidden relative">
+                                    <img src={post.image} alt={post.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+                                    <div className="absolute top-4 left-4 flex gap-2">
+                                        {post.tags.map((tag: string) => (
+                                            <span key={tag} className="px-2 py-1 bg-black/50 backdrop-blur-md rounded-full text-[10px] font-bold uppercase tracking-widest text-white border border-white/10">{tag}</span>
+                                        ))}
+                                    </div>
+                                </div>
+                                <div className="p-8 flex flex-col flex-grow">
+                                    <div className="text-primary-light text-xs font-bold mb-4 uppercase tracking-widest">{post.date}</div>
+                                    <h3 className="text-2xl font-bold mb-4 leading-tight group-hover:text-primary-light transition-colors">{post.title}</h3>
+                                    <p className="text-white/60 mb-6 line-clamp-3 text-sm">{post.desc}</p>
+                                    <div className="mt-auto pt-6 border-t border-white/5">
+                                        <button
+                                            onClick={() => setActiveBlog(post.id)}
+                                            className="flex items-center gap-2 text-white font-bold text-sm tracking-widest uppercase group/btn hover:text-primary-light transition-colors"
+                                        >
+                                            {t.blog.read_more}
+                                            <svg className="w-4 h-4 transition-transform group-hover/btn:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                                            </svg>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+
+                    <div className="text-center mt-16">
+                        <button
+                            onClick={() => setPage('home')}
+                            className="flex items-center gap-2 text-white/50 hover:text-primary-light transition-colors mx-auto group"
+                        >
+                            <svg className="w-5 h-5 transition-transform group-hover:-translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                            </svg>
+                            {t.blog.back}
+                        </button>
+                    </div>
+                </div>
             </div>
         );
     }
@@ -19,13 +76,13 @@ const BlogPage: React.FC = () => {
         <div className="pt-40 pb-24 px-6 min-h-screen">
             <div className="max-w-4xl mx-auto">
                 <button
-                    onClick={() => setPage('home')}
+                    onClick={() => setActiveBlog(null)}
                     className="flex items-center gap-2 text-white/50 hover:text-primary-light transition-colors mb-12 group"
                 >
                     <svg className="w-5 h-5 transition-transform group-hover:-translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
                     </svg>
-                    {t.blog.back}
+                    Back to Blog List
                 </button>
 
                 <div className="glass rounded-[40px] overflow-hidden border border-white/5 p-8 md:p-12 mb-12">
@@ -47,14 +104,7 @@ const BlogPage: React.FC = () => {
                     </div>
 
                     <div className="prose prose-invert prose-lg max-w-none">
-                        <p className="text-xl leading-relaxed text-white/80 font-light mb-8">{post.content}</p>
-                        <p className="text-white/60 leading-relaxed">
-                            (Full article content would go here. Since this is a demo, expanding the placeholder text...) <br /><br />
-                            In the context of the global market, companies adopting {post.tags[0]} are seeing significant competitive advantages.
-                            Our analysis shows that integrating these systems reduces operational friction by an average of 35% within the first quarter.
-                            <br /><br />
-                            The shift is inevitable. As we move towards more autonomous systems, the role of human oversight becomes one of strategy rather than execution.
-                        </p>
+                        <div className="text-xl leading-relaxed text-white/80 font-light mb-8" dangerouslySetInnerHTML={{ __html: post.content }}></div>
                     </div>
                 </div>
 
@@ -92,20 +142,20 @@ const BlogPage: React.FC = () => {
                             required
                             className="w-full px-6 py-4 bg-white/5 border border-white/10 rounded-xl focus:outline-none focus:border-primary-light transition-colors text-white"
                         />
-                        <button type="submit" className="w-full px-8 py-4 bg-primary text-white rounded-xl font-bold hover:bg-primary-dark transition-colors">
+                        <MagnetizeButton type="submit" className="w-full px-8 py-4 bg-primary text-white rounded-xl font-bold hover:bg-secondary transition-colors border-none h-auto">
                             {t.blog.newsletter_cta}
-                        </button>
+                        </MagnetizeButton>
                     </form>
                 </div>
 
                 <div className="text-center">
-                    <h3 className="text-2xl font-bold mb-8">Ready to implement this?</h3>
-                    <button
+                    <h3 className="text-2xl font-bold mb-8">{t.blog.cta_title}</h3>
+                    <MagnetizeButton
                         onClick={() => { setPage('home'); setTimeout(() => window.location.hash = '#contact', 100); }}
-                        className="px-8 py-4 bg-secondary text-white rounded-full font-bold hover:scale-105 transition-transform shadow-lg shadow-secondary/20"
+                        className="px-8 py-4 bg-secondary text-white rounded-full font-bold hover:scale-105 transition-transform shadow-lg shadow-secondary/20 border-none h-auto"
                     >
-                        Book a Consultation
-                    </button>
+                        {t.blog.cta_button}
+                    </MagnetizeButton>
                 </div>
             </div>
         </div>

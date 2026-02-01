@@ -17,7 +17,7 @@ const StoryItem: React.FC<{
       </div>
     </div>
     <div className="p-8">
-      <h3 className="text-2xl font-bold mb-4 leading-tight">{title}</h3>
+      <h3 className="text-2xl font-bold mb-4 leading-tight !text-white">{title}</h3>
       <div className="flex items-center gap-3 text-secondary">
         <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
@@ -53,7 +53,7 @@ const CaseStudyDetail: React.FC<{
       </div>
       <div className="p-8 lg:p-12">
         <h2 className="text-primary-light font-bold uppercase tracking-widest text-xs mb-4">Deep Dive</h2>
-        <h3 className="text-2xl font-bold mb-6 leading-tight">{title}</h3>
+        <h3 className="text-2xl font-bold mb-6 leading-tight !text-white">{title}</h3>
         <div className="space-y-6 text-sm">
           <div>
             <h4 className="text-secondary font-bold mb-1">Challenge</h4>
@@ -79,34 +79,25 @@ const SuccessStories: React.FC = () => {
             <span className="text-sm font-bold text-primary-light uppercase tracking-widest mb-4 inline-block">
               {t.testimonials.badge}
             </span>
-            <h2 className="text-4xl md:text-5xl font-bold leading-tight">
+            <h2 className="text-4xl md:text-5xl font-bold leading-tight !text-white">
               {t.testimonials.title}
             </h2>
           </div>
           <p className="text-white/40 text-lg max-w-sm">
-            Discover how we translate bespoke intelligence into measurable growth for US enterprises.
+            {t.testimonials.detailed_cases_subtitle}
           </p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-20">
-          <StoryItem
-            title="Finance Automation for Logistics"
-            client="RetailPro USA"
-            result="95% Manual Data Reduction"
-            image="https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&q=80&w=800"
-          />
-          <StoryItem
-            title="AEO Healthcare Strategy"
-            client="HealthFirst USA"
-            result="+25% Conversion Rate"
-            image="https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&q=80&w=800"
-          />
-          <StoryItem
-            title="Content Engine for SaaS"
-            client="SaaS Matrix"
-            result="300% Content Output"
-            image="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=800"
-          />
+          {t.testimonials.stories.map((story: any, index: number) => (
+            <StoryItem
+              key={index}
+              title={story.title}
+              client={story.client}
+              result={story.result}
+              image={story.image}
+            />
+          ))}
         </div>
 
         <div className="text-center mb-20">
@@ -122,27 +113,20 @@ const SuccessStories: React.FC = () => {
         </div>
 
         <div id="detailed-cases" className="pt-20">
-          <h3 className="text-3xl font-bold mb-12 text-center gradient-text">Detailed Success Cases</h3>
+          <h3 className="text-3xl font-bold mb-12 text-center gradient-text">{t.testimonials.detailed_cases_title}</h3>
 
-          <CaseStudyDetail
-            title="From Manual Invoicing to Autonomous Finance"
-            client="RetailPro USA"
-            challenge="RetailPro was losing 15 hours a week in manual invoice processing and data entry errors across 12 warehouses."
-            solution="We implemented Executive AI: a custom administrative agent that extracts, validates, and syncs invoices automatically."
-            result="95% reduction in manual data entry and $120k saved annually in overhead."
-            image="https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&q=80&w=1200"
-            tags={["Automation", "Finance", "AI Agents"]}
-          />
-
-          <CaseStudyDetail
-            title="Optimizing the Human Journey with AEO"
-            client="HealthFirst USA"
-            challenge="Organic traffic was stagnant and traditional SEO wasn't answering specific patient questions on AI search engines."
-            solution="Redesigned content strategy for AEO (Answer Engine Optimization) and implemented a personalized healthcare assistant."
-            result="40% increase in Answer-Engine visibility and 25% conversion boost."
-            image="https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&q=80&w=1200"
-            tags={["AEO", "SEO", "Healthcare"]}
-          />
+          {t.testimonials.detailed_cases.map((caseStudy: any, index: number) => (
+            <CaseStudyDetail
+              key={index}
+              title={caseStudy.title}
+              client={caseStudy.client}
+              challenge={caseStudy.challenge}
+              solution={caseStudy.solution}
+              result={caseStudy.result}
+              image={caseStudy.image}
+              tags={caseStudy.tags}
+            />
+          ))}
         </div>
       </div>
     </section>

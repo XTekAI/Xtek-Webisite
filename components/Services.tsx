@@ -1,6 +1,7 @@
 
 import React, { useLayoutEffect, useRef } from 'react';
 import { useLanguage } from '../App';
+import { MagnetizeButton } from './ui/magnetize-button';
 
 const ServiceLayer: React.FC<{
   title: string;
@@ -21,7 +22,7 @@ const ServiceLayer: React.FC<{
             <div className="w-16 h-16 bg-primary-light/20 text-primary-light rounded-2xl flex items-center justify-center mb-8">
               {icon}
             </div>
-            <h3 className="text-2xl md:text-5xl font-bold mb-6 tracking-tight leading-tight">{title}</h3>
+            <h3 className="text-2xl md:text-5xl font-bold mb-6 tracking-tight leading-tight !text-white">{title}</h3>
             <p className="text-xl text-white/60 leading-relaxed mb-8">{description}</p>
           </div>
           <div className="w-full md:w-1/2 bg-white/5 rounded-3xl p-8 border border-white/5">
@@ -45,6 +46,7 @@ const Services: React.FC = () => {
   const { t } = useLanguage();
   const mainRef = useRef<HTMLDivElement>(null);
   const layersContainerRef = useRef<HTMLDivElement>(null);
+  const titleRef = useRef<HTMLDivElement>(null);
 
   useLayoutEffect(() => {
     const { gsap } = window as any;
@@ -53,41 +55,59 @@ const Services: React.FC = () => {
 
     const layers = gsap.utils.toArray('.service-layer');
 
-    // Create the main pinning timeline
-    const tl = gsap.timeline({
-      scrollTrigger: {
-        trigger: mainRef.current,
-        start: "top top",
-        end: () => `+=${layers.length * 100}%`, // Sufficient scroll space
-        pin: true,
-        scrub: 1,
-        anticipatePin: 1,
-      }
-    });
+    // Use matchMedia to create responsive animations
+    const mm = gsap.matchMedia();
 
-    layers.forEach((layer: any, i: number) => {
-      // Fade in and move up
-      tl.to(layer, {
-        opacity: 1,
-        y: 0,
-        duration: 1,
-        ease: "power2.inOut"
+    // Context for logic that applies to BOTH (or we define specific overrides)
+    // We want the same visual effect (pinning + fading) on both, just faster on mobile.
+
+    // Helper to setup the timeline
+    const setupTimeline = (isMobile: boolean) => {
+      const scrollDistance = isMobile ? layers.length * 60 : layers.length * 100; // Reduced distance on mobile
+
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: mainRef.current,
+          start: "top top",
+          end: () => `+=${scrollDistance}%`,
+          pin: true,
+          scrub: 1,
+          anticipatePin: 1,
+        }
       });
 
-      // If not the last layer, fade it out to reveal the next one
-      if (i < layers.length - 1) {
+      layers.forEach((layer: any, i: number) => {
+        // Initial state is handled by CSS (opacity-0), but let's ensure
         tl.to(layer, {
-          opacity: 0,
-          scale: 0.9,
-          y: -50,
+          opacity: 1,
+          y: 0,
           duration: 1,
           ease: "power2.inOut"
-        }, "+=0.5"); // Pause briefly while visible
-      }
+        });
+
+        // Loop through to fade out previous
+        if (i < layers.length - 1) {
+          tl.to(layer, {
+            opacity: 0,
+            scale: 0.9,
+            y: -50,
+            duration: 1,
+            ease: "power2.inOut"
+          }, "+=0.5");
+        }
+      });
+    };
+
+    mm.add({
+      isDesktop: "(min-width: 768px)",
+      isMobile: "(max-width: 767px)"
+    }, (context: any) => {
+      const { isMobile } = context.conditions;
+      setupTimeline(isMobile);
     });
 
     return () => {
-      ScrollTrigger.getAll().forEach((t: any) => t.kill());
+      mm.revert();
     };
   }, []);
 
@@ -107,7 +127,7 @@ const Services: React.FC = () => {
 
       <div className="relative h-full w-full">
         {/* Intro Header (Visible before first layer) */}
-        <div className="absolute top-20 left-0 w-full text-center px-6 z-40">
+        <div ref={titleRef} className="absolute top-20 left-0 w-full text-center px-6 z-40">
           <span className="text-sm font-bold text-secondary uppercase tracking-widest mb-4 inline-block">{t.services.badge}</span>
         </div>
 
@@ -147,14 +167,16 @@ const Services: React.FC = () => {
               <div className="w-24 h-24 bg-secondary/10 rounded-full flex items-center justify-center mb-8 animate-pulse">
                 <svg className="w-12 h-12 text-secondary" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
               </div>
-              <h3 className="text-3xl md:text-6xl font-bold mb-6 tracking-tight">{t.services.custom_title}</h3>
+              <h3 className="text-3xl md:text-6xl font-bold mb-6 tracking-tight !text-white">{t.services.custom_title}</h3>
               <p className="text-xl text-white/60 mb-12 max-w-2xl">{t.services.custom_desc}</p>
-              <a
-                href="#contact"
-                className="px-12 py-5 bg-secondary text-white rounded-full text-xl font-bold hover:bg-secondary/90 hover:scale-105 transition-all shadow-xl shadow-secondary/30"
+              <MagnetizeButton
+                onClick={() => {
+                  document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
+                }}
+                className="px-12 py-5 bg-secondary text-white rounded-full text-xl font-bold hover:bg-secondary/90 hover:scale-105 transition-all shadow-xl shadow-secondary/30 border-none h-auto"
               >
                 {t.services.custom_cta}
-              </a>
+              </MagnetizeButton>
             </div>
           </div>
         </div>

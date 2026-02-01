@@ -15,8 +15,8 @@ const Footer: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
           <div className="md:col-span-1">
             <button onClick={scrollToTop} className="flex items-center gap-3 mb-6">
-              <div className="w-8 h-8 bg-primary-light rounded flex items-center justify-center font-bold">X</div>
-              <span className="text-xl font-bold tracking-tight uppercase">Xtek AI</span>
+              <div className="w-8 h-8 bg-primary-light rounded flex items-center justify-center font-bold !text-white notranslate">X</div>
+              <span className="text-xl font-bold tracking-tight uppercase !text-white notranslate">Xtek AI</span>
             </button>
             <p className="text-white/40 text-sm leading-relaxed mb-6">
               {t.footer.desc}
