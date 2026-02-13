@@ -1,5 +1,6 @@
 import React, { lazy, Suspense } from 'react';
-import { useLanguage, handleSmoothScroll } from '../App';
+import { useLanguage } from '../context/LanguageContext';
+import { handleSmoothScroll } from '../lib/utils';
 import { MagnetizeButton } from './ui/magnetize-button';
 import NeuralBackground from './ui/flow-field-background';
 

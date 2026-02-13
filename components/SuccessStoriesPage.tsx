@@ -1,7 +1,8 @@
 
 import React from 'react';
-import { useLanguage } from '../App';
+import { useLanguage } from '../context/LanguageContext';
 import { MagnetizeButton } from './ui/magnetize-button';
+import { Link, useNavigate } from 'react-router-dom';
 
 const SuccessStoryDetail: React.FC<{
   title: string;
@@ -56,20 +57,21 @@ const SuccessStoryDetail: React.FC<{
 );
 
 const SuccessStoriesPage: React.FC = () => {
-  const { t, setPage } = useLanguage();
+  const { t } = useLanguage();
+  const navigate = useNavigate();
 
   return (
     <div className="pt-40 pb-24 px-6 min-h-screen">
       <div className="max-w-7xl mx-auto">
-        <button
-          onClick={() => setPage('home')}
-          className="flex items-center gap-2 text-white/50 hover:text-primary-light transition-colors mb-12 group"
+        <Link
+          to="/"
+          className="flex items-center gap-2 text-white/50 hover:text-primary-light transition-colors mb-12 group inline-flex"
         >
           <svg className="w-5 h-5 transition-transform group-hover:-translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
           </svg>
           {t.blog.back}
-        </button>
+        </Link>
 
         <div className="mb-24 text-center">
           <h1 className="text-5xl md:text-7xl font-bold mb-8">{t.testimonials.page_title}</h1>
@@ -102,7 +104,7 @@ const SuccessStoriesPage: React.FC = () => {
           <MagnetizeButton
             onClick={(e) => {
               e.preventDefault();
-              setPage('home');
+              navigate('/');
               setTimeout(() => {
                 const element = document.getElementById('contact');
                 if (element) {
@@ -113,7 +115,6 @@ const SuccessStoriesPage: React.FC = () => {
                     top: offsetPosition,
                     behavior: 'smooth'
                   });
-                  window.history.pushState(null, '', '#contact');
                 }
               }, 100);
             }}

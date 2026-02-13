@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { useLanguage } from '../App';
+import { useLanguage } from '../context/LanguageContext';
 
 const ContactForm: React.FC = () => {
   const { t } = useLanguage();

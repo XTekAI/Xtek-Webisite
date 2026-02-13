@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { useLanguage } from '../App';
+import { useLanguage } from '../context/LanguageContext';
 
 const FAQItem: React.FC<{ question: string; answer: string }> = ({ question, answer }) => {
   const [isOpen, setIsOpen] = useState(false);

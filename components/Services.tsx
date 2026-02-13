@@ -1,6 +1,6 @@
 
 import React, { useLayoutEffect, useRef } from 'react';
-import { useLanguage } from '../App';
+import { useLanguage } from '../context/LanguageContext';
 import { MagnetizeButton } from './ui/magnetize-button';
 
 const ServiceLayer: React.FC<{

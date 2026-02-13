@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { useLanguage } from '../App';
+import { useLanguage } from '../context/LanguageContext';
 
 const StatCard: React.FC<{ value: string; label: string }> = ({ value, label }) => (
   <div className="text-center">
@@ -25,7 +25,7 @@ const AboutUs: React.FC = () => {
             <p>{t.about.p1}</p>
             <p>{t.about.p2}</p>
           </div>
-          
+
           <div className="grid grid-cols-3 gap-8 mt-16 pt-12 border-t border-white/10">
             <StatCard value={t.about.stat1_val} label={t.about.stat1_label} />
             <StatCard value={t.about.stat2_val} label={t.about.stat2_label} />
@@ -35,11 +35,11 @@ const AboutUs: React.FC = () => {
 
         <div className="relative">
           <div className="aspect-square glass rounded-[60px] overflow-hidden rotate-3 relative z-10">
-             <img 
-               src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&q=80&w=1000" 
-               alt="Team Working" 
-               className="w-full h-full object-cover grayscale opacity-60"
-             />
+            <img
+              src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&q=80&w=1000"
+              alt="Team Working"
+              className="w-full h-full object-cover grayscale opacity-60"
+            />
           </div>
           {/* Decorative shapes */}
           <div className="absolute -top-10 -right-10 w-64 h-64 bg-primary-light/10 blur-3xl rounded-full"></div>

@@ -1,12 +1,42 @@
 
 import React from 'react';
-import { useLanguage, handleSmoothScroll } from '../App';
+import { useLanguage } from '../context/LanguageContext';
+import { handleSmoothScroll } from '../lib/utils';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const Footer: React.FC = () => {
   const { t } = useLanguage();
+  const location = useLocation();
+  const navigate = useNavigate();
+
   const scrollToTop = (e: React.MouseEvent) => {
     e.preventDefault();
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    if (location.pathname !== '/') {
+      navigate('/');
+      setTimeout(() => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }, 100);
+    } else {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  };
+
+  const handleNavigation = (e: React.MouseEvent, targetId: string) => {
+    e.preventDefault();
+    if (location.pathname !== '/') {
+      navigate('/');
+      setTimeout(() => {
+        const element = document.getElementById(targetId);
+        if (element) {
+          const headerOffset = 80;
+          const elementPosition = element.getBoundingClientRect().top;
+          const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+          window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
+        }
+      }, 100);
+    } else {
+      handleSmoothScroll(e as React.MouseEvent<HTMLAnchorElement>, targetId);
+    }
   };
 
   return (
@@ -52,27 +82,27 @@ const Footer: React.FC = () => {
           <div>
             <h4 className="font-bold mb-6 text-sm uppercase tracking-widest text-primary-light">{t.footer.col1_title}</h4>
             <ul className="space-y-4 text-sm text-white/60">
-              <li><a href="#about" onClick={(e) => handleSmoothScroll(e, 'about')} className="hover:text-white transition-colors">{t.footer.col1_item1}</a></li>
-              <li><a href="#services" onClick={(e) => handleSmoothScroll(e, 'services')} className="hover:text-white transition-colors">{t.footer.col1_item2}</a></li>
-              <li><a href="#blog" className="hover:text-white transition-colors">{t.footer.col1_item3}</a></li>
+              <li><a href="#about" onClick={(e) => handleNavigation(e, 'about')} className="hover:text-white transition-colors">{t.footer.col1_item1}</a></li>
+              <li><a href="#services" onClick={(e) => handleNavigation(e, 'services')} className="hover:text-white transition-colors">{t.footer.col1_item2}</a></li>
+              <li><a href="#blog" onClick={(e) => handleNavigation(e, 'blog')} className="hover:text-white transition-colors">{t.footer.col1_item3}</a></li>
             </ul>
           </div>
 
           <div>
             <h4 className="font-bold mb-6 text-sm uppercase tracking-widest text-primary-light">{t.footer.col2_title}</h4>
             <ul className="space-y-4 text-sm text-white/60">
-              <li><a href="#contact" onClick={(e) => handleSmoothScroll(e, 'contact')} className="hover:text-white transition-colors">{t.footer.col2_item1}</a></li>
+              <li><a href="#contact" onClick={(e) => handleNavigation(e, 'contact')} className="hover:text-white transition-colors">{t.footer.col2_item1}</a></li>
               <li><a href="#" className="hover:text-white transition-colors">{t.footer.col2_item2}</a></li>
-              <li><a href="#contact" onClick={(e) => handleSmoothScroll(e, 'contact')} className="hover:text-white transition-colors">{t.footer.col2_item3}</a></li>
+              <li><a href="#contact" onClick={(e) => handleNavigation(e, 'contact')} className="hover:text-white transition-colors">{t.footer.col2_item3}</a></li>
             </ul>
           </div>
 
           <div>
             <h4 className="font-bold mb-6 text-sm uppercase tracking-widest text-primary-light">{t.footer.col3_title}</h4>
             <ul className="space-y-4 text-sm text-white/60">
-              <li><a href="#terms" onClick={(e) => handleSmoothScroll(e, 'terms')} className="hover:text-white transition-colors">{t.footer.col3_item1}</a></li>
-              <li><a href="#privacy" onClick={(e) => handleSmoothScroll(e, 'privacy')} className="hover:text-white transition-colors">{t.footer.col3_item2}</a></li>
-              <li><a href="#privacy" onClick={(e) => handleSmoothScroll(e, 'privacy')} className="hover:text-white transition-colors">{t.footer.col3_item3}</a></li>
+              <li><a href="#terms" onClick={(e) => handleNavigation(e, 'terms')} className="hover:text-white transition-colors">{t.footer.col3_item1}</a></li>
+              <li><a href="#privacy" onClick={(e) => handleNavigation(e, 'privacy')} className="hover:text-white transition-colors">{t.footer.col3_item2}</a></li>
+              <li><a href="#privacy" onClick={(e) => handleNavigation(e, 'privacy')} className="hover:text-white transition-colors">{t.footer.col3_item3}</a></li>
             </ul>
           </div>
         </div>

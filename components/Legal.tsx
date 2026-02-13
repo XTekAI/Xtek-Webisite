@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { useLanguage } from '../App';
+import { useLanguage } from '../context/LanguageContext';
 
 const Legal: React.FC = () => {
   const { t } = useLanguage();
