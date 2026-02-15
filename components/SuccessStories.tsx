@@ -71,7 +71,7 @@ const CaseStudyDetail: React.FC<{
 );
 
 const SuccessStories: React.FC = () => {
-  const { t } = useLanguage();
+  const { t, isLandingMode } = useLanguage();
   return (
     <section id="success-stories" className="py-24 md:py-32 px-6">
       <div className="max-w-7xl mx-auto">
@@ -101,18 +101,20 @@ const SuccessStories: React.FC = () => {
           ))}
         </div>
 
-        <div className="text-center mb-20">
-          <Link
-            to="/stories"
-            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-            className="inline-flex items-center gap-3 text-white/60 hover:text-primary-light font-bold text-lg transition-colors group"
-          >
-            {t.testimonials.view_all}
-            <svg className="w-5 h-5 transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-            </svg>
-          </Link>
-        </div>
+        {!isLandingMode && (
+          <div className="text-center mb-20">
+            <Link
+              to="/stories"
+              onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+              className="inline-flex items-center gap-3 text-white/60 hover:text-primary-light font-bold text-lg transition-colors group"
+            >
+              {t.testimonials.view_all}
+              <svg className="w-5 h-5 transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+              </svg>
+            </Link>
+          </div>
+        )}
 
         <div id="detailed-cases" className="pt-20">
           <h3 className="text-3xl font-bold mb-12 text-center gradient-text">{t.testimonials.detailed_cases_title}</h3>

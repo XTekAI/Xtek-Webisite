@@ -1,12 +1,33 @@
-import React from 'react';
-import { useLanguage } from '../App';
+
+import React, { useState } from 'react';
+import { useLanguage } from '../context/LanguageContext';
 import { MagnetizeButton } from './ui/magnetize-button';
 
 const BlogPage: React.FC = () => {
-    // @ts-ignore - Context updated in next step
     const { t, setPage, activeBlog, setActiveBlog } = useLanguage();
+    const [newsletterData, setNewsletterData] = useState({ name: '', email: '' });
+    const [submitted, setSubmitted] = useState(false);
 
     const post = t.blog.posts.find((p: any) => p.id === activeBlog);
+
+    const handleNewsletterSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        const { name, email } = newsletterData;
+
+        try {
+            await fetch('https://prueba1-n8n.fihoy6.easypanel.host/webhook/web2', {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ name, email, source: 'blog_page_newsletter' }),
+            });
+            setSubmitted(true);
+            setNewsletterData({ name: '', email: '' });
+        } catch (error) {
+            console.error('Newsletter error:', error);
+            alert('Error subscribing.');
+        }
+    };
 
     // If no active post, show the list of all blogs
     if (!post) {
@@ -59,7 +80,7 @@ const BlogPage: React.FC = () => {
                     <div className="text-center mt-16">
                         <button
                             onClick={() => setPage('home')}
-                            className="flex items-center gap-2 text-white/50 hover:text-primary-light transition-colors mx-auto group"
+                            className="flex items-center gap-2 text-white/50 hover:text-primary-light transition-colors mx-auto group inline-flex"
                         >
                             <svg className="w-5 h-5 transition-transform group-hover:-translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -110,42 +131,36 @@ const BlogPage: React.FC = () => {
 
                 <div className="glass rounded-[40px] border border-white/5 p-8 md:p-12 mb-16 text-center">
                     <h3 className="text-2xl font-bold mb-6">{t.blog.newsletter_title}</h3>
-                    <form className="max-w-md mx-auto space-y-4" onSubmit={async (e) => {
-                        e.preventDefault();
-                        const form = e.target as HTMLFormElement;
-                        const name = (form[0] as HTMLInputElement).value;
-                        const email = (form[1] as HTMLInputElement).value;
-
-                        try {
-                            await fetch('https://prueba1-n8n.fihoy6.easypanel.host/webhook/web', {
-                                method: 'POST',
-                                mode: 'no-cors',
-                                headers: { 'Content-Type': 'application/json' },
-                                body: JSON.stringify({ name, email, source: 'newsletter_form' }),
-                            });
-                            alert('Subscribed successfully!');
-                            form.reset();
-                        } catch (error) {
-                            console.error(error);
-                            alert('Error subscribing.');
-                        }
-                    }}>
-                        <input
-                            type="text"
-                            placeholder={t.blog.newsletter_name}
-                            required
-                            className="w-full px-6 py-4 bg-white/5 border border-white/10 rounded-xl focus:outline-none focus:border-primary-light transition-colors text-white"
-                        />
-                        <input
-                            type="email"
-                            placeholder={t.blog.newsletter_email}
-                            required
-                            className="w-full px-6 py-4 bg-white/5 border border-white/10 rounded-xl focus:outline-none focus:border-primary-light transition-colors text-white"
-                        />
-                        <MagnetizeButton type="submit" className="w-full px-8 py-4 bg-primary text-white rounded-xl font-bold hover:bg-secondary transition-colors border-none h-auto">
-                            {t.blog.newsletter_cta}
-                        </MagnetizeButton>
-                    </form>
+                    {submitted ? (
+                        <div className="animate-fade-in">
+                            <p className="text-primary-light font-bold mb-2">¡Gracias por suscribirte!</p>
+                            <button onClick={() => setSubmitted(false)} className="text-white/40 text-xs hover:text-white underline">
+                                Enviar otro
+                            </button>
+                        </div>
+                    ) : (
+                        <form className="max-w-md mx-auto space-y-4" onSubmit={handleNewsletterSubmit}>
+                            <input
+                                type="text"
+                                placeholder={t.blog.newsletter_name}
+                                value={newsletterData.name}
+                                onChange={(e) => setNewsletterData(prev => ({ ...prev, name: e.target.value }))}
+                                required
+                                className="w-full px-6 py-4 bg-white/5 border border-white/10 rounded-xl focus:outline-none focus:border-primary-light transition-colors text-white"
+                            />
+                            <input
+                                type="email"
+                                placeholder={t.blog.newsletter_email}
+                                value={newsletterData.email}
+                                onChange={(e) => setNewsletterData(prev => ({ ...prev, email: e.target.value }))}
+                                required
+                                className="w-full px-6 py-4 bg-white/5 border border-white/10 rounded-xl focus:outline-none focus:border-primary-light transition-colors text-white"
+                            />
+                            <MagnetizeButton type="submit" className="w-full px-8 py-4 bg-primary text-white rounded-xl font-bold hover:bg-secondary transition-colors border-none h-auto">
+                                {t.blog.newsletter_cta}
+                            </MagnetizeButton>
+                        </form>
+                    )}
                 </div>
 
                 <div className="text-center">
@@ -161,4 +176,5 @@ const BlogPage: React.FC = () => {
         </div>
     );
 };
+
 export default BlogPage;

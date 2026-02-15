@@ -7,29 +7,64 @@ const ContactForm: React.FC = () => {
   const [formData, setFormData] = useState({
     name: '',
     businessName: '',
-    niche: '',
     email: '',
     phone: '',
-    meetingDate: '',
     description: ''
+  });
+
+  const [errors, setErrors] = useState({
+    phone: '',
+    email: ''
   });
 
   const [submitted, setSubmitted] = useState(false);
 
+  const validateEmail = (email: string) => {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+  };
+
+  const validatePhone = (phone: string) => {
+    return /^[+]?[(]?[0-9]{3}[)]?[-\s.]?[0-9]{3}[-\s.]?[0-9]{4,6}$/.test(phone.replace(/\s/g, '')) || phone.length >= 7;
+  };
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
-    setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+
+    if (name === 'email' || name === 'phone') {
+      setErrors(prev => ({ ...prev, [name]: '' }));
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    const { name, businessName, niche, email, phone, meetingDate, description } = formData;
-    if (!name || !businessName || !niche || !email || !phone || !meetingDate || !description) {
+    const { name, businessName, email, phone, description } = formData;
+    if (!name || !businessName || !email || !phone || !description) {
       alert(t.contact.validation_error);
       return;
     }
+
+    let hasErrors = false;
+    const newErrors = { phone: '', email: '' };
+
+    if (!validateEmail(email)) {
+      newErrors.email = t.contact.error_email;
+      hasErrors = true;
+    }
+
+    if (!validatePhone(phone)) {
+      newErrors.phone = t.contact.error_phone;
+      hasErrors = true;
+    }
+
+    if (hasErrors) {
+      setErrors(newErrors);
+      return;
+    }
+
     try {
-      await fetch('https://prueba1-n8n.fihoy6.easypanel.host/webhook/web', {
+      await fetch('https://prueba1-n8n.fihoy6.easypanel.host/webhook/web2', {
         method: 'POST',
         mode: 'no-cors',
         headers: { 'Content-Type': 'application/json' },
@@ -51,11 +86,12 @@ const ContactForm: React.FC = () => {
           </svg>
         </div>
         <h3 className="text-3xl font-bold mb-4 !text-white">{t.contact.success_title}</h3>
-        <p className="text-white/60 mb-8">{t.contact.success_desc} {formData.meetingDate}.</p>
+        <p className="text-white/60 mb-8">{t.contact.success_desc}</p>
         <button
           onClick={() => {
             setSubmitted(false);
-            setFormData({ name: '', businessName: '', niche: '', email: '', phone: '', meetingDate: '' });
+            setFormData({ name: '', businessName: '', email: '', phone: '', description: '' });
+            setErrors({ phone: '', email: '' });
           }}
           className="text-primary-light font-bold hover:underline"
         >
@@ -93,18 +129,6 @@ const ContactForm: React.FC = () => {
           />
         </div>
         <div className="flex flex-col gap-2">
-          <label className="text-xs font-bold uppercase tracking-widest text-white/50 px-1">{t.contact.label_niche}</label>
-          <input
-            required
-            type="text"
-            name="niche"
-            value={formData.niche}
-            onChange={handleChange}
-            placeholder={t.contact.placeholder_niche}
-            className="bg-white/5 border border-white/10 rounded-xl px-4 py-3 outline-none focus:border-primary-light focus:bg-white/10 transition-all text-white placeholder:text-white/20"
-          />
-        </div>
-        <div className="flex flex-col gap-2">
           <label className="text-xs font-bold uppercase tracking-widest text-white/50 px-1">{t.contact.label_email}</label>
           <input
             required
@@ -113,8 +137,9 @@ const ContactForm: React.FC = () => {
             value={formData.email}
             onChange={handleChange}
             placeholder="hello@company.com"
-            className="bg-white/5 border border-white/10 rounded-xl px-4 py-3 outline-none focus:border-primary-light focus:bg-white/10 transition-all text-white placeholder:text-white/20"
+            className={`bg-white/5 border ${errors.email ? 'border-secondary' : 'border-white/10'} rounded-xl px-4 py-3 outline-none focus:border-primary-light focus:bg-white/10 transition-all text-white placeholder:text-white/20`}
           />
+          {errors.email && <span className="text-secondary text-[10px] font-bold uppercase px-1">{errors.email}</span>}
         </div>
         <div className="flex flex-col gap-2">
           <label className="text-xs font-bold uppercase tracking-widest text-white/50 px-1">{t.contact.label_phone}</label>
@@ -125,19 +150,9 @@ const ContactForm: React.FC = () => {
             value={formData.phone}
             onChange={handleChange}
             placeholder="+1 (201) 555-0123"
-            className="bg-white/5 border border-white/10 rounded-xl px-4 py-3 outline-none focus:border-primary-light focus:bg-white/10 transition-all text-white placeholder:text-white/20"
+            className={`bg-white/5 border ${errors.phone ? 'border-secondary' : 'border-white/10'} rounded-xl px-4 py-3 outline-none focus:border-primary-light focus:bg-white/10 transition-all text-white placeholder:text-white/20`}
           />
-        </div>
-        <div className="flex flex-col gap-2">
-          <label className="text-xs font-bold uppercase tracking-widest text-white/50 px-1">{t.contact.label_date}</label>
-          <input
-            required
-            type="date"
-            name="meetingDate"
-            value={formData.meetingDate}
-            onChange={handleChange}
-            className="bg-white/5 border border-white/10 rounded-xl px-4 py-3 outline-none focus:border-primary-light focus:bg-white/10 transition-all text-white [color-scheme:dark]"
-          />
+          {errors.phone && <span className="text-secondary text-[10px] font-bold uppercase px-1">{errors.phone}</span>}
         </div>
         <div className="flex flex-col gap-2 md:col-span-2">
           <label className="text-xs font-bold uppercase tracking-widest text-white/50 px-1">{t.contact.label_description}</label>
@@ -159,7 +174,7 @@ const ContactForm: React.FC = () => {
       >
         {t.contact.cta}
         <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
         </svg>
       </button>
       <p className="text-center text-white/30 text-xs mt-6">

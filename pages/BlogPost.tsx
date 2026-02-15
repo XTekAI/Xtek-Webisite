@@ -1,15 +1,34 @@
 
-import React from 'react';
-import { useParams, Link } from 'react-router-dom';
+import React, { useState } from 'react';
+import { useParams, Link, useNavigate, useLocation } from 'react-router-dom';
 import { getPostBySlug } from '../lib/blogLoader';
 import { useLanguage } from '../context/LanguageContext';
 import { MagnetizeButton } from '../components/ui/magnetize-button';
 
 const BlogPost: React.FC = () => {
     const { slug } = useParams<{ slug: string }>();
+    const navigate = useNavigate();
+    const location = useLocation();
     const post = getPostBySlug(slug || '');
     // @ts-ignore
     const { t } = useLanguage();
+
+    const [newsletterData, setNewsletterData] = useState({ name: '', email: '' });
+    const [submitted, setSubmitted] = useState(false);
+
+    const handleBookConsultation = (e: React.MouseEvent) => {
+        e.preventDefault();
+        navigate('/');
+        setTimeout(() => {
+            const element = document.getElementById('contact');
+            if (element) {
+                const headerOffset = 80;
+                const elementPosition = element.getBoundingClientRect().top;
+                const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+                window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
+            }
+        }, 100);
+    };
 
     if (!post) {
         return (
@@ -19,6 +38,30 @@ const BlogPost: React.FC = () => {
             </div>
         );
     }
+
+    const handleNewsletterSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        const { name, email } = newsletterData;
+
+        if (!name || !email) {
+            alert(t.contact.validation_error);
+            return;
+        }
+
+        try {
+            await fetch('https://prueba1-n8n.fihoy6.easypanel.host/webhook/web2', {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ name, email, source: 'blog_post_newsletter' }),
+            });
+            setSubmitted(true);
+            setNewsletterData({ name: '', email: '' });
+        } catch (error) {
+            console.error('Newsletter error:', error);
+            alert('Error subscribing. Please try again.');
+        }
+    };
 
     return (
         <div className="pt-40 pb-24 px-6 min-h-screen">
@@ -62,30 +105,46 @@ const BlogPost: React.FC = () => {
 
                 <div className="glass rounded-[40px] border border-white/5 p-8 md:p-12 mb-16 text-center">
                     <h3 className="text-2xl font-bold mb-6">{t.blog.newsletter_title}</h3>
-                    <form className="max-w-md mx-auto space-y-4" onSubmit={(e) => { e.preventDefault(); alert('Subscribed!'); }}>
-                        <input
-                            type="text"
-                            placeholder={t.blog.newsletter_name}
-                            className="w-full px-6 py-4 bg-white/5 border border-white/10 rounded-xl focus:outline-none focus:border-primary-light transition-colors text-white"
-                        />
-                        <input
-                            type="email"
-                            placeholder={t.blog.newsletter_email}
-                            className="w-full px-6 py-4 bg-white/5 border border-white/10 rounded-xl focus:outline-none focus:border-primary-light transition-colors text-white"
-                        />
-                        <MagnetizeButton type="submit" className="w-full px-8 py-4 bg-primary text-white rounded-xl font-bold hover:bg-secondary transition-colors border-none h-auto">
-                            {t.blog.newsletter_cta}
-                        </MagnetizeButton>
-                    </form>
+                    {submitted ? (
+                        <div className="animate-fade-in">
+                            <p className="text-primary-light font-bold mb-2">¡Gracias por suscribirte!</p>
+                            <button onClick={() => setSubmitted(false)} className="text-white/40 text-xs hover:text-white underline">
+                                Enviar otro
+                            </button>
+                        </div>
+                    ) : (
+                        <form className="max-w-md mx-auto space-y-4" onSubmit={handleNewsletterSubmit}>
+                            <input
+                                type="text"
+                                placeholder={t.blog.newsletter_name}
+                                value={newsletterData.name}
+                                onChange={(e) => setNewsletterData(prev => ({ ...prev, name: e.target.value }))}
+                                required
+                                className="w-full px-6 py-4 bg-white/5 border border-white/10 rounded-xl focus:outline-none focus:border-primary-light transition-colors text-white"
+                            />
+                            <input
+                                type="email"
+                                placeholder={t.blog.newsletter_email}
+                                value={newsletterData.email}
+                                onChange={(e) => setNewsletterData(prev => ({ ...prev, email: e.target.value }))}
+                                required
+                                className="w-full px-6 py-4 bg-white/5 border border-white/10 rounded-xl focus:outline-none focus:border-primary-light transition-colors text-white"
+                            />
+                            <MagnetizeButton type="submit" className="w-full px-8 py-4 bg-primary text-white rounded-xl font-bold hover:bg-secondary transition-colors border-none h-auto">
+                                {t.blog.newsletter_cta}
+                            </MagnetizeButton>
+                        </form>
+                    )}
                 </div>
 
                 <div className="text-center">
                     <h3 className="text-2xl font-bold mb-8">{t.blog.cta_title}</h3>
-                    <Link to="/#contact">
-                        <MagnetizeButton className="px-8 py-4 bg-secondary text-white rounded-full font-bold hover:scale-105 transition-transform shadow-lg shadow-secondary/20 border-none h-auto">
-                            {t.blog.cta_button}
-                        </MagnetizeButton>
-                    </Link>
+                    <MagnetizeButton
+                        onClick={handleBookConsultation}
+                        className="px-8 py-4 bg-secondary text-white rounded-full font-bold hover:scale-105 transition-transform shadow-lg shadow-secondary/20 border-none h-auto"
+                    >
+                        {t.blog.cta_button}
+                    </MagnetizeButton>
                 </div>
             </div>
         </div>

@@ -15,9 +15,30 @@ export const translations = {
       title_part1: "Stop doing the work of",
       title_part2: "four people at once",
       subtitle: "Xtek AI helps businesses scale by automating repetitive processes through high-performance Artificial Intelligence and data-driven digital marketing strategies.",
-      cta_primary: "Book AI Audit",
+      cta_primary: "Book an initial meeting",
       cta_secondary: "Our Services",
       visual_caption: "Intelligence in Action"
+    },
+    landing: {
+      urgency: "Hurry! Limited slots available for new projects. Reserve yours now.",
+      hero: {
+        badge: "Exclusive Access: Enterprise AI 2026",
+        title_part1: "Automate your Growth with",
+        title_part2: "Autonomous AI Agents",
+        subtitle: "Eliminate 90% of your administrative bottleneck and hyper-scale your conversions. We build bespoke AI infrastructure that works while you sleep.",
+        cta_primary: "Book an initial meeting",
+        cta_secondary: "See Case Studies"
+      },
+      benefits: {
+        title: "Maximize Time. Minimize Costs.",
+        subtitle: "How automation transforms your business DNA.",
+        b1_title: "Save Thousands in Overhead",
+        b1_desc: "Replace manual data entry and repetitive admin tasks with autonomous agents that never sleep.",
+        b2_title: "Eliminate Human Error",
+        b2_desc: "AI ensures 100% accuracy in invoicing, inventory, and reporting, every single time.",
+        b3_title: "Hyper-Scale Without Hiring",
+        b3_desc: "Handle 10x the volume of leads and customers with the same team footprint."
+      }
     },
     about: {
       badge: "Who we are",
@@ -152,9 +173,11 @@ export const translations = {
       placeholder_description: "Briefly describe your needs (e.g. marketing issues, lead follow-up)...",
       cta: "Schedule My Strategic Meeting",
       success_title: "Request Sent!",
-      success_desc: "Thank you. We will contact you soon to confirm the meeting for ",
+      success_desc: "Thank you. We will contact you soon to coordinate our meeting.",
       success_cta: "Send another request",
       validation_error: "Please fill in all fields.",
+      error_email: "Please enter a valid email address.",
+      error_phone: "Please enter a valid phone number.",
       privacy_note: "* By submitting this form, you confirm you have read our privacy policy."
     },
     legal: {
@@ -902,9 +925,30 @@ export const translations = {
       title_part1: "Deja de hacer el trabajo de",
       title_part2: "cuatro personas a la vez",
       subtitle: "Xtek AI ayuda a empresas a escalar automatizando procesos repetitivos mediante Inteligencia Artificial de alto rendimiento y estrategias de marketing digital basadas en datos.",
-      cta_primary: "Reservar Auditoría IA",
+      cta_primary: "Reservar reunión inicial",
       cta_secondary: "Nuestros Servicios",
       visual_caption: "Inteligencia en Acción"
+    },
+    landing: {
+      urgency: "¡Apresúrate! Cupos limitados disponibles para nuevos proyectos. Reserva el tuyo ahora.",
+      hero: {
+        badge: "Acceso Exclusivo: IA Empresarial 2026",
+        title_part1: "Automatiza tu Crecimiento con",
+        title_part2: "Agentes de IA Autónomos",
+        subtitle: "Elimina el 90% de tus cuellos de botella administrativos e impulsa tus conversiones. Construimos infraestructura de IA a medida que trabaja mientras duermes.",
+        cta_primary: "Reservar reunión inicial",
+        cta_secondary: "Ver Casos de Éxito"
+      },
+      benefits: {
+        title: "Maximiza el Tiempo. Minimiza los Costos.",
+        subtitle: "Cómo la automatización transforma el ADN de tu negocio.",
+        b1_title: "Ahorra Miles en Gastos Operativos",
+        b1_desc: "Reemplaza la entrada manual de datos y las tareas administrativas repetitivas con agentes autónomos que nunca duermen.",
+        b2_title: "Elimina el Error Humano",
+        b2_desc: "La IA garantiza precisión total en facturación, inventarios y reportes, cada vez.",
+        b3_title: "Hiper-Escala sin Contratar",
+        b3_desc: "Maneja 10 veces el volumen de leads y clientes con la misma estructura de equipo."
+      }
     },
     about: {
       badge: "Quiénes somos",
@@ -1039,9 +1083,11 @@ export const translations = {
       placeholder_description: "Explique brevemente sus necesidades (ej. problemas de marketing, seguimiento de leads)...",
       cta: "Agendar Mi Reunión Estratégica",
       success_title: "¡Solicitud Enviada!",
-      success_desc: "Gracias. Nos pondremos en contacto contigo pronto para confirmar la reunión del día ",
+      success_desc: "Gracias. Nos pondremos en contacto contigo pronto para coordinar nuestra reunión.",
       success_cta: "Enviar otra solicitud",
       validation_error: "Por favor, complete todos los campos.",
+      error_email: "Por favor, ingrese un correo electrónico válido.",
+      error_phone: "Por favor, ingrese un número de teléfono válido.",
       privacy_note: "* Al enviar este formulario, confirmas que las leído nuestra política de privacidad."
     },
     legal: {

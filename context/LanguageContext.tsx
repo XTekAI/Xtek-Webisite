@@ -13,6 +13,7 @@ export interface LanguageContextType {
     t: typeof translations.en;
     activeBlog: string | null;
     setActiveBlog: (id: string | null) => void;
+    isLandingMode: boolean;
 }
 
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
@@ -24,9 +25,14 @@ export const useLanguage = () => {
 };
 
 export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-    const [lang, setLang] = useState<Language>('en');
+    const [lang, setLang] = useState<Language>('en'); // Default back to English
     const [page, setPage] = useState<Page>('home');
     const [activeBlog, setActiveBlog] = useState<string | null>(null);
+
+    const isLandingMode = typeof window !== 'undefined' &&
+        (window.location.hostname === 'landing.xtekai.com' ||
+            window.location.hostname === 'landing.localhost' ||
+            window.location.search.includes('mode=landing'));
 
     const value = {
         lang,
@@ -35,7 +41,8 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
         setPage,
         t: translations[lang],
         activeBlog,
-        setActiveBlog
+        setActiveBlog,
+        isLandingMode
     };
 
     return (

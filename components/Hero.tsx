@@ -5,9 +5,11 @@ import { MagnetizeButton } from './ui/magnetize-button';
 import NeuralBackground from './ui/flow-field-background';
 
 const Hero: React.FC = () => {
-  const { t } = useLanguage();
+  const { t, isLandingMode } = useLanguage();
+  const heroContent = isLandingMode ? t.landing.hero : t.hero;
+
   return (
-    <section id="hero" className="relative min-h-screen flex items-center pt-20 overflow-hidden">
+    <section id="hero" className={`relative min-h-screen flex items-center overflow-hidden ${isLandingMode ? 'pt-40' : 'pt-20'}`}>
       {/* Dynamic Background with Shooting Stars */}
       <div className="absolute inset-0 z-0">
         <NeuralBackground
@@ -29,16 +31,16 @@ const Hero: React.FC = () => {
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary-light opacity-75"></span>
             <span className="relative inline-flex rounded-full h-2 w-2 bg-primary-light"></span>
           </span>
-          {t.hero.badge}
+          {heroContent.badge}
         </div>
 
         <h1 className="text-4xl md:text-7xl lg:text-8xl font-bold tracking-tight mb-8 animate-fade-in-up [animation-delay:200ms] !text-white">
-          {t.hero.title_part1} <br />
-          <span className="gradient-text">{t.hero.title_part2}</span>
+          {heroContent.title_part1} <br />
+          <span className="gradient-text">{heroContent.title_part2}</span>
         </h1>
 
         <p className="max-w-3xl mx-auto text-xl md:text-2xl text-white/70 mb-12 animate-fade-in-up [animation-delay:400ms]">
-          {t.hero.subtitle}
+          {heroContent.subtitle}
         </p>
 
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4 animate-fade-in-up [animation-delay:600ms]">
@@ -46,14 +48,14 @@ const Hero: React.FC = () => {
             onClick={(e) => handleSmoothScroll(e, 'contact')}
             className="w-full sm:w-auto px-8 py-4 bg-primary-light text-white font-bold rounded-full hover:bg-secondary hover:scale-105 transition-all shadow-lg shadow-primary-light/20 flex items-center justify-center gap-2 border-none h-auto"
           >
-            {t.hero.cta_primary}
+            {heroContent.cta_primary}
           </MagnetizeButton>
           <a
             href="#services"
             onClick={(e) => handleSmoothScroll(e, 'services')}
             className="w-full sm:w-auto px-8 py-4 bg-white/5 text-white font-bold rounded-full border border-white/10 hover:bg-secondary hover:border-secondary transition-all"
           >
-            {t.hero.cta_secondary}
+            {heroContent.cta_secondary}
           </a>
         </div>
 

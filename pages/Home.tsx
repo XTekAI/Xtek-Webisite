@@ -15,6 +15,24 @@ const Home: React.FC = () => {
     // @ts-ignore
     const { t } = useLanguage();
 
+    React.useEffect(() => {
+        if (window.location.hash) {
+            const id = window.location.hash.replace('#', '');
+            const element = document.getElementById(id);
+            if (element) {
+                setTimeout(() => {
+                    const headerOffset = 80;
+                    const elementPosition = element.getBoundingClientRect().top;
+                    const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+                    window.scrollTo({
+                        top: offsetPosition,
+                        behavior: 'smooth'
+                    });
+                }, 100);
+            }
+        }
+    }, []);
+
     return (
         <>
             <Hero />
