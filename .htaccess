@@ -2,6 +2,10 @@
   RewriteEngine On
   RewriteBase /
 
+  # Redirect URLs with elementor_library parameters to clean URLs
+  RewriteCond %{QUERY_STRING} ^elementor_library=.*$ [NC]
+  RewriteRule ^(.*)$ /$1? [R=301,L]
+
   # 1. Serve root as dist/index.html
   RewriteRule ^$ dist/index.html [L]
 

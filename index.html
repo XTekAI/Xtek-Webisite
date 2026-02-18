@@ -6,9 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Xtek AI | AI Agency | Business Automation USA</title>
     <meta name="description"
-        content="Xtek AI is a premier AI implementation agency based in the USA. We offer SmartFlow AI audits, Executive AI accounting automation, and AEO marketing services.">
+        content="Xtek AI is a premier AI implementation agency based in the USA. We offer SmartFlow AI audits, Executive AI accounting automation, AEO marketing, and Web Design & Development services.">
     <meta name="keywords"
-        content="AI agency USA, Artificial Intelligence consulting, Business automation, SmartFlow AI, Executive AI, AEO optimization, AI chatbots for business, digital marketing agency">
+        content="AI agency USA, Artificial Intelligence consulting, Business automation, SmartFlow AI, Executive AI, AEO optimization, Web Design, Web Development, AI chatbots for business, digital marketing agency">
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- GSAP for high-end animations -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
@@ -16,6 +16,19 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="icon" type="image/x-icon" href="/favicon.png">
+
+    <!-- Dynamic Canonical Tag -->
+    <script>
+        (function () {
+            var canonicalURL = window.location.protocol + '//' + window.location.host + window.location.pathname;
+            var link = document.querySelector("link[rel='canonical']") || document.createElement('link');
+            link.setAttribute('rel', 'canonical');
+            link.setAttribute('href', canonicalURL);
+            if (!document.querySelector("link[rel='canonical']")) {
+                document.head.appendChild(link);
+            }
+        })();
+    </script>
 
     <!-- Meta Pixel Code -->
     <script>
@@ -87,12 +100,14 @@
         .glass {
             background: rgba(255, 255, 255, 0.03);
             backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
             border: 1px solid rgba(255, 255, 255, 0.05);
         }
 
         .gradient-text {
             background: linear-gradient(to right, #ffffff, #057BA3, #A7566A);
             -webkit-background-clip: text;
+            background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 

@@ -118,7 +118,7 @@ const Services: React.FC = () => {
 
       {/* Progress Indicator Side (Optional decorative) */}
       <div className="absolute left-10 top-1/2 -translate-y-1/2 hidden lg:flex flex-col gap-4 z-50">
-        {[0, 1, 2, 3, 4].map((i) => (
+        {[0, 1, 2, 3, 4, 5, 6].map((i) => (
           <div key={i} className="w-1 h-8 bg-white/10 rounded-full overflow-hidden">
             <div className="w-full h-full bg-primary-light origin-top scale-y-0 transition-transform duration-500"></div>
           </div>
@@ -160,9 +160,23 @@ const Services: React.FC = () => {
             description={t.services.s4_desc}
             items={t.services.s4_items}
           />
+          <ServiceLayer
+            index={4}
+            icon={<svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" /></svg>}
+            title={t.services.s5_title}
+            description={t.services.s5_desc}
+            items={t.services.s5_items}
+          />
+          <ServiceLayer
+            index={5}
+            icon={<svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" /></svg>}
+            title={t.services.s6_title}
+            description={t.services.s6_desc}
+            items={t.services.s6_items}
+          />
 
           {/* Last specialized CTA layer */}
-          <div className="service-layer absolute inset-0 flex flex-col items-center justify-center opacity-0 px-6 z-[20]">
+          <div className="service-layer absolute inset-0 flex flex-col items-center justify-center opacity-0 px-6 z-[30]">
             <div className="max-w-4xl w-full glass rounded-[40px] p-12 md:p-20 border-t border-secondary/30 text-center flex flex-col items-center shadow-2xl">
               <div className="w-24 h-24 bg-secondary/10 rounded-full flex items-center justify-center mb-8 animate-pulse">
                 <svg className="w-12 h-12 text-secondary" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>

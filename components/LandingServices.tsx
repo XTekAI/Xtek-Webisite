@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { useLanguage } from '../context/LanguageContext';
 
@@ -10,6 +9,8 @@ const LandingServices: React.FC = () => {
         { title: t.services.s2_title, desc: t.services.s2_desc, icon: '⚙️' },
         { title: t.services.s3_title, desc: t.services.s3_desc, icon: '🤖' },
         { title: t.services.s4_title, desc: t.services.s4_desc, icon: '📈' },
+        { title: t.services.s5_title, desc: t.services.s5_desc, icon: '💻' },
+        { title: t.services.s6_title, desc: t.services.s6_desc, icon: '✍️' },
     ];
 
     return (
@@ -19,7 +20,7 @@ const LandingServices: React.FC = () => {
                     <span className="text-sm font-bold text-primary-light uppercase tracking-widest mb-4 inline-block">{t.services.badge}</span>
                     <h2 className="text-3xl md:text-5xl font-bold !text-white">{t.services.title}</h2>
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     {services.map((service, idx) => (
                         <div key={idx} className="glass p-8 rounded-3xl hover:border-primary-light/50 transition-all group">
                             <div className="text-4xl mb-6 group-hover:scale-110 transition-transform">{service.icon}</div>

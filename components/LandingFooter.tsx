@@ -15,11 +15,24 @@ const LandingFooter: React.FC = () => {
                         <span className="text-xl font-bold tracking-tight uppercase !text-white notranslate">Xtek AI</span>
                     </div>
 
-                    <nav className="flex flex-wrap justify-center gap-8 text-sm text-white/60">
+                    <nav className="flex flex-wrap justify-center gap-x-8 gap-y-4 text-sm text-white/60">
                         <a href="#about" onClick={(e) => handleSmoothScroll(e, 'about')} className="hover:text-white transition-colors">{t.footer.col1_item1}</a>
                         <a href="#services" onClick={(e) => handleSmoothScroll(e, 'services')} className="hover:text-white transition-colors">{t.footer.col1_item2}</a>
                         <a href="#success-stories" onClick={(e) => handleSmoothScroll(e, 'success-stories')} className="hover:text-white transition-colors">{t.nav.testimonials}</a>
                         <a href="#contact" onClick={(e) => handleSmoothScroll(e, 'contact')} className="hover:text-white transition-colors">{t.nav.contact}</a>
+                        <div className="flex flex-wrap justify-center gap-8 md:border-l md:border-white/10 md:pl-8">
+                            <a
+                                href="mailto:tekmanager@xtekai.com?subject=Inquiry from Xtek AI Website&body=Hello Xtek AI Team,%0D%0A%0D%0AI would like to learn more about your services.%0D%0A%0D%0AName:%0D%0ACompany:%0D%0APhone:"
+                                className="hover:text-white transition-colors flex items-center gap-2"
+                            >
+                                <span className="text-primary-light">@</span>
+                                tekmanager@xtekai.com
+                            </a>
+                            <a href="tel:6099126800" className="hover:text-white transition-colors flex items-center gap-2">
+                                <span className="text-primary-light">P:</span>
+                                609 912 6800
+                            </a>
+                        </div>
                     </nav>
                 </div>
 

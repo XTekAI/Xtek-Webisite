@@ -8,6 +8,7 @@ import UrgencyBanner from './UrgencyBanner';
 
 const LandingHeader: React.FC = () => {
     const [isScrolled, setIsScrolled] = useState(false);
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
     const { t } = useLanguage();
 
     useEffect(() => {
@@ -47,6 +48,26 @@ const LandingHeader: React.FC = () => {
                         >
                             {t.nav.cta}
                         </MagnetizeButton>
+
+                        {/* Mobile Menu Button */}
+                        <button
+                            className="lg:hidden p-2 text-white"
+                            onClick={() => setIsMenuOpen(!isMenuOpen)}
+                        >
+                            {isMenuOpen ? (
+                                <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
+                            ) : (
+                                <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" /></svg>
+                            )}
+                        </button>
+                    </div>
+
+                    {/* Mobile Menu Overlay */}
+                    <div className={`fixed inset-0 bg-primary/95 backdrop-blur-xl z-40 transition-all duration-300 flex flex-col items-center justify-center gap-8 ${isMenuOpen ? 'opacity-100 visible' : 'opacity-0 invisible pointer-events-none'}`}>
+                        {navLinks.map(link => (
+                            <a key={link.id} href={`#${link.id}`} onClick={(e) => { handleSmoothScroll(e, link.id); setIsMenuOpen(false); }} className="text-2xl font-bold !text-white hover:text-primary-light transition-colors">{link.label}</a>
+                        ))}
+                        <a href="#contact" onClick={(e) => { handleSmoothScroll(e, 'contact'); setIsMenuOpen(false); }} className="px-8 py-3 bg-primary-light !text-white rounded-full font-bold text-xl">{t.nav.cta}</a>
                     </div>
                 </div>
             </header>

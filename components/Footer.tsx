@@ -42,8 +42,8 @@ const Footer: React.FC = () => {
   return (
     <footer className="py-20 border-t border-white/5">
       <div className="max-w-7xl mx-auto px-6">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
-          <div className="md:col-span-1">
+        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-12 mb-16">
+          <div className="lg:col-span-1">
             <button onClick={scrollToTop} className="flex items-center gap-3 mb-6">
               <div className="w-8 h-8 bg-primary-light rounded flex items-center justify-center font-bold !text-white notranslate">X</div>
               <span className="text-xl font-bold tracking-tight uppercase !text-white notranslate">Xtek AI</span>
@@ -94,6 +94,27 @@ const Footer: React.FC = () => {
               <li><a href="#contact" onClick={(e) => handleNavigation(e, 'contact')} className="hover:text-white transition-colors">{t.footer.col2_item1}</a></li>
               <li><a href="#" className="hover:text-white transition-colors">{t.footer.col2_item2}</a></li>
               <li><a href="#contact" onClick={(e) => handleNavigation(e, 'contact')} className="hover:text-white transition-colors">{t.footer.col2_item3}</a></li>
+            </ul>
+          </div>
+
+          <div>
+            <h4 className="font-bold mb-6 text-sm uppercase tracking-widest text-primary-light">{t.footer.contact_title}</h4>
+            <ul className="space-y-4 text-sm text-white/60">
+              <li>
+                <a
+                  href="mailto:tekmanager@xtekai.com?subject=Inquiry from Xtek AI Website&body=Hello Xtek AI Team,%0D%0A%0D%0AI would like to learn more about your services.%0D%0A%0D%0AName:%0D%0ACompany:%0D%0APhone:"
+                  className="hover:text-white transition-colors flex flex-col"
+                >
+                  <span className="text-[10px] uppercase tracking-wider text-white/30">{t.footer.email_label}</span>
+                  tekmanager@xtekai.com
+                </a>
+              </li>
+              <li>
+                <a href="tel:6099126800" className="hover:text-white transition-colors flex flex-col">
+                  <span className="text-[10px] uppercase tracking-wider text-white/30">{t.footer.phone_label}</span>
+                  609 912 6800
+                </a>
+              </li>
             </ul>
           </div>
 

@@ -71,9 +71,12 @@ export const translations = {
       s4_title: "Digital Marketing & AEO",
       s4_desc: "We dominate next-generation search engines and Answer Engine Optimization (AEO) for maximum visibility.",
       s4_items: ["Traditional SEO Strategies", "AEO: AI Response Optimization", "Data-Driven Ad Campaigns", "Intelligent Brand Positioning"],
-      s5_title: "Content Creation",
-      s5_desc: "Scalable AI-generated content that maintains your brand's human essence while attracting your ideal audience.",
-      s5_items: ["Persuasive Copywriting", "AI Visual Production", "Optimized Social Media Management", "Content Personalization at Scale"],
+      s5_title: "Web Design & Development",
+      s5_desc: "We create high-impact, fast, and optimized websites to convert visitors into customers.",
+      s5_items: ["Premium UI/UX Design", "React & Vite Development", "Speed Optimization", "Technical SEO & Web Structure"],
+      s6_title: "Content Creation",
+      s6_desc: "Custom content designed to elevate your brand's presence and engage your ideal audience effectively.",
+      s6_items: ["Persuasive Copywriting", "Premium Visual Production", "Strategic Social Media Management", "Content Personalization at Scale"],
       custom_title: "Don't see what you need?",
       custom_desc: "We design custom solutions tailored to your specific industry challenges.",
       custom_cta: "Consult us now"
@@ -157,7 +160,15 @@ export const translations = {
       q4: "How long does a typical AI implementation take?",
       a4: "A standard SmartFlow or Executive AI audit takes 1-2 weeks. Implementation of customized automation or AI agents usually ranges from 3 to 6 weeks, depending on complexity.",
       q5: "Is our company data secure during AI implementation?",
-      a5: "Security is our priority. we use enterprise-grade protocols and ensure that your data is never used to train public models. Your business intelligence remains 100% private and protected."
+      a5: "Security is our priority. we use enterprise-grade protocols and ensure that your data is never used to train public models. Your business intelligence remains 100% private and protected.",
+      q6: "Will AI replace my existing CRM or management systems?",
+      a6: "No. Our AI solutions are designed to integrate seamlessly with your current tools (CRMs, ERPs, accounting software). The goal is to enhance and automate your existing processes, not disrupt them, making your workflow more efficient from day one.",
+      q7: "Do you offer web development alongside AI implementation?",
+      a7: "Yes. We can build a high-performance web structure from the ground up, designed specifically to host and leverage AI agents and automated workflows. This ensures that your digital foundation is optimized for the latest technological standards.",
+      q8: "How soon can I expect to see a return on investment (ROI)?",
+      a8: "While it varies by project, most companies start seeing tangible results—such as time saved on manual tasks and improved lead conversion—within the first 2-3 months after full implementation. AI efficiency scales over time as the systems learn and optimize.",
+      q9: "Can your solutions scale as my company grows?",
+      a9: "Absolutely. Our AI architectures are built to be modular and scalable. As your business volume increases, we can adjust the processing capacity of your agents and add new automated layers to handle more complex operations without needing to rebuild the system."
     },
     contact: {
       section_title: "Ready to transform your business?",
@@ -200,6 +211,9 @@ export const translations = {
       col3_item1: "Terms of Use",
       col3_item2: "Privacy",
       col3_item3: "Cookies",
+      contact_title: "Contact",
+      phone_label: "Phone",
+      email_label: "Email",
       rights: "All rights reserved."
     },
     blog: {
@@ -981,9 +995,12 @@ export const translations = {
       s4_title: "Marketing Digital & AEO",
       s4_desc: "Dominamos los motores de búsqueda de nueva generación y la optimización para respuestas de IA (AEO).",
       s4_items: ["Estrategias de SEO Tradicional", "AEO: Optimización para Respuestas de IA", "Campañas de Anuncios Basadas en Datos", "Posicionamiento Inteligente de Marca"],
-      s5_title: "Creación de Contenido",
-      s5_desc: "Contenido escalable generado con IA que mantiene la esencia humana de tu marca mientras atrae a tu audiencia ideal.",
-      s5_items: ["Copywriting Persuasivo", "Producción Visual con IA", "Gestión Optimizada de Redes Sociales", "Personalización de Contenido a Escala"],
+      s5_title: "Diseño y Desarrollo Web",
+      s5_desc: "Creamos sitios web de alto impacto, rápidos y optimizados para convertir visitantes en clientes.",
+      s5_items: ["Diseño UI/UX Premium", "Desarrollo con React & Vite", "Optimización de Velocidad", "SEO Técnico & Estructura Web"],
+      s6_title: "Creación de Contenido",
+      s6_desc: "Contenido personalizado diseñado para elevar la presencia de tu marca y conectar eficazmente con tu audiencia ideal.",
+      s6_items: ["Copywriting Persuasivo", "Producción Visual Premium", "Gestión Estratégica de Redes Sociales", "Personalización de Contenido a Escala"],
       custom_title: "¿No ves lo que necesitas?",
       custom_desc: "Diseñamos soluciones a medida según los desafíos específicos de tu industria.",
       custom_cta: "Consúltanos ahora"
@@ -1067,7 +1084,15 @@ export const translations = {
       q4: "¿Cuánto tiempo toma una implementación típica de IA?",
       a4: "Una auditoría SmartFlow o Executive IA toma 1-2 semanas. La implementación de automatizaciones o agentes suele tardar entre 3 y 6 semanas, dependiendo de la complejidad.",
       q5: "¿Están seguros los datos de mi empresa durante la implementación?",
-      a5: "La seguridad es prioridad. Usamos protocolos de grado empresarial y garantizamos que tus datos nunca se usen para entrenar modelos públicos. Tu inteligencia de negocio se mantiene 100% privada."
+      a5: "La seguridad es prioridad. Usamos protocolos de grado empresarial y garantizamos que tus datos nunca se usen para entrenar modelos públicos. Tu inteligencia de negocio se mantiene 100% privada.",
+      q6: "¿La IA reemplazará mi CRM o mis sistemas de gestión actuales?",
+      a6: "No. Nuestras soluciones de IA están diseñadas para integrarse perfectamente con tus herramientas actuales (CRMs, ERPs, software contable). El objetivo es potenciar y automatizar tus procesos existentes, no deshacerlos, haciendo que tu flujo de trabajo sea más eficiente desde el primer día.",
+      q7: "¿Ofrecen desarrollo web junto con la implementación de IA?",
+      a7: "Sí. Podemos construir una estructura web de alto rendimiento desde cero, diseñada específicamente para alojar y aprovechar agentes de IA y flujos de trabajo automatizados. Esto asegura que tu base digital esté optimizada para los últimos estándares tecnológicos.",
+      q8: "¿Qué tan pronto puedo esperar ver un retorno de inversión (ROI)?",
+      a8: "Aunque varía según el proyecto, la mayoría de las empresas comienzan a ver resultados tangibles—como ahorro de tiempo en tareas manuales y mejora en la conversión de leads—dentro de los primeros 2-3 meses tras la implementación total. La eficiencia de la IA escala con el tiempo a medida que los sistemas aprenden y se optimizan.",
+      q9: "¿Pueden sus soluciones escalar a medida que mi empresa crece?",
+      a9: "Absolutamente. Nuestras arquitecturas de IA están construidas para ser modulares y escalables. A medida que aumenta el volumen de tu negocio, podemos ajustar la capacidad de procesamiento de tus agentes y añadir nuevas capas automatizadas para manejar operaciones más complejas sin necesidad de reconstruir el sistema."
     },
     contact: {
       section_title: "¿Listo para transformar tu empresa?",
@@ -1110,6 +1135,9 @@ export const translations = {
       col3_item1: "Términos de Uso",
       col3_item2: "Privacidad",
       col3_item3: "Cookies",
+      contact_title: "Contacto",
+      phone_label: "Teléfono",
+      email_label: "Correo",
       rights: "Todos los derechos reservados."
     },
     blog: {
