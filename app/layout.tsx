@@ -3,8 +3,7 @@ import type { Metadata } from "next";
 import { Inter, Playfair_Display } from "next/font/google";
 import "./globals.css";
 import { LanguageProvider } from '../context/LanguageContext';
-import Header from '../components/Header';
-import Footer from '../components/Footer';
+import LayoutShell from '../components/LayoutShell';
 import Script from "next/script";
 
 const inter = Inter({
@@ -66,11 +65,9 @@ export default function RootLayout({
         </Script>
 
         <LanguageProvider>
-          <Header />
-          <main className="min-h-screen">
+          <LayoutShell>
             {children}
-          </main>
-          <Footer />
+          </LayoutShell>
         </LanguageProvider>
 
         {/* ElevenLabs ConvAI */}

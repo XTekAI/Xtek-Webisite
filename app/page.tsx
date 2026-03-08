@@ -1,5 +1,5 @@
-import Home from '../views/Home';
+import PageSwitcher from '../components/PageSwitcher';
 
 export default function Page() {
-  return <Home />;
+  return <PageSwitcher />;
 }

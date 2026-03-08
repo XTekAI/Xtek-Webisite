@@ -65,7 +65,7 @@ const Services: React.FC = () => {
 
     // Helper to setup the timeline
     const setupTimeline = (isMobile: boolean) => {
-      const scrollDistance = isMobile ? layers.length * 60 : layers.length * 100; // Reduced distance on mobile
+      const scrollDistance = isMobile ? layers.length * 45 : layers.length * 100;
 
       const tl = gsap.timeline({
         scrollTrigger: {
@@ -73,13 +73,14 @@ const Services: React.FC = () => {
           start: "top top",
           end: () => `+=${scrollDistance}%`,
           pin: true,
-          scrub: 1,
-          anticipatePin: 1,
+          pinSpacing: true,
+          scrub: isMobile ? 0.3 : 1, // Much faster response on mobile for smoother feel
+          anticipatePin: isMobile ? 0 : 1, // Disable anticipatePin on mobile to prevent jank
+          invalidateOnRefresh: true, // Recalculate on resize/orientation change
         }
       });
 
       layers.forEach((layer: any, i: number) => {
-        // Initial state is handled by CSS (opacity-0), but let's ensure
         tl.to(layer, {
           opacity: 1,
           y: 0,
@@ -87,15 +88,14 @@ const Services: React.FC = () => {
           ease: "power2.inOut"
         });
 
-        // Loop through to fade out previous
         if (i < layers.length - 1) {
           tl.to(layer, {
             opacity: 0,
-            scale: 0.9,
-            y: -50,
+            scale: isMobile ? 0.95 : 0.9, // Subtler scale on mobile
+            y: isMobile ? -20 : -50, // Less movement on mobile
             duration: 1,
             ease: "power2.inOut"
-          }, "+=0.5");
+          }, "+=0.3");
         }
       });
     };

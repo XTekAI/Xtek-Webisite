@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { useRouter, usePathname, redirect } from 'next/navigation';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useLanguage } from '../context/LanguageContext';
 import { handleSmoothScroll } from '../lib/utils';
 import { MagnetizeButton } from './ui/magnetize-button';
@@ -16,12 +16,68 @@ const Header: React.FC = () => {
   const pathname = usePathname();
   const router = useRouter();
 
+  // Lock body scroll when menu is open to prevent background scrolling
+  useEffect(() => {
+    if (isMenuOpen) {
+      document.body.style.overflow = 'hidden';
+      document.body.style.position = 'fixed';
+      document.body.style.width = '100%';
+      document.body.style.top = `-${window.scrollY}px`;
+    } else {
+      const scrollY = document.body.style.top;
+      document.body.style.overflow = '';
+      document.body.style.position = '';
+      document.body.style.width = '';
+      document.body.style.top = '';
+      // Only restore scroll if no pending navigation target
+      if (scrollY && !pendingNavRef.current) {
+        window.scrollTo(0, parseInt(scrollY || '0') * -1);
+      }
+    }
+  }, [isMenuOpen]);
+
+  const pendingNavRef = React.useRef<string | null>(null);
+
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20);
     };
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const closeMenu = useCallback(() => {
+    setIsMenuOpen(false);
+  }, []);
+
+  const closeMenuAndNavigate = useCallback((targetId: string) => {
+    // Unlock body first, then navigate after a frame
+    const savedScrollY = document.body.style.top;
+    pendingNavRef.current = targetId;
+
+    document.body.style.overflow = '';
+    document.body.style.position = '';
+    document.body.style.width = '';
+    document.body.style.top = '';
+
+    // Restore scroll position first
+    if (savedScrollY) {
+      window.scrollTo(0, parseInt(savedScrollY || '0') * -1);
+    }
+
+    setIsMenuOpen(false);
+
+    // Navigate after body is unlocked and scroll restored
+    requestAnimationFrame(() => {
+      const element = document.getElementById(targetId);
+      if (element) {
+        const headerOffset = 80;
+        const elementPosition = element.getBoundingClientRect().top;
+        const offsetPosition = elementPosition + window.scrollY - headerOffset;
+        window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
+      }
+      pendingNavRef.current = null;
+    });
   }, []);
 
   const scrollToTop = (e: React.MouseEvent) => {
@@ -99,8 +155,9 @@ const Header: React.FC = () => {
 
           {/* Mobile Menu Button */}
           <button
-            className="lg:hidden p-2 text-white"
+            className="lg:hidden p-2 text-white relative z-[110]"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
+            aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
           >
             {isMenuOpen ? (
               <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" /></svg>
@@ -109,22 +166,25 @@ const Header: React.FC = () => {
             )}
           </button>
         </div>
+      </div>
 
-        {/* Mobile Menu Overlay */}
-        <div className={`fixed inset-0 bg-primary/95 backdrop-blur-xl z-40 transition-all duration-300 flex flex-col items-center justify-center gap-6 overflow-y-auto ${isMenuOpen ? 'opacity-100 visible' : 'opacity-0 invisible pointer-events-none'}`}>
-          {navLinks.map(link => (
-            <a key={link.id} href={`#${link.id}`} onClick={(e) => { handleNavigation(e, link.id); setIsMenuOpen(false); }} className="text-2xl font-bold !text-white hover:text-primary-light transition-colors">{link.label}</a>
-          ))}
+      {/* Mobile Menu Overlay - moved outside inner container */}
+      <div
+        className={`fixed inset-0 bg-primary/95 backdrop-blur-xl z-[105] transition-all duration-300 flex flex-col items-center justify-center gap-6 overflow-y-auto ${isMenuOpen ? 'opacity-100 visible' : 'opacity-0 invisible pointer-events-none'}`}
+        onClick={(e) => { if (e.target === e.currentTarget) closeMenu(); }}
+      >
+        {navLinks.map(link => (
+          <a key={link.id} href={`#${link.id}`} onClick={(e) => { e.preventDefault(); closeMenuAndNavigate(link.id); }} className="text-2xl font-bold !text-white hover:text-primary-light transition-colors">{link.label}</a>
+        ))}
 
-          <div className="w-16 h-px bg-white/20 my-2"></div>
-          <span className="text-sm font-bold tracking-widest text-white/50 uppercase">Service Areas</span>
-          <Link href="/service-areas/hamilton-nj" onClick={() => setIsMenuOpen(false)} className="text-xl font-bold !text-white hover:text-primary-light transition-colors">Hamilton, NJ</Link>
-          <Link href="/service-areas/philadelphia-pa" onClick={() => setIsMenuOpen(false)} className="text-xl font-bold !text-white hover:text-primary-light transition-colors">Philadelphia, PA</Link>
-          <Link href="/service-areas/manhattan-ny" onClick={() => setIsMenuOpen(false)} className="text-xl font-bold !text-white hover:text-primary-light transition-colors">Manhattan, NY</Link>
-          <div className="w-16 h-px bg-white/20 my-2"></div>
+        <div className="w-16 h-px bg-white/20 my-2"></div>
+        <span className="text-sm font-bold tracking-widest text-white/50 uppercase">Service Areas</span>
+        <Link href="/service-areas/hamilton-nj" onClick={() => { document.body.style.overflow = ''; document.body.style.position = ''; document.body.style.width = ''; document.body.style.top = ''; closeMenu(); }} className="text-xl font-bold !text-white hover:text-primary-light transition-colors">Hamilton, NJ</Link>
+        <Link href="/service-areas/philadelphia-pa" onClick={() => { document.body.style.overflow = ''; document.body.style.position = ''; document.body.style.width = ''; document.body.style.top = ''; closeMenu(); }} className="text-xl font-bold !text-white hover:text-primary-light transition-colors">Philadelphia, PA</Link>
+        <Link href="/service-areas/manhattan-ny" onClick={() => { document.body.style.overflow = ''; document.body.style.position = ''; document.body.style.width = ''; document.body.style.top = ''; closeMenu(); }} className="text-xl font-bold !text-white hover:text-primary-light transition-colors">Manhattan, NY</Link>
+        <div className="w-16 h-px bg-white/20 my-2"></div>
 
-          <a href="#contact" onClick={(e) => { handleNavigation(e, 'contact'); setIsMenuOpen(false); }} className="mt-4 px-8 py-3 bg-primary-light !text-white rounded-full font-bold text-xl">{t.nav.cta}</a>
-        </div>
+        <a href="#contact" onClick={(e) => { e.preventDefault(); closeMenuAndNavigate('contact'); }} className="mt-4 px-8 py-3 bg-primary-light !text-white rounded-full font-bold text-xl">{t.nav.cta}</a>
       </div>
     </header>
   );

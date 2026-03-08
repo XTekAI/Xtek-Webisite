@@ -29,6 +29,7 @@ function MagnetizeButton({
     ...props
 }: MagnetizeButtonProps) {
     const [isAttracting, setIsAttracting] = useState(false);
+    const [isMounted, setIsMounted] = useState(false);
     const [particles, setParticles] = useState<Particle[]>([]);
     const particlesControl = useAnimation();
 
@@ -39,6 +40,7 @@ function MagnetizeButton({
             y: Math.random() * 360 - 180,
         }));
         setParticles(newParticles);
+        setIsMounted(true);
     }, [particleCount]);
 
     const handleInteractionStart = useCallback(async () => {
@@ -83,11 +85,11 @@ function MagnetizeButton({
             onTouchEnd={handleInteractionEnd}
             {...props}
         >
-            {particles.map((_, index) => (
+            {isMounted && particles.map((particle, index) => (
                 <motion.div
                     key={index}
                     custom={index}
-                    initial={{ x: particles[index].x, y: particles[index].y }}
+                    initial={{ x: particle.x, y: particle.y }}
                     animate={particlesControl}
                     className={cn(
                         "absolute w-1.5 h-1.5 rounded-full",
