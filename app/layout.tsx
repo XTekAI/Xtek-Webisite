@@ -20,7 +20,10 @@ const playfair = Playfair_Display({
 export const metadata: Metadata = {
   title: "Xtek AI | AI Agency | Business Automation USA",
   description: "Xtek AI is a premier AI implementation agency based in the USA. We offer SmartFlow AI audits, Executive AI accounting automation, AEO marketing, and Web Design & Development services.",
-  keywords: "AI agency USA, Artificial Intelligence consulting, Business automation, SmartFlow AI, Executive AI, AEO optimization, Web Design, Web Development, AI chatbots for business, digital marketing agency"
+  keywords: "AI agency USA, Artificial Intelligence consulting, Business automation, SmartFlow AI, Executive AI, AEO optimization, Web Design, Web Development, AI chatbots for business, digital marketing agency",
+  icons: {
+    icon: "/favicon.png",
+  },
 };
 
 export default function RootLayout({
