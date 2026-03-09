@@ -51,7 +51,7 @@ const Header: React.FC = () => {
   }, []);
 
   const closeMenuAndNavigate = useCallback((targetId: string) => {
-    // Unlock body first, then navigate after a frame
+    // Unlock body first
     const savedScrollY = document.body.style.top;
     pendingNavRef.current = targetId;
 
@@ -60,25 +60,38 @@ const Header: React.FC = () => {
     document.body.style.width = '';
     document.body.style.top = '';
 
-    // Restore scroll position first
     if (savedScrollY) {
       window.scrollTo(0, parseInt(savedScrollY || '0') * -1);
     }
 
     setIsMenuOpen(false);
 
-    // Navigate after body is unlocked and scroll restored
-    requestAnimationFrame(() => {
-      const element = document.getElementById(targetId);
-      if (element) {
-        const headerOffset = 80;
-        const elementPosition = element.getBoundingClientRect().top;
-        const offsetPosition = elementPosition + window.scrollY - headerOffset;
-        window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
-      }
-      pendingNavRef.current = null;
-    });
-  }, []);
+    // If not on home page, navigate to home first then scroll
+    if (pathname !== '/') {
+      router.push('/');
+      setTimeout(() => {
+        const element = document.getElementById(targetId);
+        if (element) {
+          const headerOffset = 80;
+          const elementPosition = element.getBoundingClientRect().top;
+          const offsetPosition = elementPosition + window.scrollY - headerOffset;
+          window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
+        }
+        pendingNavRef.current = null;
+      }, 300);
+    } else {
+      requestAnimationFrame(() => {
+        const element = document.getElementById(targetId);
+        if (element) {
+          const headerOffset = 80;
+          const elementPosition = element.getBoundingClientRect().top;
+          const offsetPosition = elementPosition + window.scrollY - headerOffset;
+          window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
+        }
+        pendingNavRef.current = null;
+      });
+    }
+  }, [pathname, router]);
 
   const scrollToTop = (e: React.MouseEvent) => {
     e.preventDefault();

@@ -59,115 +59,114 @@ body {
   background-size: 40px 40px;
 }
 
-/* ── Next Horizon animated-border cards ── */
+/* ── Next Horizon stacked cards ── */
 
-/* Row container — equal-height, stretch-aligned */
 .nh-row {
   display: flex;
   align-items: stretch;
-  gap: 1.5rem;
+  justify-content: center;
+  gap: 2.5rem;
 }
 @media (max-width: 1023px) {
   .nh-row {
     flex-direction: column;
-    gap: 2rem;
+    align-items: center;
+    gap: 3.5rem;
   }
 }
 
-/* Card shell — uniform sizing via flex */
+/* Card wrapper — hover lifts the whole thing */
 .nh-card {
   position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   flex: 1 1 0%;
-  min-height: 580px;
-  border-radius: 1.25rem;
-  overflow: hidden;
+  max-width: 400px;
+  border-radius: 24px;
+  line-height: 1.6;
+  transition: all 0.48s cubic-bezier(0.23, 1, 0.32, 1);
+}
+@media (max-width: 1023px) {
+  .nh-card {
+    width: 100%;
+    max-width: 380px;
+  }
+}
+.nh-card:hover {
+  transform: translateY(-16px);
 }
 
-/* ─ Animated border layer ─ */
-.nh-card__border {
-  overflow: hidden;
-  pointer-events: none;
-  position: absolute;
-  z-index: 0;
-  inset: -1px;
-  background: linear-gradient(
-    160deg,
-    rgba(5, 123, 163, 0.35) 0%,
-    rgba(255, 255, 255, 0.06) 50%,
-    rgba(5, 123, 163, 0.15) 100%
-  );
-  border-radius: 1.25rem;
-}
-
-.nh-card--accent .nh-card__border {
-  background: linear-gradient(
-    160deg,
-    rgba(167, 86, 106, 0.45) 0%,
-    rgba(255, 255, 255, 0.08) 50%,
-    rgba(167, 86, 106, 0.2) 100%
-  );
-}
-
-/* Rotating beam */
-.nh-card__border::before {
-  content: "";
-  pointer-events: none;
-  position: absolute;
-  z-index: 1;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  transform-origin: center;
-  width: 200%;
-  height: 10rem;
-  background-image: linear-gradient(
-    0deg,
-    hsla(0, 0%, 100%, 0) 0%,
-    hsl(193, 100%, 50%) 40%,
-    hsl(193, 100%, 60%) 60%,
-    hsla(0, 0%, 40%, 0) 100%
-  );
-  animation: nh-rotate 6s linear infinite;
-}
-
-.nh-card--accent .nh-card__border::before {
-  background-image: linear-gradient(
-    0deg,
-    hsla(0, 0%, 100%, 0) 0%,
-    hsl(345, 70%, 58%) 40%,
-    hsl(345, 65%, 65%) 60%,
-    hsla(0, 0%, 40%, 0) 100%
-  );
-}
-
-@keyframes nh-rotate {
-  to { transform: translate(-50%, -50%) rotate(360deg); }
-}
-
-/* ─ Glassmorphic content layer ─ */
+/* Front face — the visible card */
 .nh-card__content {
-  position: relative;
-  z-index: 2;
   display: flex;
   flex-direction: column;
-  height: 100%;
-  margin: 1px;
-  border-radius: 1.25rem;
-  background: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow:
-    0 -12px 20px 0 rgba(255, 255, 255, 0.04) inset,
-    0 4px 24px rgba(0, 0, 0, 0.25);
+  align-items: flex-start;
+  gap: 20px;
+  padding: 36px;
+  border-radius: 22px;
+  color: #ffffff;
+  overflow: hidden;
+  background: #057BA3;
+  transition: all 0.48s cubic-bezier(0.23, 1, 0.32, 1);
+  width: 100%;
 }
 
+/* Stacked layer 1 (behind, lighter) */
+.nh-card__content::before {
+  position: absolute;
+  content: "";
+  top: -4%;
+  left: 50%;
+  width: 90%;
+  height: 90%;
+  transform: translate(-50%);
+  background: rgba(5, 123, 163, 0.35);
+  z-index: -1;
+  transform-origin: bottom;
+  border-radius: inherit;
+  transition: all 0.48s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+/* Stacked layer 2 (further behind, lightest) */
+.nh-card__content::after {
+  position: absolute;
+  content: "";
+  top: -8%;
+  left: 50%;
+  width: 80%;
+  height: 80%;
+  transform: translate(-50%);
+  background: rgba(5, 123, 163, 0.18);
+  z-index: -2;
+  transform-origin: bottom;
+  border-radius: inherit;
+  transition: all 0.48s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+/* Hover: layers fan out */
+.nh-card:hover .nh-card__content::before {
+  rotate: -8deg;
+  top: 0;
+  width: 100%;
+  height: 100%;
+}
+.nh-card:hover .nh-card__content::after {
+  rotate: 8deg;
+  top: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* ─ Accent variant (pink card) ─ */
 .nh-card--accent .nh-card__content {
-  background: rgba(167, 86, 106, 0.06);
-  border-color: rgba(167, 86, 106, 0.15);
-  box-shadow:
-    0 -12px 20px 0 rgba(167, 86, 106, 0.06) inset,
-    0 4px 24px rgba(0, 0, 0, 0.25);
+  background: #A7566A;
+}
+.nh-card--accent .nh-card__content::before {
+  background: rgba(167, 86, 106, 0.35);
+}
+.nh-card--accent .nh-card__content::after {
+  background: rgba(167, 86, 106, 0.18);
 }
 
 /* ─ Checkmark badges ─ */
@@ -177,13 +176,9 @@ body {
   align-items: center;
   width: 1.25rem;
   height: 1.25rem;
-  background-color: #057BA3;
+  background-color: rgba(255, 255, 255, 0.25);
   border-radius: 50%;
   flex-shrink: 0;
-}
-
-.nh-card--accent .nh-check {
-  background-color: #A7566A;
 }
 
 /* Custom Scrollbar */
