@@ -132,6 +132,10 @@ const Header: React.FC = () => {
           {navLinks.map(link => (
             <a key={link.id} href={`#${link.id}`} onClick={(e) => handleNavigation(e, link.id)} className="text-sm font-medium !text-white hover:text-primary-light transition-colors">{link.label}</a>
           ))}
+          <Link href="/next-horizon" className="text-sm font-medium !text-white hover:text-primary-light transition-colors flex items-center gap-1">
+            Next Horizon
+            <svg className="w-3.5 h-3.5 text-primary-light" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" /></svg>
+          </Link>
           <div className="relative group">
             <button className="text-sm font-medium !text-white hover:text-primary-light transition-colors flex items-center gap-1">
               Service Areas
@@ -177,6 +181,11 @@ const Header: React.FC = () => {
           <a key={link.id} href={`#${link.id}`} onClick={(e) => { e.preventDefault(); closeMenuAndNavigate(link.id); }} className="text-2xl font-bold !text-white hover:text-primary-light transition-colors">{link.label}</a>
         ))}
 
+        <div className="w-16 h-px bg-white/20 my-2"></div>
+        <Link href="/next-horizon" onClick={() => { document.body.style.overflow = ''; document.body.style.position = ''; document.body.style.width = ''; document.body.style.top = ''; closeMenu(); }} className="text-2xl font-bold !text-white hover:text-primary-light transition-colors flex items-center gap-2">
+          Next Horizon
+          <svg className="w-5 h-5 text-primary-light" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" /></svg>
+        </Link>
         <div className="w-16 h-px bg-white/20 my-2"></div>
         <span className="text-sm font-bold tracking-widest text-white/50 uppercase">Service Areas</span>
         <Link href="/service-areas/hamilton-nj" onClick={() => { document.body.style.overflow = ''; document.body.style.position = ''; document.body.style.width = ''; document.body.style.top = ''; closeMenu(); }} className="text-xl font-bold !text-white hover:text-primary-light transition-colors">Hamilton, NJ</Link>

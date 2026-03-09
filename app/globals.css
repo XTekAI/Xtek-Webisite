@@ -59,6 +59,133 @@ body {
   background-size: 40px 40px;
 }
 
+/* ── Next Horizon animated-border cards ── */
+
+/* Row container — equal-height, stretch-aligned */
+.nh-row {
+  display: flex;
+  align-items: stretch;
+  gap: 1.5rem;
+}
+@media (max-width: 1023px) {
+  .nh-row {
+    flex-direction: column;
+    gap: 2rem;
+  }
+}
+
+/* Card shell — uniform sizing via flex */
+.nh-card {
+  position: relative;
+  flex: 1 1 0%;
+  min-height: 580px;
+  border-radius: 1.25rem;
+  overflow: hidden;
+}
+
+/* ─ Animated border layer ─ */
+.nh-card__border {
+  overflow: hidden;
+  pointer-events: none;
+  position: absolute;
+  z-index: 0;
+  inset: -1px;
+  background: linear-gradient(
+    160deg,
+    rgba(5, 123, 163, 0.35) 0%,
+    rgba(255, 255, 255, 0.06) 50%,
+    rgba(5, 123, 163, 0.15) 100%
+  );
+  border-radius: 1.25rem;
+}
+
+.nh-card--accent .nh-card__border {
+  background: linear-gradient(
+    160deg,
+    rgba(167, 86, 106, 0.45) 0%,
+    rgba(255, 255, 255, 0.08) 50%,
+    rgba(167, 86, 106, 0.2) 100%
+  );
+}
+
+/* Rotating beam */
+.nh-card__border::before {
+  content: "";
+  pointer-events: none;
+  position: absolute;
+  z-index: 1;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  transform-origin: center;
+  width: 200%;
+  height: 10rem;
+  background-image: linear-gradient(
+    0deg,
+    hsla(0, 0%, 100%, 0) 0%,
+    hsl(193, 100%, 50%) 40%,
+    hsl(193, 100%, 60%) 60%,
+    hsla(0, 0%, 40%, 0) 100%
+  );
+  animation: nh-rotate 6s linear infinite;
+}
+
+.nh-card--accent .nh-card__border::before {
+  background-image: linear-gradient(
+    0deg,
+    hsla(0, 0%, 100%, 0) 0%,
+    hsl(345, 70%, 58%) 40%,
+    hsl(345, 65%, 65%) 60%,
+    hsla(0, 0%, 40%, 0) 100%
+  );
+}
+
+@keyframes nh-rotate {
+  to { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+/* ─ Glassmorphic content layer ─ */
+.nh-card__content {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  margin: 1px;
+  border-radius: 1.25rem;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow:
+    0 -12px 20px 0 rgba(255, 255, 255, 0.04) inset,
+    0 4px 24px rgba(0, 0, 0, 0.25);
+}
+
+.nh-card--accent .nh-card__content {
+  background: rgba(167, 86, 106, 0.06);
+  border-color: rgba(167, 86, 106, 0.15);
+  box-shadow:
+    0 -12px 20px 0 rgba(167, 86, 106, 0.06) inset,
+    0 4px 24px rgba(0, 0, 0, 0.25);
+}
+
+/* ─ Checkmark badges ─ */
+.nh-check {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 1.25rem;
+  height: 1.25rem;
+  background-color: #057BA3;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.nh-card--accent .nh-check {
+  background-color: #A7566A;
+}
+
 /* Custom Scrollbar */
 ::-webkit-scrollbar {
   width: 8px;
