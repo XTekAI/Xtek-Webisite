@@ -7,6 +7,7 @@ import React from 'react';
 import { useLanguage } from '../context/LanguageContext';
 import { handleSmoothScroll } from '../lib/utils';
 import { SOCIAL_LINKS } from '../lib/seo';
+import { openCookieSettings } from '../lib/consent';
 
 
 const Footer: React.FC = () => {
@@ -139,7 +140,8 @@ const Footer: React.FC = () => {
             <ul className="space-y-4 text-sm text-white/60">
               <li><Link href="/terms" className="hover:text-white transition-colors">{t.footer.col3_item1}</Link></li>
               <li><Link href="/privacy" className="hover:text-white transition-colors">{t.footer.col3_item2}</Link></li>
-              <li><Link href="/privacy" className="hover:text-white transition-colors">{t.footer.col3_item3}</Link></li>
+              <li><Link href="/privacy#cookies" className="hover:text-white transition-colors">{t.footer.col3_item3}</Link></li>
+              <li><button type="button" onClick={openCookieSettings} className="hover:text-white transition-colors text-left">Your Privacy Choices</button></li>
             </ul>
           </div>
         </div>

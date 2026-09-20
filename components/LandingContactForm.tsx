@@ -4,6 +4,7 @@
 import React, { useState } from 'react';
 import { useLanguage } from '../context/LanguageContext';
 
+import FormConsentNote from './FormConsentNote';
 const LandingContactForm: React.FC = () => {
     const { t } = useLanguage();
     const [formData, setFormData] = useState({
@@ -171,9 +172,7 @@ const LandingContactForm: React.FC = () => {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                 </svg>
             </button>
-            <p className="text-center text-white/30 text-xs mt-6">
-                {t.contact.privacy_note}
-            </p>
+            <FormConsentNote className="mt-6 text-xs text-white/55 leading-relaxed text-center" />
         </form>
     );
 };

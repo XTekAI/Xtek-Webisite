@@ -7,6 +7,7 @@ import { handleSmoothScroll } from '../lib/utils';
 import { MagnetizeButton } from '../components/ui/magnetize-button';
 import NeuralBackground from '../components/ui/flow-field-background';
 
+import FormConsentNote from '../components/FormConsentNote';
 /* ─────────────────────── QUOTE FORM ─────────────────────── */
 const QuoteForm: React.FC = () => {
     const { t } = useLanguage();
@@ -109,7 +110,7 @@ const QuoteForm: React.FC = () => {
                 Request a Private Consultation
                 <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
             </button>
-            <p className="text-center text-white/30 text-xs mt-6">Your information is encrypted and never shared with third parties.</p>
+            <FormConsentNote className="mt-6 text-xs text-white/55 leading-relaxed text-center" />
         </form>
     );
 };

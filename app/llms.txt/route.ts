@@ -26,7 +26,7 @@ export function GET() {
         `- [Success Stories](${absoluteUrl('/stories')}): client case studies with measured results`,
         `- [Blog](${absoluteUrl('/blog')}): articles on AI automation and digital marketing`,
         `- [Privacy Policy](${absoluteUrl('/privacy')})`,
-        `- [Terms of Use](${absoluteUrl('/terms')})`,
+        `- [Terms and Conditions](${absoluteUrl('/terms')})`,
         '',
         '## Service areas',
         ...serviceAreas.map(

@@ -4,7 +4,7 @@ import { serviceAreas } from '../content/service-areas';
 import { absoluteUrl, toIsoDate } from '../lib/seo';
 
 // Bump this when the static pages change in a meaningful way.
-const SITE_LAST_UPDATED = '2026-09-19';
+const SITE_LAST_UPDATED = '2026-09-20';
 
 export default function sitemap(): MetadataRoute.Sitemap {
     const staticPages = ['/', '/blog', '/stories', '/next-horizon', '/privacy', '/terms'].map((path) => ({

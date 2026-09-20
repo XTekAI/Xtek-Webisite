@@ -245,6 +245,18 @@ export const blogJsonLd = (posts: PostInput[]) => ({
     })),
 });
 
+export const webPageJsonLd = (name: string, description: string, path: string, dateModified: string) => ({
+    '@context': 'https://schema.org',
+    '@type': 'WebPage',
+    name,
+    description,
+    url: absoluteUrl(path),
+    dateModified,
+    inLanguage: 'en-US',
+    isPartOf: { '@id': WEBSITE_ID },
+    publisher: { '@id': ORG_ID },
+});
+
 export const collectionPageJsonLd = (name: string, description: string, path: string) => ({
     '@context': 'https://schema.org',
     '@type': 'CollectionPage',

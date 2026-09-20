@@ -8,6 +8,7 @@ import { MagnetizeButton } from '../components/ui/magnetize-button';
 import { getAllPosts } from '../lib/blogLoader';
 
 
+import FormConsentNote from '../components/FormConsentNote';
 const BlogIndex: React.FC = () => {
     // @ts-ignore
     const { t } = useLanguage();
@@ -117,6 +118,7 @@ const BlogIndex: React.FC = () => {
                             <MagnetizeButton type="submit" className="w-full px-8 py-4 bg-primary text-white rounded-xl font-bold hover:bg-secondary transition-colors border-none h-auto">
                                 {t.blog.newsletter_cta}
                             </MagnetizeButton>
+                            <FormConsentNote newsletter />
                         </form>
                     )}
                 </div>

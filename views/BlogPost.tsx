@@ -12,6 +12,7 @@ import { toIsoDate } from '../lib/seo';
 import { useLanguage } from '../context/LanguageContext';
 import { MagnetizeButton } from '../components/ui/magnetize-button';
 
+import FormConsentNote from '../components/FormConsentNote';
 const BlogPost: React.FC = () => {
     const params = useParams<{ slug: string }>();
     const slug = params?.slug;
@@ -176,6 +177,7 @@ const BlogPost: React.FC = () => {
                             <MagnetizeButton type="submit" className="w-full px-8 py-4 bg-primary text-white rounded-xl font-bold hover:bg-secondary transition-colors border-none h-auto">
                                 {t.blog.newsletter_cta}
                             </MagnetizeButton>
+                            <FormConsentNote newsletter />
                         </form>
                     )}
                 </div>

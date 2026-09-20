@@ -7,6 +7,8 @@ import LayoutShell from '../components/LayoutShell';
 import Script from "next/script";
 import JsonLd from "../components/JsonLd";
 import DeferredScript from "../components/DeferredScript";
+import ThirdPartyScripts from "../components/ThirdPartyScripts";
+import CookieConsent from "../components/CookieConsent";
 import {
   SITE_URL,
   SITE_NAME,
@@ -81,41 +83,18 @@ export default function RootLayout({
       <body className={`${inter.variable} ${playfair.variable} font-sans`}>
         <JsonLd data={[organizationJsonLd(), websiteJsonLd()]} />
 
-        {/* Google Analytics */}
-        <Script async src="https://www.googletagmanager.com/gtag/js?id=G-29BT1LZTS0" strategy="afterInteractive" />
-        <Script id="google-analytics" strategy="afterInteractive">
-          {`
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', 'G-29BT1LZTS0');
-          `}
-        </Script>
-
         {/* GSAP - loaded after hydration; Services.tsx waits until it is available */}
         <Script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" strategy="afterInteractive" />
         <Script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" strategy="afterInteractive" />
 
-        {/* Meta Pixel Code */}
-        <Script id="meta-pixel" strategy="afterInteractive">
-          {`
-            !function(f,b,e,v,n,t,s)
-            {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-            n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-            if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-            n.queue=[];t=b.createElement(e);t.async=!0;
-            t.src=v;s=b.getElementsByTagName(e)[0];
-            s.parentNode.insertBefore(t,s)}(window, document,'script',
-            'https://connect.facebook.net/en_US/fbevents.js');
-            fbq('init', '783543120904007');
-            fbq('track', 'PageView');
-          `}
-        </Script>
+        {/* Google Analytics + Meta Pixel: loaded according to the visitor's privacy choice (lib/consent.ts) */}
+        <ThirdPartyScripts />
 
         <LanguageProvider>
           <LayoutShell>
             {children}
           </LayoutShell>
+          <CookieConsent />
         </LanguageProvider>
 
         {/* ElevenLabs ConvAI */}
