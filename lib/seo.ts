@@ -9,10 +9,14 @@ export const CONTACT = {
     phone: '+1-609-912-6800',
 };
 
+// Google Business Profile (opened by its CID, so the URL carries no address or coordinates).
+export const GOOGLE_PROFILE_URL = 'https://www.google.com/maps?cid=855544981083072402';
+
 export const SOCIAL_LINKS = {
     facebook: 'https://www.facebook.com/profile.php?id=61579221937656',
     instagram: 'https://www.instagram.com/xtek.ai/',
     linkedin: 'https://www.linkedin.com/in/lisandro-xtek-ai-b20b043a9/',
+    google: GOOGLE_PROFILE_URL,
 };
 
 export const OG_IMAGE = {
@@ -145,6 +149,7 @@ export const organizationJsonLd = () => ({
         { '@type': 'City', name: 'Philadelphia, PA' },
         { '@type': 'City', name: 'Manhattan, NY' },
     ],
+    hasMap: GOOGLE_PROFILE_URL,
     sameAs: Object.values(SOCIAL_LINKS),
 });
 

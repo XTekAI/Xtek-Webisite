@@ -12,6 +12,7 @@ import BlogSection from '../components/BlogSection';
 import FAQ from '../components/FAQ';
 import Legal from '../components/Legal';
 import ServiceAreasStrip from '../components/ServiceAreasStrip';
+import GoogleReviews from '../components/GoogleReviews';
 import { useLanguage } from '../context/LanguageContext';
 
 const Home: React.FC = () => {
@@ -43,6 +44,7 @@ const Home: React.FC = () => {
             <AboutUs />
             <Services />
             <SuccessStories />
+            <GoogleReviews />
             <section id="contact" className="py-24 px-6 relative overflow-hidden">
                 <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-px bg-gradient-to-r from-transparent via-primary-light/50 to-transparent"></div>
                 <div className="max-w-4xl mx-auto text-center mb-16">

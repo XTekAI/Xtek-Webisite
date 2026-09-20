@@ -9,6 +9,7 @@ import TrustedBy from '../components/TrustedBy';
 import AutomationBenefits from '../components/AutomationBenefits';
 import LandingContactForm from '../components/LandingContactForm';
 import Legal from '../components/Legal';
+import GoogleReviews from '../components/GoogleReviews';
 
 const LandingPage: React.FC = () => {
     const { t } = useLanguage();
@@ -88,6 +89,9 @@ const LandingPage: React.FC = () => {
 
             {/* ==================== BENEFITS ==================== */}
             <AutomationBenefits />
+
+            {/* ==================== GOOGLE REVIEWS ==================== */}
+            <GoogleReviews />
 
             {/* ==================== CONTACT FORM ==================== */}
             <section id="contact" className="py-24 px-6 relative overflow-hidden bg-white/5">

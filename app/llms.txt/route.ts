@@ -42,6 +42,7 @@ export function GET() {
         `- LinkedIn: ${SOCIAL_LINKS.linkedin}`,
         `- Instagram: ${SOCIAL_LINKS.instagram}`,
         `- Facebook: ${SOCIAL_LINKS.facebook}`,
+        `- Google Business Profile (client reviews): ${SOCIAL_LINKS.google}`,
         '',
     ];
 
