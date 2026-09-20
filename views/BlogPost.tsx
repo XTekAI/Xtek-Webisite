@@ -1,11 +1,14 @@
 "use client";
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { useRouter, usePathname, useParams, redirect } from 'next/navigation';
 
 import React, { useState } from 'react';
 
-import { getPostBySlug } from '../lib/blogLoader';
+import { getPostBySlug, getRelatedPosts } from '../lib/blogLoader';
+import { serviceAreas } from '../content/service-areas';
+import { toIsoDate } from '../lib/seo';
 import { useLanguage } from '../context/LanguageContext';
 import { MagnetizeButton } from '../components/ui/magnetize-button';
 
@@ -87,7 +90,7 @@ const BlogPost: React.FC = () => {
                     </div>
                     <h1 className="text-4xl md:text-6xl font-bold mb-6 leading-tight">{post.title}</h1>
                     <div className="flex items-center gap-4 text-white/40 text-sm font-bold uppercase tracking-widest mb-12 pb-12 border-b border-white/10">
-                        <span>{post.date}</span>
+                        <time dateTime={toIsoDate(post.date)}>{post.date}</time>
                         <span>•</span>
                         <span>{post.readingTime}</span>
                         <span>•</span>
@@ -97,7 +100,14 @@ const BlogPost: React.FC = () => {
                     {post.featuredImage && (
                         <div className="w-full aspect-video rounded-3xl overflow-hidden mb-12 relative group">
                             <div className="absolute inset-0 bg-primary/20 mix-blend-multiply z-10"></div>
-                            <img src={post.featuredImage} alt={post.title} className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" />
+                            <Image
+                                src={post.featuredImage}
+                                alt={post.title}
+                                fill
+                                priority
+                                sizes="(max-width: 896px) 100vw, 896px"
+                                className="object-cover transition-transform duration-1000 group-hover:scale-105"
+                            />
                         </div>
                     )}
 
@@ -105,6 +115,36 @@ const BlogPost: React.FC = () => {
                         <div className="text-xl leading-relaxed text-white/80 font-light mb-8" dangerouslySetInnerHTML={{ __html: post.content }}></div>
                     </div>
                 </div>
+
+                {/* Related articles + service links (internal linking) */}
+                <section aria-labelledby="related-heading" className="mb-16">
+                    <h2 id="related-heading" className="text-2xl font-bold mb-6">Related Articles</h2>
+                    <ul className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        {getRelatedPosts(post.slug, 3).map((related) => (
+                            <li key={related.slug}>
+                                <Link
+                                    href={`/blog/${related.slug}`}
+                                    className="block h-full glass rounded-2xl border border-white/5 p-5 hover:border-primary-light/30 transition-colors"
+                                >
+                                    <span className="block text-xs font-bold uppercase tracking-widest text-primary-light mb-2">{related.category}</span>
+                                    <span className="block font-semibold text-white/90 leading-snug">{related.title}</span>
+                                </Link>
+                            </li>
+                        ))}
+                    </ul>
+                    <p className="mt-8 text-white/50 text-sm leading-relaxed">
+                        Need help putting this into practice? Explore our{' '}
+                        <Link href="/next-horizon" className="text-primary-light underline underline-offset-2 hover:text-white">Next Horizon platform</Link>
+                        {' '}or find an AI automation agency near you:{' '}
+                        {serviceAreas.map((area, i) => (
+                            <React.Fragment key={area.id}>
+                                {i > 0 && (i === serviceAreas.length - 1 ? ', or ' : ', ')}
+                                <Link href={`/service-areas/${area.id}`} className="text-primary-light underline underline-offset-2 hover:text-white">{area.city}, {area.state}</Link>
+                            </React.Fragment>
+                        ))}
+                        .
+                    </p>
+                </section>
 
                 <div className="glass rounded-[40px] border border-white/5 p-8 md:p-12 mb-16 text-center">
                     <h3 className="text-2xl font-bold mb-6">{t.blog.newsletter_title}</h3>

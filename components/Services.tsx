@@ -1,7 +1,7 @@
 "use client";
 
 
-import React, { useLayoutEffect, useRef } from 'react';
+import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { useLanguage } from '../context/LanguageContext';
 import { MagnetizeButton } from './ui/magnetize-button';
 
@@ -28,7 +28,7 @@ const ServiceLayer: React.FC<{
             <p className="text-xl text-white/60 leading-relaxed mb-8">{description}</p>
           </div>
           <div className="w-full md:w-1/2 bg-white/5 rounded-3xl p-8 border border-white/5">
-            <h4 className="text-sm font-bold uppercase tracking-widest text-primary-light mb-6">Key Focus Areas</h4>
+            <p className="text-sm font-bold uppercase tracking-widest text-primary-light mb-6">Key Focus Areas</p>
             <ul className="space-y-4">
               {items.map((item, i) => (
                 <li key={i} className="flex items-center gap-3 text-lg text-white/80">
@@ -50,7 +50,27 @@ const Services: React.FC = () => {
   const layersContainerRef = useRef<HTMLDivElement>(null);
   const titleRef = useRef<HTMLDivElement>(null);
 
+  // GSAP loads after hydration (afterInteractive), so wait for it instead of
+  // blocking the page on the CDN scripts.
+  const [gsapReady, setGsapReady] = useState(false);
+
+  useEffect(() => {
+    const isReady = () => Boolean((window as any).gsap && (window as any).ScrollTrigger);
+    if (isReady()) {
+      setGsapReady(true);
+      return;
+    }
+    const poll = setInterval(() => {
+      if (isReady()) {
+        clearInterval(poll);
+        setGsapReady(true);
+      }
+    }, 50);
+    return () => clearInterval(poll);
+  }, []);
+
   useLayoutEffect(() => {
+    if (!gsapReady) return;
     const { gsap } = window as any;
     const { ScrollTrigger } = window as any;
     gsap.registerPlugin(ScrollTrigger);
@@ -111,7 +131,7 @@ const Services: React.FC = () => {
     return () => {
       mm.revert();
     };
-  }, []);
+  }, [gsapReady]);
 
   return (
     <section id="services" ref={mainRef} className="relative h-screen bg-primary overflow-hidden">

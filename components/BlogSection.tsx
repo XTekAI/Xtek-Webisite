@@ -33,7 +33,7 @@ const BlogSection: React.FC = () => {
                         <div key={post.slug} className="glass rounded-[32px] overflow-hidden border border-white/5 group hover:border-primary-light/30 transition-all duration-500 flex flex-col">
                             <div className="h-48 overflow-hidden relative shrink-0">
                                 {post.featuredImage && (
-                                    <img src={post.featuredImage} alt={post.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+                                    <img src={post.featuredImage} alt={post.title} width={800} height={533} loading="lazy" decoding="async" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
                                 )}
                                 <div className="absolute top-4 left-4 flex gap-2">
                                     {post.tags.map((tag: string) => (

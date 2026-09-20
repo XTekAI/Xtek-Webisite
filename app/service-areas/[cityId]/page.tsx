@@ -1,6 +1,8 @@
 import type { Metadata } from 'next';
 import { serviceAreas } from '../../../content/service-areas';
 import ServiceAreaLayout from '../../../views/service-areas/ServiceAreaLayout';
+import JsonLd from '../../../components/JsonLd';
+import { breadcrumbJsonLd, buildMetadata, serviceAreaJsonLd } from '../../../lib/seo';
 
 interface Props {
     params: Promise<{ cityId: string }>;
@@ -13,19 +15,16 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     if (!area) {
         return {
             title: 'Service Area Not Found | Xtek AI',
+            robots: { index: false, follow: false },
         };
     }
 
-    return {
+    return buildMetadata({
         title: area.metaTitle,
         description: area.metaDescription,
+        path: `/service-areas/${area.id}`,
         keywords: area.service_keywords.join(', '),
-        openGraph: {
-            title: area.metaTitle,
-            description: area.metaDescription,
-            type: 'website',
-        },
-    };
+    });
 }
 
 export function generateStaticParams() {
@@ -34,6 +33,24 @@ export function generateStaticParams() {
     }));
 }
 
-export default function ServiceAreaPage() {
-    return <ServiceAreaLayout />;
+export default async function ServiceAreaPage({ params }: Props) {
+    const { cityId } = await params;
+    const area = serviceAreas.find((a) => a.id === cityId);
+
+    return (
+        <>
+            {area && (
+                <JsonLd
+                    data={[
+                        serviceAreaJsonLd(area),
+                        breadcrumbJsonLd([
+                            { name: 'Home', path: '/' },
+                            { name: `${area.city}, ${area.state}`, path: `/service-areas/${area.id}` },
+                        ]),
+                    ]}
+                />
+            )}
+            <ServiceAreaLayout />
+        </>
+    );
 }

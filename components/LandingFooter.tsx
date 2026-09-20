@@ -1,6 +1,7 @@
 "use client";
 
 import React from 'react';
+import Link from 'next/link';
 import { useLanguage } from '../context/LanguageContext';
 
 const LandingFooter: React.FC = () => {
@@ -31,6 +32,10 @@ const LandingFooter: React.FC = () => {
                 </div>
 
                 <div className="mt-8 pt-6 border-t border-white/5 text-center">
+                    <div className="flex justify-center gap-6 mb-4 text-xs text-white/40">
+                        <Link href="/privacy" className="hover:text-white transition-colors">Privacy Policy</Link>
+                        <Link href="/terms" className="hover:text-white transition-colors">Terms of Use</Link>
+                    </div>
                     <p className="text-white/30 text-xs">
                         © {new Date().getFullYear()} XTEK AI Agency. {t.footer.rights}
                     </p>

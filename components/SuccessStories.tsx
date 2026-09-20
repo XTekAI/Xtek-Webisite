@@ -13,7 +13,7 @@ const StoryItem: React.FC<{
 }> = ({ title, client, result, image }) => (
   <div className="glass rounded-[32px] overflow-hidden border border-white/5 group hover:border-primary-light/30 transition-all duration-500">
     <div className="h-64 relative overflow-hidden">
-      <img src={image} alt={title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 grayscale group-hover:grayscale-0" />
+      <img src={image} alt={title} width={800} height={533} loading="lazy" decoding="async" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 grayscale group-hover:grayscale-0" />
       <div className="absolute inset-0 bg-gradient-to-t from-primary to-transparent"></div>
       <div className="absolute bottom-6 left-6">
         <span className="text-xs font-bold text-primary-light uppercase tracking-widest">{client}</span>
@@ -43,7 +43,7 @@ const CaseStudyDetail: React.FC<{
   <div className="glass rounded-[40px] overflow-hidden mb-12 border border-white/5 group">
     <div className="grid grid-cols-1 lg:grid-cols-2">
       <div className="relative h-64 lg:h-auto overflow-hidden">
-        <img src={image} alt={title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+        <img src={image} alt={title} width={800} height={533} loading="lazy" decoding="async" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
         <div className="absolute inset-0 bg-gradient-to-r from-primary/80 to-transparent"></div>
         <div className="absolute bottom-8 left-8">
           <div className="flex flex-wrap gap-2 mb-3">

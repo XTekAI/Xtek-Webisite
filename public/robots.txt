@@ -1,6 +1,0 @@
-User-agent: *
-Allow: /
-Disallow: /*?elementor_library=*
-Disallow: /*?*
-
-Sitemap: https://www.xtekai.com/sitemap.xml

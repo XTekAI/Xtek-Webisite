@@ -119,8 +119,27 @@ const ServiceAreaLayout: React.FC = () => {
                 </div>
             </div>
 
+            {/* Explore more: internal links to the other service areas and key pages */}
+            <nav aria-label="More from Xtek AI" className="max-w-4xl mx-auto mb-16 text-center">
+                <h2 className="text-2xl font-bold mb-8">Explore More from Xtek AI</h2>
+                <div className="flex flex-wrap justify-center gap-3">
+                    {serviceAreas.filter((a) => a.id !== area.id).map((a) => (
+                        <Link
+                            key={a.id}
+                            href={`/service-areas/${a.id}`}
+                            className="px-5 py-2 rounded-full bg-white/5 border border-white/10 text-sm text-white/80 hover:text-primary-light hover:border-primary-light/40 transition-colors"
+                        >
+                            AI Automation in {a.city}, {a.state}
+                        </Link>
+                    ))}
+                    <Link href="/stories" className="px-5 py-2 rounded-full bg-white/5 border border-white/10 text-sm text-white/80 hover:text-primary-light hover:border-primary-light/40 transition-colors">Success Stories</Link>
+                    <Link href="/blog" className="px-5 py-2 rounded-full bg-white/5 border border-white/10 text-sm text-white/80 hover:text-primary-light hover:border-primary-light/40 transition-colors">AI Automation Blog</Link>
+                    <Link href="/next-horizon" className="px-5 py-2 rounded-full bg-white/5 border border-white/10 text-sm text-white/80 hover:text-primary-light hover:border-primary-light/40 transition-colors">Next Horizon Platform</Link>
+                </div>
+            </nav>
+
             <div className="text-center mt-12 border-t border-primary-light/20 pt-16">
-                <Link href="/contact" className="btn-primary inline-flex items-center gap-2">
+                <Link href="/#contact" className="btn-primary inline-flex items-center gap-2">
                     Get a Free Strategy Session for Your {area.city} Business <ArrowRight className="w-4 h-4 ml-2" />
                 </Link>
             </div>

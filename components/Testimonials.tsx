@@ -13,7 +13,7 @@ const TestimonialCard: React.FC<{
 }> = ({ name, role, company, quote, image }) => (
   <div className="glass rounded-3xl p-8 flex flex-col h-full border-t border-white/5">
     <div className="flex items-center gap-4 mb-8">
-      <img src={image} alt={name} className="w-12 h-12 rounded-full object-cover" />
+      <img src={image} alt={name} width={48} height={48} loading="lazy" decoding="async" className="w-12 h-12 rounded-full object-cover" />
       <div>
         <h4 className="font-bold text-lg leading-none">{name}</h4>
         <p className="text-sm text-white/50 mt-1">{role} - {company}</p>

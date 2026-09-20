@@ -52,7 +52,7 @@ const BlogPage: React.FC = () => {
                         {t.blog.posts.map((post: any) => (
                             <div key={post.id} className="glass rounded-[32px] overflow-hidden border border-white/5 group hover:border-primary-light/30 transition-all duration-500 flex flex-col h-full">
                                 <div className="h-48 overflow-hidden relative">
-                                    <img src={post.image} alt={post.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+                                    <img src={post.image} alt={post.title} width={800} height={533} loading="lazy" decoding="async" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
                                     <div className="absolute top-4 left-4 flex gap-2">
                                         {post.tags.map((tag: string) => (
                                             <span key={tag} className="px-2 py-1 bg-black/50 backdrop-blur-md rounded-full text-[10px] font-bold uppercase tracking-widest text-white border border-white/10">{tag}</span>
@@ -123,7 +123,7 @@ const BlogPage: React.FC = () => {
 
                     <div className="w-full aspect-video rounded-3xl overflow-hidden mb-12 relative group">
                         <div className="absolute inset-0 bg-primary/20 mix-blend-multiply z-10"></div>
-                        <img src={post.image} alt={post.title} className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" />
+                        <img src={post.image} alt={post.title} width={1200} height={675} decoding="async" fetchPriority="high" className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" />
                     </div>
 
                     <div className="prose prose-invert prose-lg max-w-none">

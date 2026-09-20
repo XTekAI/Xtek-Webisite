@@ -68,10 +68,11 @@ const Hero: React.FC = () => {
             <div className="absolute inset-0 bg-gradient-to-t from-primary via-transparent to-transparent z-10"></div>
             <Image
               src="https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&q=80&w=2000"
-              alt="AI Visual"
+              alt="Abstract visualization of artificial intelligence powering business automation"
               fill
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 80vw, 1000px"
               priority
+              fetchPriority="high"
               className="object-cover rounded-2xl opacity-60 grayscale hover:grayscale-0 transition-all duration-700"
             />
             <div className="absolute bottom-10 left-10 z-20 text-left">
@@ -79,7 +80,7 @@ const Hero: React.FC = () => {
                 <div className="w-8 h-1 bg-primary-light"></div>
                 <span className="text-sm font-bold tracking-widest uppercase">{t.hero.visual_caption}</span>
               </div>
-              <h3 className="text-3xl font-bold">XTEK AI SOLUTIONS</h3>
+              <p className="text-3xl font-bold">XTEK AI SOLUTIONS</p>
             </div>
           </div>
         </div>

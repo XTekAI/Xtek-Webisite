@@ -26,7 +26,7 @@ const SuccessStoryDetail: React.FC<{
   <div className="glass rounded-[40px] overflow-hidden mb-20 border border-white/5 group">
     <div className="grid grid-cols-1 lg:grid-cols-2">
       <div className="relative h-80 lg:h-auto overflow-hidden">
-        <img src={image} alt={title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
+        <img src={image} alt={title} width={800} height={533} loading="lazy" decoding="async" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
         <div className="absolute inset-0 bg-gradient-to-r from-primary/80 to-transparent"></div>
         <div className="absolute bottom-10 left-10">
           <div className="flex gap-2 mb-4">

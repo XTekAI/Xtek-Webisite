@@ -2,6 +2,7 @@
 
 
 import React from 'react';
+import Link from 'next/link';
 import { useLanguage } from '../context/LanguageContext';
 
 const Legal: React.FC = () => {
@@ -18,6 +19,7 @@ const Legal: React.FC = () => {
               <li>We do not share your strategic data with third-party model trainers.</li>
               <li>All information is encrypted end-to-end within our US-based infrastructure.</li>
             </ul>
+            <Link href="/privacy" className="inline-block text-primary-light hover:underline">Read the full Privacy Policy</Link>
           </div>
         </div>
         <div id="terms">
@@ -29,6 +31,7 @@ const Legal: React.FC = () => {
               <li>Automation agents remain the intellectual property of Xtek AI unless otherwise stated.</li>
               <li>Implementation timelines are subject to business complexity and data availability.</li>
             </ul>
+            <Link href="/terms" className="inline-block text-primary-light hover:underline">Read the full Terms of Use</Link>
           </div>
         </div>
       </div>

@@ -11,6 +11,7 @@ import ContactForm from '../components/ContactForm';
 import BlogSection from '../components/BlogSection';
 import FAQ from '../components/FAQ';
 import Legal from '../components/Legal';
+import ServiceAreasStrip from '../components/ServiceAreasStrip';
 import { useLanguage } from '../context/LanguageContext';
 
 const Home: React.FC = () => {
@@ -56,6 +57,7 @@ const Home: React.FC = () => {
             </section>
             <BlogSection />
             <FAQ />
+            <ServiceAreasStrip />
             <Legal />
         </>
     );

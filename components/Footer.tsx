@@ -6,6 +6,7 @@ import { useRouter, usePathname, redirect } from 'next/navigation';
 import React from 'react';
 import { useLanguage } from '../context/LanguageContext';
 import { handleSmoothScroll } from '../lib/utils';
+import { SOCIAL_LINKS } from '../lib/seo';
 
 
 const Footer: React.FC = () => {
@@ -57,7 +58,7 @@ const Footer: React.FC = () => {
             </p>
             <div className="flex gap-4">
               <a
-                href="https://www.facebook.com/profile.php?id=61579221937656"
+                href={SOCIAL_LINKS.facebook}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center hover:bg-primary-light transition-all cursor-pointer group"
@@ -68,7 +69,7 @@ const Footer: React.FC = () => {
                 </svg>
               </a>
               <a
-                href="https://www.instagram.com/xtek.ai/"
+                href={SOCIAL_LINKS.instagram}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center hover:bg-primary-light transition-all cursor-pointer group"
@@ -78,6 +79,17 @@ const Footer: React.FC = () => {
                   <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
                   <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
                   <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                </svg>
+              </a>
+              <a
+                href={SOCIAL_LINKS.linkedin}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center hover:bg-primary-light transition-all cursor-pointer group"
+                aria-label="LinkedIn"
+              >
+                <svg className="w-5 h-5 fill-current text-white/60 group-hover:text-white" viewBox="0 0 24 24">
+                  <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
                 </svg>
               </a>
             </div>
@@ -125,9 +137,9 @@ const Footer: React.FC = () => {
           <div>
             <h4 className="font-bold mb-6 text-sm uppercase tracking-widest text-primary-light">{t.footer.col3_title}</h4>
             <ul className="space-y-4 text-sm text-white/60">
-              <li><a href="#terms" onClick={(e) => handleNavigation(e, 'terms')} className="hover:text-white transition-colors">{t.footer.col3_item1}</a></li>
-              <li><a href="#privacy" onClick={(e) => handleNavigation(e, 'privacy')} className="hover:text-white transition-colors">{t.footer.col3_item2}</a></li>
-              <li><a href="#privacy" onClick={(e) => handleNavigation(e, 'privacy')} className="hover:text-white transition-colors">{t.footer.col3_item3}</a></li>
+              <li><Link href="/terms" className="hover:text-white transition-colors">{t.footer.col3_item1}</Link></li>
+              <li><Link href="/privacy" className="hover:text-white transition-colors">{t.footer.col3_item2}</Link></li>
+              <li><Link href="/privacy" className="hover:text-white transition-colors">{t.footer.col3_item3}</Link></li>
             </ul>
           </div>
         </div>

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useState, useSyncExternalStore } from 'react';
 import { translations } from '../translations';
 
 export type Language = 'en' | 'es';
@@ -19,6 +19,16 @@ export interface LanguageContextType {
 
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
 
+// The landing variant is chosen from the browser URL, which the server can't
+// see. useSyncExternalStore renders the server value (false) while hydrating
+// and then switches, instead of throwing a hydration mismatch (React #418).
+const subscribeToNothing = () => () => { };
+const getIsLandingMode = () =>
+    window.location.hostname === 'landing.xtekai.com' ||
+    window.location.hostname === 'landing.localhost' ||
+    window.location.search.includes('mode=landing');
+const getServerIsLandingMode = () => false;
+
 export const useLanguage = () => {
     const context = useContext(LanguageContext);
     if (!context) throw new Error("useLanguage must be used within a LanguageProvider");
@@ -30,10 +40,7 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     const [page, setPage] = useState<Page>('home');
     const [activeBlog, setActiveBlog] = useState<string | null>(null);
 
-    const isLandingMode = typeof window !== 'undefined' &&
-        (window.location.hostname === 'landing.xtekai.com' ||
-            window.location.hostname === 'landing.localhost' ||
-            window.location.search.includes('mode=landing'));
+    const isLandingMode = useSyncExternalStore(subscribeToNothing, getIsLandingMode, getServerIsLandingMode);
 
     const value = {
         lang,

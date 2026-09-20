@@ -39,7 +39,7 @@ const AboutUs: React.FC = () => {
           <div className="aspect-square glass rounded-[60px] overflow-hidden rotate-3 relative z-10">
             <Image
               src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&q=80&w=1000"
-              alt="Team Working"
+              alt="Business team collaborating on an automation project"
               fill
               sizes="(max-width: 1024px) 100vw, 50vw"
               className="object-cover grayscale opacity-60"
