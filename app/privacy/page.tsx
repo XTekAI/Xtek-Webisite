@@ -66,6 +66,12 @@ const sections: LegalSection[] = [
                             'Commercial information; audio and electronic information (call and email content)',
                         ],
                         [
+                            'Text message (SMS) records',
+                            'Your mobile number, whether and when you opted in or out, the wording you agreed to, the page and device details of your opt-in, and the content and delivery status of the messages we exchange.',
+                            'You, and our messaging platform provider.',
+                            'Identifiers; commercial information; electronic information',
+                        ],
+                        [
                             'AI assistant conversations',
                             'Your voice and/or typed messages and the resulting transcript when you use our AI voice or chat assistant.',
                             'You, through the assistant on our site.',
@@ -216,6 +222,40 @@ const sections: LegalSection[] = [
         ),
     },
     {
+        id: 'sms',
+        title: 'Text and email messages',
+        body: (
+            <>
+                <P>
+                    We send two kinds of messages, and our forms ask for your agreement to each one (for text messages, see also our <A href="/sms-terms">SMS Terms</A>):
+                </P>
+                <UL>
+                    <li>
+                        <strong>Service messages (text and email)</strong> about your inquiry and appointments: replies, meeting scheduling, confirmations, reminders and
+                        follow-ups. You agree to these by checking the required service-messages box when you submit a form, because we use them to answer you and manage
+                        your appointments.
+                    </li>
+                    <li>
+                        <strong>Marketing messages</strong>: offers, promotions and news about our services. These are <strong>optional</strong>. Marketing texts and marketing
+                        emails each have their own unchecked box, and consent to them is never a condition of any purchase.
+                    </li>
+                </UL>
+                <P>
+                    We collect and keep your mobile number, a record of each consent (the wording you accepted, the date and time, the page you used, and your browser and IP
+                    address) and the messages we exchange with you.
+                </P>
+                <UL>
+                    <li>Message frequency varies. Message and data rates may apply. Reply <strong>STOP</strong> to opt out of texts at any time and <strong>HELP</strong> for help; every marketing email has an unsubscribe link.</li>
+                    <li>We use a third-party messaging platform and mobile carriers to deliver text messages; they process your number and message content on our behalf.</li>
+                    <li>
+                        <strong>No mobile information will be shared with third parties or affiliates for marketing or promotional purposes.</strong> Text messaging originator
+                        opt-in data and consent will not be shared with any third party for their own use.
+                    </li>
+                </UL>
+            </>
+        ),
+    },
+    {
         id: 'sharing',
         title: 'Who we share personal information with',
         body: (
@@ -238,6 +278,10 @@ const sections: LegalSection[] = [
                     cross-context behavioral advertising. We do this only for visitors who have not opted out. You can opt out at any time through{' '}
                     <CookieSettingsButton>Your Privacy Choices</CookieSettingsButton> or with a Global Privacy Control signal. We do not knowingly sell or share the personal
                     information of anyone under 16.
+                </P>
+                <P>
+                    <strong>Mobile information.</strong> No mobile information will be shared with third parties or affiliates for marketing or promotional purposes. Text messaging
+                    originator opt-in data and consent will not be shared with any third party for their own use. See &ldquo;Text and email messages&rdquo; above.
                 </P>
             </>
         ),
@@ -267,6 +311,7 @@ const sections: LegalSection[] = [
                     <li><strong>Clients:</strong> for the length of the engagement and afterwards for the period required for tax, accounting, contract and dispute purposes.</li>
                     <li><strong>Newsletter:</strong> until you unsubscribe, after which we keep a minimal suppression record so we do not email you again.</li>
                     <li><strong>Analytics and advertising data:</strong> for the retention period configured in those tools; cookies expire as listed above.</li>
+                    <li><strong>Consent records:</strong> the record of your text-message and email consent is kept for at least four years after your last interaction or opt-out, or longer if the law requires, so that we can show what you agreed to.</li>
                     <li><strong>AI assistant conversations and server logs:</strong> for as short a time as is needed to answer, improve reliability and keep the service secure.</li>
                 </UL>
                 <P>When we no longer need information we delete or de-identify it.</P>
@@ -334,9 +379,11 @@ const sections: LegalSection[] = [
                     by emailing <A href={`mailto:${LEGAL.email}`}>{LEGAL.email}</A>.
                 </P>
                 <P>
-                    By giving us your phone number in a form you agree that we may call you about your inquiry; tell us if you prefer not to be called and we will stop and
-                    add your number to our internal do-not-call list. We do not send marketing text messages without your separate written consent (Telephone Consumer
-                    Protection Act). Service messages about an engagement are not marketing and may continue.
+                    We may call you about your inquiry at the number you provide; tell us if you prefer not to be called and we will stop and add your number to our internal
+                    do-not-call list. We send <strong>service messages</strong> by text and email (replies, scheduling, confirmations, reminders and follow-ups) because you agreed to
+                    them when you submitted a form. We send <strong>marketing</strong> texts and emails only if you checked the separate, optional boxes for them or otherwise opted
+                    in (see &ldquo;Text and email messages&rdquo; and our <A href="/sms-terms">SMS Terms</A>), and we never make consent to marketing a condition of buying anything
+                    (Telephone Consumer Protection Act). You can opt out of marketing at any time.
                 </P>
             </>
         ),

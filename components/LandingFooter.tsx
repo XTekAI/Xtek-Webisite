@@ -36,6 +36,7 @@ const LandingFooter: React.FC = () => {
                     <div className="flex justify-center gap-6 mb-4 text-xs text-white/40">
                         <Link href="/privacy" className="hover:text-white transition-colors">Privacy Policy</Link>
                         <Link href="/terms" className="hover:text-white transition-colors">Terms and Conditions</Link>
+                        <Link href="/sms-terms" className="hover:text-white transition-colors">SMS Terms</Link>
                         <button type="button" onClick={openCookieSettings} className="hover:text-white transition-colors">Your Privacy Choices</button>
                     </div>
                     <p className="text-white/30 text-xs">

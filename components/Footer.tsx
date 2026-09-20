@@ -139,6 +139,7 @@ const Footer: React.FC = () => {
             <h4 className="font-bold mb-6 text-sm uppercase tracking-widest text-primary-light">{t.footer.col3_title}</h4>
             <ul className="space-y-4 text-sm text-white/60">
               <li><Link href="/terms" className="hover:text-white transition-colors">{t.footer.col3_item1}</Link></li>
+              <li><Link href="/sms-terms" className="hover:text-white transition-colors">SMS Terms</Link></li>
               <li><Link href="/privacy" className="hover:text-white transition-colors">{t.footer.col3_item2}</Link></li>
               <li><Link href="/privacy#cookies" className="hover:text-white transition-colors">{t.footer.col3_item3}</Link></li>
               <li><button type="button" onClick={openCookieSettings} className="hover:text-white transition-colors text-left">Your Privacy Choices</button></li>

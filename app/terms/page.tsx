@@ -161,6 +161,27 @@ const sections: LegalSection[] = [
         ),
     },
     {
+        id: 'messages',
+        title: 'Text and email messages',
+        body: (
+            <>
+                <P>
+                    <strong>Service messages (required).</strong> To submit one of our forms you must agree to receive service messages from Xtek AI by text (SMS) and email,
+                    including automated ones: replies to your inquiry, meeting scheduling, confirmations, reminders and follow-ups. This is how we respond and manage appointments.
+                </P>
+                <P>
+                    <strong>Marketing messages (optional).</strong> Using separate, unchecked boxes you may also choose to receive marketing texts and/or marketing emails
+                    (offers, promotions, news). Consent to marketing is optional and is not a condition of any purchase.
+                </P>
+                <P>
+                    Text messages are governed by our <A href="/sms-terms">SMS Terms</A>: message frequency varies, message and data rates may apply, and you can reply STOP
+                    to opt out of texts or HELP for help. Replying STOP ends all text messages from us, and we will then contact you by email or phone. Marketing emails include an
+                    unsubscribe link, and we honor opt-outs promptly.
+                </P>
+            </>
+        ),
+    },
+    {
         id: 'third-parties',
         title: 'Third-party services and links',
         body: (
@@ -266,7 +287,7 @@ const sections: LegalSection[] = [
         body: (
             <>
                 <UL>
-                    <li><strong>Entire agreement.</strong> These Terms, the Privacy Policy and any Proposal are the whole agreement about their subject and replace earlier discussions.</li>
+                    <li><strong>Entire agreement.</strong> These Terms, the Privacy Policy, the SMS Terms and any Proposal are the whole agreement about their subject and replace earlier discussions.</li>
                     <li><strong>Changes.</strong> We may update these Terms by posting the new version with a new effective date; changes do not affect a signed Proposal unless both parties agree. Continued use of the Site after a change means you accept it.</li>
                     <li><strong>Severability and waiver.</strong> If a provision is unenforceable, the rest stays in effect; not enforcing a provision is not a waiver.</li>
                     <li><strong>Assignment.</strong> You may not assign these Terms without our written consent; we may assign them in a merger or sale of the business.</li>

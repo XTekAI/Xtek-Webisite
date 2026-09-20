@@ -7,15 +7,18 @@ import { handleSmoothScroll } from '../lib/utils';
 import { MagnetizeButton } from '../components/ui/magnetize-button';
 import NeuralBackground from '../components/ui/flow-field-background';
 
-import FormConsentNote from '../components/FormConsentNote';
+import ContactConsentFields from '../components/ContactConsentFields';
+import { buildConsentRecord, emptyConsent, hasRequiredConsent, type ContactConsent } from '../lib/contactConsent';
 /* ─────────────────────── QUOTE FORM ─────────────────────── */
 const QuoteForm: React.FC = () => {
-    const { t } = useLanguage();
+    const { t, lang } = useLanguage();
     const [formData, setFormData] = useState({
         name: '', organization: '', email: '', phone: '', sector: '', message: ''
     });
     const [errors, setErrors] = useState({ email: '', phone: '' });
     const [submitted, setSubmitted] = useState(false);
+    const [consent, setConsent] = useState<ContactConsent>(emptyConsent);
+    const [consentError, setConsentError] = useState(false);
 
     const validateEmail = (email: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
     const validatePhone = (phone: string) =>
@@ -38,11 +41,16 @@ const QuoteForm: React.FC = () => {
         if (!validatePhone(phone)) { newErrors.phone = t.contact.error_phone; hasErrors = true; }
         if (hasErrors) { setErrors(newErrors); return; }
 
+        if (!hasRequiredConsent(consent)) {
+          setConsentError(true);
+          return;
+        }
+
         try {
             await fetch('https://prueba1-n8n.fihoy6.easypanel.host/webhook/web2', {
                 method: 'POST', mode: 'no-cors',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ ...formData, source: 'next_horizon_quote' }),
+                body: JSON.stringify({ ...formData, ...buildConsentRecord(consent, lang), source: 'next_horizon_quote' }),
             });
             setSubmitted(true);
         } catch { alert('There was an error. Please try again.'); }
@@ -58,7 +66,7 @@ const QuoteForm: React.FC = () => {
                 </div>
                 <h3 className="text-3xl font-bold mb-4 !text-white">{t.contact.success_title}</h3>
                 <p className="text-white/60 mb-8">{t.contact.success_desc}</p>
-                <button onClick={() => { setSubmitted(false); setFormData({ name: '', organization: '', email: '', phone: '', sector: '', message: '' }); }} className="text-primary-light font-bold hover:underline">
+                <button onClick={() => { setSubmitted(false); setConsent(emptyConsent); setConsentError(false); setFormData({ name: '', organization: '', email: '', phone: '', sector: '', message: '' }); }} className="text-primary-light font-bold hover:underline">
                     Submit another request
                 </button>
             </div>
@@ -90,8 +98,8 @@ const QuoteForm: React.FC = () => {
                     {errors.phone && <span className="text-secondary text-[10px] font-bold uppercase px-1">{errors.phone}</span>}
                 </div>
                 <div className="flex flex-col gap-2">
-                    <label className={labelClass}>Sector</label>
-                    <select name="sector" value={formData.sector} onChange={handleChange} className={inputClass}>
+                    <label htmlFor="quote-sector" className={labelClass}>Sector</label>
+                    <select id="quote-sector" name="sector" value={formData.sector} onChange={handleChange} className={inputClass}>
                         <option value="" className="bg-primary">Select your sector...</option>
                         <option value="government" className="bg-primary">Government / Municipal</option>
                         <option value="healthcare" className="bg-primary">Healthcare / Hospital</option>
@@ -106,11 +114,12 @@ const QuoteForm: React.FC = () => {
                     <input type="text" name="message" value={formData.message} onChange={handleChange} placeholder="What are your primary needs?" className={inputClass} />
                 </div>
             </div>
+            <ContactConsentFields consent={consent} onChange={(c) => { setConsent(c); if (hasRequiredConsent(c)) setConsentError(false); }} showErrors={consentError} />
+
             <button type="submit" className="w-full py-4 bg-primary-light text-white font-bold rounded-xl hover:bg-secondary transition-all shadow-xl shadow-primary-light/20 flex items-center justify-center gap-2">
                 Request a Private Consultation
                 <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
             </button>
-            <FormConsentNote className="mt-6 text-xs text-white/55 leading-relaxed text-center" />
         </form>
     );
 };

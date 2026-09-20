@@ -27,6 +27,7 @@ export function GET() {
         `- [Blog](${absoluteUrl('/blog')}): articles on AI automation and digital marketing`,
         `- [Privacy Policy](${absoluteUrl('/privacy')})`,
         `- [Terms and Conditions](${absoluteUrl('/terms')})`,
+        `- [SMS Terms](${absoluteUrl('/sms-terms')}): text-message program terms (opt-in, STOP/HELP, rates)`,
         '',
         '## Service areas',
         ...serviceAreas.map(

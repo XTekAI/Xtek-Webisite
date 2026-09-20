@@ -7,7 +7,7 @@ import { absoluteUrl, toIsoDate } from '../lib/seo';
 const SITE_LAST_UPDATED = '2026-09-20';
 
 export default function sitemap(): MetadataRoute.Sitemap {
-    const staticPages = ['/', '/blog', '/stories', '/next-horizon', '/privacy', '/terms'].map((path) => ({
+    const staticPages = ['/', '/blog', '/stories', '/next-horizon', '/privacy', '/terms', '/sms-terms'].map((path) => ({
         url: absoluteUrl(path),
         lastModified: SITE_LAST_UPDATED,
     }));

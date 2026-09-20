@@ -4,9 +4,10 @@
 import React, { useState } from 'react';
 import { useLanguage } from '../context/LanguageContext';
 
-import FormConsentNote from './FormConsentNote';
+import ContactConsentFields from './ContactConsentFields';
+import { buildConsentRecord, emptyConsent, hasRequiredConsent, type ContactConsent } from '../lib/contactConsent';
 const LandingContactForm: React.FC = () => {
-    const { t } = useLanguage();
+    const { t, lang } = useLanguage();
     const [formData, setFormData] = useState({
         name: '',
         businessName: '',
@@ -20,6 +21,8 @@ const LandingContactForm: React.FC = () => {
     });
 
     const [submitted, setSubmitted] = useState(false);
+    const [consent, setConsent] = useState<ContactConsent>(emptyConsent);
+    const [consentError, setConsentError] = useState(false);
 
     const validateEmail = (email: string) => {
         return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
@@ -70,12 +73,17 @@ const LandingContactForm: React.FC = () => {
             return;
         }
 
+        if (!hasRequiredConsent(consent)) {
+          setConsentError(true);
+          return;
+        }
+
         try {
             await fetch('https://prueba1-n8n.fihoy6.easypanel.host/webhook/landing', {
                 method: 'POST',
                 mode: 'no-cors',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ ...formData, source: 'landing_contact_form' }),
+                body: JSON.stringify({ ...formData, ...buildConsentRecord(consent, lang), source: 'landing_contact_form' }),
             });
             setSubmitted(true);
         } catch (error) {
@@ -96,7 +104,7 @@ const LandingContactForm: React.FC = () => {
                 <p className="text-white/60 mb-8">{t.contact.success_desc}</p>
                 <button
                     onClick={() => {
-                        setSubmitted(false);
+                        setSubmitted(false); setConsent(emptyConsent); setConsentError(false);
                         setFormData({ name: '', businessName: '', phone: '', email: '' });
                         setErrors({ phone: '', email: '' });
                     }}
@@ -163,6 +171,8 @@ const LandingContactForm: React.FC = () => {
                 </div>
             </div>
 
+            <ContactConsentFields consent={consent} onChange={(c) => { setConsent(c); if (hasRequiredConsent(c)) setConsentError(false); }} showErrors={consentError} />
+
             <button
                 type="submit"
                 className="w-full py-4 bg-primary-light text-white font-bold rounded-xl hover:bg-secondary transition-all shadow-xl shadow-primary-light/20 flex items-center justify-center gap-2"
@@ -172,7 +182,6 @@ const LandingContactForm: React.FC = () => {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                 </svg>
             </button>
-            <FormConsentNote className="mt-6 text-xs text-white/55 leading-relaxed text-center" />
         </form>
     );
 };
