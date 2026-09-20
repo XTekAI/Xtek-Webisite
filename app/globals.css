@@ -195,3 +195,8 @@ body {
 ::-webkit-scrollbar-thumb:hover {
   background: #A7566A; 
 }
+
+/* Anchor links land below the fixed header. */
+html {
+  scroll-padding-top: 80px;
+}

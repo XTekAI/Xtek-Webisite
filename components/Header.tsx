@@ -7,6 +7,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { useLanguage } from '../context/LanguageContext';
 import { handleSmoothScroll } from '../lib/utils';
 import { MagnetizeButton } from './ui/magnetize-button';
+import { homeHref } from '../lib/navigation';
 
 
 const Header: React.FC = () => {
@@ -68,17 +69,8 @@ const Header: React.FC = () => {
 
     // If not on home page, navigate to home first then scroll
     if (pathname !== '/') {
-      router.push('/');
-      setTimeout(() => {
-        const element = document.getElementById(targetId);
-        if (element) {
-          const headerOffset = 80;
-          const elementPosition = element.getBoundingClientRect().top;
-          const offsetPosition = elementPosition + window.scrollY - headerOffset;
-          window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
-        }
-        pendingNavRef.current = null;
-      }, 300);
+      router.push(homeHref(targetId));
+      pendingNavRef.current = null;
     } else {
       requestAnimationFrame(() => {
         const element = document.getElementById(targetId);
@@ -108,16 +100,7 @@ const Header: React.FC = () => {
   const handleNavigation = (e: React.MouseEvent, targetId: string) => {
     e.preventDefault();
     if (pathname !== '/') {
-      router.push('/');
-      setTimeout(() => {
-        const element = document.getElementById(targetId);
-        if (element) {
-          const headerOffset = 80;
-          const elementPosition = element.getBoundingClientRect().top;
-          const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-          window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
-        }
-      }, 100);
+      router.push(homeHref(targetId));
     } else {
       handleSmoothScroll(e as React.MouseEvent<HTMLAnchorElement>, targetId);
     }
@@ -143,7 +126,7 @@ const Header: React.FC = () => {
         {/* Desktop Nav */}
         <nav className="hidden lg:flex items-center gap-8">
           {navLinks.map(link => (
-            <a key={link.id} href={`#${link.id}`} onClick={(e) => handleNavigation(e, link.id)} className="text-sm font-medium !text-white hover:text-primary-light transition-colors">{link.label}</a>
+            <a key={link.id} href={`/#${link.id}`} onClick={(e) => handleNavigation(e, link.id)} className="text-sm font-medium !text-white hover:text-primary-light transition-colors">{link.label}</a>
           ))}
           <Link href="/next-horizon" className="text-sm font-medium !text-white hover:text-primary-light transition-colors flex items-center gap-1">
             Next Horizon
@@ -191,7 +174,7 @@ const Header: React.FC = () => {
         onClick={(e) => { if (e.target === e.currentTarget) closeMenu(); }}
       >
         {navLinks.map(link => (
-          <a key={link.id} href={`#${link.id}`} onClick={(e) => { e.preventDefault(); closeMenuAndNavigate(link.id); }} className="text-2xl font-bold !text-white hover:text-primary-light transition-colors">{link.label}</a>
+          <a key={link.id} href={`/#${link.id}`} onClick={(e) => { e.preventDefault(); closeMenuAndNavigate(link.id); }} className="text-2xl font-bold !text-white hover:text-primary-light transition-colors">{link.label}</a>
         ))}
 
         <div className="w-16 h-px bg-white/20 my-2"></div>
@@ -206,7 +189,7 @@ const Header: React.FC = () => {
         <Link href="/service-areas/manhattan-ny" onClick={() => { document.body.style.overflow = ''; document.body.style.position = ''; document.body.style.width = ''; document.body.style.top = ''; closeMenu(); }} className="text-xl font-bold !text-white hover:text-primary-light transition-colors">Manhattan, NY</Link>
         <div className="w-16 h-px bg-white/20 my-2"></div>
 
-        <a href="#contact" onClick={(e) => { e.preventDefault(); closeMenuAndNavigate('contact'); }} className="mt-4 px-8 py-3 bg-primary-light !text-white rounded-full font-bold text-xl">{t.nav.cta}</a>
+        <a href="/#contact" onClick={(e) => { e.preventDefault(); closeMenuAndNavigate('contact'); }} className="mt-4 px-8 py-3 bg-primary-light !text-white rounded-full font-bold text-xl">{t.nav.cta}</a>
       </div>
     </header>
   );

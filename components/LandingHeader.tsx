@@ -1,7 +1,9 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
+import { useRouter, usePathname } from 'next/navigation';
 import { useLanguage } from '../context/LanguageContext';
+import { homeHref } from '../lib/navigation';
 import { handleSmoothScroll } from '../lib/utils';
 import { MagnetizeButton } from './ui/magnetize-button';
 import UrgencyBanner from './UrgencyBanner';
@@ -9,6 +11,14 @@ import UrgencyBanner from './UrgencyBanner';
 const LandingHeader: React.FC = () => {
     const [isScrolled, setIsScrolled] = useState(false);
     const { t } = useLanguage();
+    const router = useRouter();
+    const pathname = usePathname();
+
+    const goHome = (e: React.MouseEvent) => {
+        e.preventDefault();
+        if (pathname === '/') window.scrollTo({ top: 0, behavior: 'smooth' });
+        else router.push(homeHref());
+    };
 
     useEffect(() => {
         const handleScroll = () => {
@@ -23,10 +33,10 @@ const LandingHeader: React.FC = () => {
             <UrgencyBanner />
             <header className={`transition-all duration-500 ${isScrolled ? 'bg-primary/95 backdrop-blur-lg py-2 shadow-2xl' : 'bg-transparent py-4'}`}>
                 <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
-                    <div className="flex items-center gap-3 group">
+                    <a href="/" onClick={goHome} aria-label="Xtek AI" className="flex items-center gap-3 group">
                         <div className="w-10 h-10 bg-primary-light rounded-lg flex items-center justify-center font-bold text-xl !text-white transition-transform group-hover:scale-110 notranslate">X</div>
                         <span className="text-2xl font-bold tracking-tight uppercase !text-white notranslate">XTEK AI</span>
-                    </div>
+                    </a>
 
                     <MagnetizeButton
                         onClick={(e) => handleSmoothScroll(e, 'contact')}

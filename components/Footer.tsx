@@ -8,6 +8,7 @@ import { useLanguage } from '../context/LanguageContext';
 import { handleSmoothScroll } from '../lib/utils';
 import { SOCIAL_LINKS } from '../lib/seo';
 import { openCookieSettings } from '../lib/consent';
+import { homeHref } from '../lib/navigation';
 
 
 const Footer: React.FC = () => {
@@ -30,16 +31,7 @@ const Footer: React.FC = () => {
   const handleNavigation = (e: React.MouseEvent, targetId: string) => {
     e.preventDefault();
     if (pathname !== '/') {
-      router.push('/');
-      setTimeout(() => {
-        const element = document.getElementById(targetId);
-        if (element) {
-          const headerOffset = 80;
-          const elementPosition = element.getBoundingClientRect().top;
-          const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-          window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
-        }
-      }, 100);
+      router.push(homeHref(targetId));
     } else {
       handleSmoothScroll(e as React.MouseEvent<HTMLAnchorElement>, targetId);
     }
@@ -99,9 +91,9 @@ const Footer: React.FC = () => {
           <div>
             <h4 className="font-bold mb-6 text-sm uppercase tracking-widest text-primary-light">{t.footer.col1_title}</h4>
             <ul className="space-y-4 text-sm text-white/60">
-              <li><a href="#about" onClick={(e) => handleNavigation(e, 'about')} className="hover:text-white transition-colors">{t.footer.col1_item1}</a></li>
-              <li><a href="#services" onClick={(e) => handleNavigation(e, 'services')} className="hover:text-white transition-colors">{t.footer.col1_item2}</a></li>
-              <li><a href="#blog" onClick={(e) => handleNavigation(e, 'blog')} className="hover:text-white transition-colors">{t.footer.col1_item3}</a></li>
+              <li><a href="/#about" onClick={(e) => handleNavigation(e, 'about')} className="hover:text-white transition-colors">{t.footer.col1_item1}</a></li>
+              <li><a href="/#services" onClick={(e) => handleNavigation(e, 'services')} className="hover:text-white transition-colors">{t.footer.col1_item2}</a></li>
+              <li><a href="/#blog" onClick={(e) => handleNavigation(e, 'blog')} className="hover:text-white transition-colors">{t.footer.col1_item3}</a></li>
               <li><Link href="/next-horizon" className="hover:text-white transition-colors flex items-center gap-1.5">Next Horizon <svg className="w-3 h-3 text-primary-light" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" /></svg></Link></li>
             </ul>
           </div>
@@ -109,8 +101,8 @@ const Footer: React.FC = () => {
           <div>
             <h4 className="font-bold mb-6 text-sm uppercase tracking-widest text-primary-light">{t.footer.col2_title}</h4>
             <ul className="space-y-4 text-sm text-white/60">
-              <li><a href="#contact" onClick={(e) => handleNavigation(e, 'contact')} className="hover:text-white transition-colors">{t.footer.col2_item1}</a></li>
-              <li><a href="#contact" onClick={(e) => handleNavigation(e, 'contact')} className="hover:text-white transition-colors">{t.footer.col2_item3}</a></li>
+              <li><a href="/#contact" onClick={(e) => handleNavigation(e, 'contact')} className="hover:text-white transition-colors">{t.footer.col2_item1}</a></li>
+              <li><a href="/#contact" onClick={(e) => handleNavigation(e, 'contact')} className="hover:text-white transition-colors">{t.footer.col2_item3}</a></li>
             </ul>
           </div>
 

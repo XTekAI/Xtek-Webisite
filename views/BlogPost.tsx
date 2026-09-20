@@ -13,6 +13,7 @@ import { useLanguage } from '../context/LanguageContext';
 import { MagnetizeButton } from '../components/ui/magnetize-button';
 
 import FormConsentNote from '../components/FormConsentNote';
+import { homeHref } from '../lib/navigation';
 const BlogPost: React.FC = () => {
     const params = useParams<{ slug: string }>();
     const slug = params?.slug;
@@ -26,16 +27,7 @@ const BlogPost: React.FC = () => {
 
     const handleBookConsultation = (e: React.MouseEvent) => {
         e.preventDefault();
-        router.push('/');
-        setTimeout(() => {
-            const element = document.getElementById('contact');
-            if (element) {
-                const headerOffset = 80;
-                const elementPosition = element.getBoundingClientRect().top;
-                const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-                window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
-            }
-        }, 100);
+        router.push(homeHref('contact'));
     };
 
     if (!post) {

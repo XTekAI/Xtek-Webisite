@@ -10,9 +10,11 @@ import AutomationBenefits from '../components/AutomationBenefits';
 import LandingContactForm from '../components/LandingContactForm';
 import Legal from '../components/Legal';
 import GoogleReviews from '../components/GoogleReviews';
+import { useScrollToHash } from '../lib/useScrollToHash';
 
 const LandingPage: React.FC = () => {
     const { t } = useLanguage();
+    useScrollToHash();
 
     return (
         <div className="landing-mode">

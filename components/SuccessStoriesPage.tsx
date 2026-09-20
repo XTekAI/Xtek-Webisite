@@ -6,6 +6,7 @@ import { useRouter, redirect } from 'next/navigation';
 import React from 'react';
 import { useLanguage } from '../context/LanguageContext';
 import { MagnetizeButton } from './ui/magnetize-button';
+import { homeHref } from '../lib/navigation';
 
 
 const SuccessStoryDetail: React.FC<{
@@ -107,19 +108,7 @@ const SuccessStoriesPage: React.FC = () => {
           <MagnetizeButton
             onClick={(e) => {
               e.preventDefault();
-              router.push('/');
-              setTimeout(() => {
-                const element = document.getElementById('contact');
-                if (element) {
-                  const headerOffset = 80;
-                  const elementPosition = element.getBoundingClientRect().top;
-                  const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-                  window.scrollTo({
-                    top: offsetPosition,
-                    behavior: 'smooth'
-                  });
-                }
-              }, 100);
+              router.push(homeHref('contact'));
             }}
             className="px-12 py-5 bg-primary-light text-white font-bold rounded-full text-xl hover:bg-secondary hover:scale-105 transition-all shadow-xl shadow-primary-light/20 border-none h-auto"
           >

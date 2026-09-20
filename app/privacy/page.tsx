@@ -427,7 +427,7 @@ const sections: LegalSection[] = [
         ),
     },
     {
-        id: 'contact',
+        id: 'contact-us',
         title: 'Contact us',
         body: (
             <>
