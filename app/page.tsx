@@ -1,5 +1,7 @@
 import type { Metadata } from 'next';
 import PageSwitcher from '../components/PageSwitcher';
+import JsonLd from '../components/JsonLd';
+import { reviewsJsonLd } from '../content/google-reviews';
 import { buildMetadata } from '../lib/seo';
 
 export const metadata: Metadata = buildMetadata({
@@ -12,5 +14,10 @@ export const metadata: Metadata = buildMetadata({
 });
 
 export default function Page() {
-  return <PageSwitcher />;
+  return (
+    <>
+      <JsonLd data={reviewsJsonLd()} />
+      <PageSwitcher />
+    </>
+  );
 }

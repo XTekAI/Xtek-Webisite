@@ -1,4 +1,4 @@
-import { GOOGLE_PROFILE_URL } from '../lib/seo';
+import { GOOGLE_PROFILE_URL, ORG_ID } from '../lib/seo';
 
 /**
  * Reviews copied from the public Google Business Profile of Xtek AI.
@@ -58,3 +58,29 @@ export const googleReviews: GoogleReview[] = [
         },
     },
 ];
+
+/**
+ * Rating + reviews for the Organization, matching what the on-page Google
+ * Reviews section shows (so only render this on pages that show that section).
+ * It shares the Organization's @id so it extends the node defined in the layout.
+ */
+export const reviewsJsonLd = () => ({
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    '@id': ORG_ID,
+    aggregateRating: {
+        '@type': 'AggregateRating',
+        ratingValue: GOOGLE_PROFILE.rating,
+        bestRating: 5,
+        worstRating: 1,
+        reviewCount: GOOGLE_PROFILE.reviewCount,
+    },
+    review: googleReviews.map((review) => ({
+        '@type': 'Review',
+        author: { '@type': 'Person', name: review.author },
+        reviewRating: { '@type': 'Rating', ratingValue: 5, bestRating: 5, worstRating: 1 },
+        reviewBody: review.text.en,
+        inLanguage: 'en',
+        publisher: { '@type': 'Organization', name: 'Google', url: 'https://www.google.com/maps' },
+    })),
+});

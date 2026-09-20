@@ -113,7 +113,7 @@ export function toIsoDate(date: string): string | undefined {
 // JSON-LD builders
 // ---------------------------------------------------------------------------
 
-const ORG_ID = `${SITE_URL}/#organization`;
+export const ORG_ID = `${SITE_URL}/#organization`;
 const WEBSITE_ID = `${SITE_URL}/#website`;
 
 export const organizationJsonLd = () => ({
