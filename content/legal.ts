@@ -6,7 +6,7 @@ export const LEGAL = {
     email: CONTACT.email,
     phoneDisplay: '609 912 6800',
     phoneHref: 'tel:6099126800',
-    effectiveDate: 'September 20, 2026',
-    lastUpdatedIso: '2026-09-20',
+    effectiveDate: 'September 24, 2026',
+    lastUpdatedIso: '2026-09-24',
     governingState: 'New Jersey',
 };

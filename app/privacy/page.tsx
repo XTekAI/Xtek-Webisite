@@ -178,6 +178,12 @@ const sections: LegalSection[] = [
                     animation scripts from cdnjs (Cloudflare) and unpkg, some photographs from Unsplash, and the AI assistant widget from ElevenLabs (loaded after you
                     interact with the page or after a few seconds). Fonts are served from our own domain.
                 </P>
+                <H3>Cloudflare Turnstile</H3>
+                <P>
+                    Our website forms are protected by Cloudflare Turnstile, which helps us prevent spam and abuse. Turnstile may collect information about your device
+                    and browser to verify that you are a real person. This data is processed by Cloudflare under its{' '}
+                    <A href="https://www.cloudflare.com/turnstile-privacy-policy/">Turnstile Privacy Addendum</A>.
+                </P>
                 <H3>Your Privacy Choices</H3>
                 <UL>
                     <li>
