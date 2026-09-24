@@ -12,7 +12,7 @@ import { submitLead } from '../lib/submitLead';
 
 const BlogPage: React.FC = () => {
     const { t, lang, setPage, activeBlog, setActiveBlog } = useLanguage();
-    const [newsletterData, setNewsletterData] = useState({ name: '', email: '' });
+    const [newsletterData, setNewsletterData] = useState({ name: '', email: '', preferredLanguage: lang });
     const [submitted, setSubmitted] = useState(false);
     const [consentChecked, setConsentChecked] = useState(false);
     const [consentError, setConsentError] = useState(false);
@@ -32,14 +32,14 @@ const BlogPage: React.FC = () => {
         }
 
         const ok = await submitLead(
-            { name, email, ...buildNewsletterConsentRecord(lang, consentChecked), source: 'blog_page_newsletter' },
+            { name, email, preferredLanguage: newsletterData.preferredLanguage, ...buildNewsletterConsentRecord(lang, consentChecked), source: 'blog_page_newsletter' },
             turnstileToken,
             honeypot,
         );
 
         if (ok) {
             setSubmitted(true);
-            setNewsletterData({ name: '', email: '' });
+            setNewsletterData({ name: '', email: '', preferredLanguage: lang });
             setConsentChecked(false);
             setConsentError(false);
             setHoneypot('');
@@ -179,6 +179,18 @@ const BlogPage: React.FC = () => {
                                 required
                                 className="w-full px-6 py-4 bg-white/5 border border-white/10 rounded-xl focus:outline-none focus:border-primary-light transition-colors text-white"
                             />
+                            <div className="flex flex-col gap-2 text-left">
+                                <label className="text-xs font-bold uppercase tracking-widest text-white/50 px-1">{t.contact.label_preferred_language}</label>
+                                <select
+                                    name="preferredLanguage"
+                                    value={newsletterData.preferredLanguage}
+                                    onChange={(e) => setNewsletterData(prev => ({ ...prev, preferredLanguage: e.target.value as 'en' | 'es' }))}
+                                    className="w-full px-6 py-4 bg-white/5 border border-white/10 rounded-xl focus:outline-none focus:border-primary-light transition-colors text-white"
+                                >
+                                    <option value="en" className="bg-primary">English</option>
+                                    <option value="es" className="bg-primary">Español</option>
+                                </select>
+                            </div>
                             <NewsletterConsentField checked={consentChecked} onChange={(c) => { setConsentChecked(c); if (c) setConsentError(false); }} showError={consentError} />
                             <MagnetizeButton type="submit" className="w-full px-8 py-4 bg-primary text-white rounded-xl font-bold hover:bg-secondary transition-colors border-none h-auto">
                                 {t.blog.newsletter_cta}
