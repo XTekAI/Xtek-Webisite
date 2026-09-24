@@ -1,11 +1,15 @@
 "use client";
 
 
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { useLanguage } from '../context/LanguageContext';
 
 import ContactConsentFields from './ContactConsentFields';
+import Honeypot from './Honeypot';
+import TurnstileWidget, { type TurnstileWidgetHandle } from './TurnstileWidget';
 import { buildConsentRecord, emptyConsent, hasRequiredConsent, type ContactConsent } from '../lib/contactConsent';
+import { submitLead } from '../lib/submitLead';
+import { CONTACT } from '../lib/seo';
 const LandingContactForm: React.FC = () => {
     const { t, lang } = useLanguage();
     const [formData, setFormData] = useState({
@@ -23,6 +27,9 @@ const LandingContactForm: React.FC = () => {
     const [submitted, setSubmitted] = useState(false);
     const [consent, setConsent] = useState<ContactConsent>(emptyConsent);
     const [consentError, setConsentError] = useState(false);
+    const [honeypot, setHoneypot] = useState('');
+    const [turnstileToken, setTurnstileToken] = useState('');
+    const turnstileRef = useRef<TurnstileWidgetHandle>(null);
 
     const validateEmail = (email: string) => {
         return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
@@ -78,17 +85,17 @@ const LandingContactForm: React.FC = () => {
           return;
         }
 
-        try {
-            await fetch('https://prueba1-n8n.fihoy6.easypanel.host/webhook/landing', {
-                method: 'POST',
-                mode: 'no-cors',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ ...formData, ...buildConsentRecord(consent, lang), source: 'landing_contact_form' }),
-            });
+        const ok = await submitLead(
+            { ...formData, ...buildConsentRecord(consent, lang), source: 'landing_contact_form' },
+            turnstileToken,
+            honeypot,
+        );
+
+        if (ok) {
             setSubmitted(true);
-        } catch (error) {
-            console.error('Submission error:', error);
-            alert('There was an error submitting the form. Please try again.');
+        } else {
+            alert(t.contact.submit_error);
+            turnstileRef.current?.reset();
         }
     };
 
@@ -102,22 +109,35 @@ const LandingContactForm: React.FC = () => {
                 </div>
                 <h3 className="text-3xl font-bold mb-4 !text-white">{t.contact.success_title}</h3>
                 <p className="text-white/60 mb-8">{t.contact.success_desc}</p>
-                <button
-                    onClick={() => {
-                        setSubmitted(false); setConsent(emptyConsent); setConsentError(false);
-                        setFormData({ name: '', businessName: '', phone: '', email: '' });
-                        setErrors({ phone: '', email: '' });
-                    }}
-                    className="text-primary-light font-bold hover:underline"
+                <a
+                    href={CONTACT.calendlyUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-primary-light text-white font-bold rounded-xl hover:bg-secondary transition-all shadow-xl shadow-primary-light/20 mb-6"
                 >
-                    {t.contact.success_cta}
-                </button>
+                    {t.contact.calendly_cta}
+                </a>
+                <div>
+                    <button
+                        onClick={() => {
+                            setSubmitted(false); setConsent(emptyConsent); setConsentError(false);
+                            setFormData({ name: '', businessName: '', phone: '', email: '' });
+                            setErrors({ phone: '', email: '' });
+                            setHoneypot(''); setTurnstileToken('');
+                        }}
+                        className="text-primary-light font-bold hover:underline"
+                    >
+                        {t.contact.success_cta}
+                    </button>
+                </div>
             </div>
         );
     }
 
     return (
         <form onSubmit={handleSubmit} className="glass max-w-2xl mx-auto p-8 md:p-12 rounded-3xl border border-white/10">
+            <Honeypot value={honeypot} onChange={setHoneypot} />
+            <TurnstileWidget ref={turnstileRef} onToken={setTurnstileToken} />
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
                 <div className="flex flex-col gap-2">
                     <label className="text-xs font-bold uppercase tracking-widest text-white/50 px-1">{t.contact.label_name}</label>

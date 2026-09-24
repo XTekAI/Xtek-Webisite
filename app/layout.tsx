@@ -9,6 +9,7 @@ import JsonLd from "../components/JsonLd";
 import DeferredScript from "../components/DeferredScript";
 import ThirdPartyScripts from "../components/ThirdPartyScripts";
 import CookieConsent from "../components/CookieConsent";
+import TrackingCapture from "../components/TrackingCapture";
 import {
   SITE_URL,
   SITE_NAME,
@@ -82,6 +83,7 @@ export default function RootLayout({
     <html lang="en" className="scroll-smooth">
       <body className={`${inter.variable} ${playfair.variable} font-sans`}>
         <JsonLd data={[organizationJsonLd(), websiteJsonLd()]} />
+        <TrackingCapture />
 
         {/* GSAP - loaded after hydration; Services.tsx waits until it is available */}
         <Script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" strategy="afterInteractive" />

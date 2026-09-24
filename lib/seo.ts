@@ -7,6 +7,7 @@ export const SITE_TAGLINE = 'Intelligence in Action';
 export const CONTACT = {
     email: 'tekmanager@xtekai.com',
     phone: '+1-609-912-6800',
+    calendlyUrl: 'https://calendly.com/tekmanager-xtekai/30min',
 };
 
 // Google Business Profile (opened by its CID, so the URL carries no address or coordinates).

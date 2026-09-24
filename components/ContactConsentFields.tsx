@@ -19,7 +19,7 @@ interface ContactConsentFieldsProps {
 const linkClass = 'text-sky-300 underline underline-offset-2 hover:text-white';
 
 /** Renders consent wording, turning {terms} / {privacy} / {sms} into links that open in a new tab. */
-function renderConsentText(text: string, lang: 'en' | 'es'): React.ReactNode[] {
+export function renderConsentText(text: string, lang: 'en' | 'es'): React.ReactNode[] {
     const labels = CONSENT_LINK_LABELS[lang];
     return text.split(/(\{terms\}|\{privacy\}|\{sms\})/).map((part, index) => {
         const match = part.match(/^\{(terms|privacy|sms)\}$/);
@@ -45,7 +45,7 @@ interface BoxProps {
     errorText: string;
 }
 
-const ConsentBox: React.FC<BoxProps> = ({ id, name, checked, onChange, required = false, showError = false, badge, children, errorText }) => {
+export const ConsentBox: React.FC<BoxProps> = ({ id, name, checked, onChange, required = false, showError = false, badge, children, errorText }) => {
     const errorId = `${id}-error`;
     const invalid = required && showError && !checked;
     return (

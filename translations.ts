@@ -189,6 +189,8 @@ export const translations = {
       validation_error: "Please fill in all fields.",
       error_email: "Please enter a valid email address.",
       error_phone: "Please enter a valid phone number.",
+      submit_error: "There was a problem sending your request. Please try again in a moment.",
+      calendly_cta: "Book your call now",
       privacy_note: "* By submitting this form, you confirm you have read our privacy policy."
     },
     legal: {
@@ -1318,6 +1320,8 @@ export const translations = {
       validation_error: "Por favor, complete todos los campos.",
       error_email: "Por favor, ingrese un correo electrónico válido.",
       error_phone: "Por favor, ingrese un número de teléfono válido.",
+      submit_error: "Hubo un problema al enviar tu solicitud. Por favor, inténtalo de nuevo en un momento.",
+      calendly_cta: "Agenda tu llamada ahora",
       privacy_note: "* Al enviar este formulario, confirmas que las leído nuestra política de privacidad."
     },
     legal: {

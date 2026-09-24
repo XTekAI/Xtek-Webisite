@@ -2,20 +2,28 @@
 
 import Link from 'next/link';
 
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { useLanguage } from '../context/LanguageContext';
 import { MagnetizeButton } from '../components/ui/magnetize-button';
 import { getAllPosts } from '../lib/blogLoader';
 
-
-import FormConsentNote from '../components/FormConsentNote';
+import NewsletterConsentField from '../components/NewsletterConsentField';
+import Honeypot from '../components/Honeypot';
+import TurnstileWidget, { type TurnstileWidgetHandle } from '../components/TurnstileWidget';
+import { buildNewsletterConsentRecord } from '../lib/contactConsent';
+import { submitLead } from '../lib/submitLead';
 const BlogIndex: React.FC = () => {
     // @ts-ignore
-    const { t } = useLanguage();
+    const { t, lang } = useLanguage();
     const posts = getAllPosts();
 
     const [newsletterData, setNewsletterData] = useState({ name: '', email: '' });
     const [submitted, setSubmitted] = useState(false);
+    const [consentChecked, setConsentChecked] = useState(false);
+    const [consentError, setConsentError] = useState(false);
+    const [honeypot, setHoneypot] = useState('');
+    const [turnstileToken, setTurnstileToken] = useState('');
+    const turnstileRef = useRef<TurnstileWidgetHandle>(null);
 
     const handleNewsletterSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -26,18 +34,27 @@ const BlogIndex: React.FC = () => {
             return;
         }
 
-        try {
-            await fetch('https://prueba1-n8n.fihoy6.easypanel.host/webhook/web2', {
-                method: 'POST',
-                mode: 'no-cors',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ name, email, source: 'blog_index_newsletter' }),
-            });
+        if (!consentChecked) {
+            setConsentError(true);
+            return;
+        }
+
+        const ok = await submitLead(
+            { name, email, ...buildNewsletterConsentRecord(lang, consentChecked), source: 'blog_index_newsletter' },
+            turnstileToken,
+            honeypot,
+        );
+
+        if (ok) {
             setSubmitted(true);
             setNewsletterData({ name: '', email: '' });
-        } catch (error) {
-            console.error('Newsletter error:', error);
-            alert('Error subscribing. Please try again.');
+            setConsentChecked(false);
+            setConsentError(false);
+            setHoneypot('');
+            setTurnstileToken('');
+        } else {
+            alert(t.contact.submit_error);
+            turnstileRef.current?.reset();
         }
     };
 
@@ -99,6 +116,8 @@ const BlogIndex: React.FC = () => {
                         </div>
                     ) : (
                         <form className="max-w-md mx-auto space-y-4" onSubmit={handleNewsletterSubmit}>
+                            <Honeypot value={honeypot} onChange={setHoneypot} />
+                            <TurnstileWidget ref={turnstileRef} onToken={setTurnstileToken} />
                             <input
                                 type="text"
                                 placeholder={t.blog.newsletter_name}
@@ -115,10 +134,10 @@ const BlogIndex: React.FC = () => {
                                 required
                                 className="w-full px-6 py-4 bg-white/5 border border-white/10 rounded-xl focus:outline-none focus:border-primary-light transition-colors text-white"
                             />
+                            <NewsletterConsentField checked={consentChecked} onChange={(c) => { setConsentChecked(c); if (c) setConsentError(false); }} showError={consentError} />
                             <MagnetizeButton type="submit" className="w-full px-8 py-4 bg-primary text-white rounded-xl font-bold hover:bg-secondary transition-colors border-none h-auto">
                                 {t.blog.newsletter_cta}
                             </MagnetizeButton>
-                            <FormConsentNote newsletter />
                         </form>
                     )}
                 </div>

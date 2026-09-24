@@ -94,3 +94,20 @@ export function buildConsentRecord(consent: ContactConsent, lang: ConsentLanguag
         userAgent: navigator.userAgent,
     };
 }
+
+/**
+ * Proof-of-consent record for the three newsletter forms: subscribing is agreeing to marketing
+ * emails, so it needs the same kind of record the other forms keep. Only call this once the
+ * subscriber has checked the (required, unchecked-by-default) consent box on the form.
+ */
+export function buildNewsletterConsentRecord(lang: ConsentLanguage, checked: boolean) {
+    return {
+        marketingEmailConsent: checked,
+        marketingEmailConsentText: checked ? plainConsentText(CONSENT_TEXT[lang].marketingEmail, lang) : null,
+        consentLanguage: lang,
+        consentTimestamp: new Date().toISOString(),
+        consentPageUrl: window.location.href,
+        policyVersion: POLICY_VERSION,
+        userAgent: navigator.userAgent,
+    };
+}
