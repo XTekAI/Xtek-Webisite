@@ -7,7 +7,7 @@ import { useLanguage } from '../context/LanguageContext';
 const TrustedBy: React.FC = () => {
   const { t } = useLanguage();
   const companies = [
-    "TechGlobal", "Nexus Systems", "CloudScale", "Visionary Corp", "InnovateHQ", "DigitalFlow"
+    "Yoja Hair Lounge", "Zambranos Complete Auto Center", "Inked City Tattoo", "Legacy Studio", "Chico Barbershop", "Rollitos Ice Cream Rolls"
   ];
 
   return (
@@ -18,7 +18,7 @@ const TrustedBy: React.FC = () => {
         </p>
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8 items-center opacity-50">
           {companies.map((company, i) => (
-            <div key={i} className="flex justify-center text-2xl font-black italic tracking-tighter text-white/80 grayscale hover:grayscale-0 transition-all cursor-default">
+            <div key={i} className="flex justify-center text-center text-base sm:text-lg lg:text-xl font-black italic tracking-tighter leading-tight text-white/80 grayscale hover:grayscale-0 transition-all cursor-default">
               {company}
             </div>
           ))}
