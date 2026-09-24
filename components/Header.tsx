@@ -145,7 +145,7 @@ const Header: React.FC = () => {
           </div>
         </nav>
 
-        <div className="flex items-center gap-4 relative z-50">
+        <div className="flex items-center gap-4 relative z-[110]">
           <MagnetizeButton
             onClick={(e) => handleNavigation(e, 'contact')}
             className="hidden sm:inline-flex text-sm font-semibold px-6 py-2.5 bg-primary-light hover:bg-secondary text-white transition-all duration-300 rounded-full border-none h-auto"
