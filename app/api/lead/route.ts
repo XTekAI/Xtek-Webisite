@@ -24,6 +24,7 @@ const MAX: Record<string, number> = {
     email: 160,
     phone: 40,
     sector: 120,
+    preferredLanguage: 10,
     description: 3000,
     message: 3000,
 };

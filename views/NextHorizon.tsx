@@ -17,7 +17,7 @@ import { CONTACT } from '../lib/seo';
 const QuoteForm: React.FC = () => {
     const { t, lang } = useLanguage();
     const [formData, setFormData] = useState({
-        name: '', organization: '', email: '', phone: '', sector: '', message: ''
+        name: '', organization: '', email: '', phone: '', sector: '', preferredLanguage: lang, message: ''
     });
     const [errors, setErrors] = useState({ email: '', phone: '' });
     const [submitted, setSubmitted] = useState(false);
@@ -86,7 +86,7 @@ const QuoteForm: React.FC = () => {
                     {t.contact.calendly_cta}
                 </a>
                 <div>
-                    <button onClick={() => { setSubmitted(false); setConsent(emptyConsent); setConsentError(false); setFormData({ name: '', organization: '', email: '', phone: '', sector: '', message: '' }); setHoneypot(''); setTurnstileToken(''); }} className="text-primary-light font-bold hover:underline">
+                    <button onClick={() => { setSubmitted(false); setConsent(emptyConsent); setConsentError(false); setFormData({ name: '', organization: '', email: '', phone: '', sector: '', preferredLanguage: lang, message: '' }); setHoneypot(''); setTurnstileToken(''); }} className="text-primary-light font-bold hover:underline">
                         Submit another request
                     </button>
                 </div>
@@ -133,6 +133,13 @@ const QuoteForm: React.FC = () => {
                     </select>
                 </div>
                 <div className="flex flex-col gap-2">
+                    <label className={labelClass}>Preferred Language</label>
+                    <select name="preferredLanguage" value={formData.preferredLanguage} onChange={handleChange} className={inputClass}>
+                        <option value="en" className="bg-primary">English</option>
+                        <option value="es" className="bg-primary">Español</option>
+                    </select>
+                </div>
+                <div className="flex flex-col gap-2 md:col-span-2">
                     <label className={labelClass}>Brief Description</label>
                     <input type="text" name="message" value={formData.message} onChange={handleChange} placeholder="What are your primary needs?" className={inputClass} />
                 </div>

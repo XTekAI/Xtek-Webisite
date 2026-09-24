@@ -17,6 +17,7 @@ const ContactForm: React.FC = () => {
     businessName: '',
     email: '',
     phone: '',
+    preferredLanguage: lang,
     description: ''
   });
 
@@ -117,7 +118,7 @@ const ContactForm: React.FC = () => {
           <button
             onClick={() => {
               setSubmitted(false); setConsent(emptyConsent); setConsentError(false);
-              setFormData({ name: '', businessName: '', email: '', phone: '', description: '' });
+              setFormData({ name: '', businessName: '', email: '', phone: '', preferredLanguage: lang, description: '' });
               setErrors({ phone: '', email: '' });
               setHoneypot(''); setTurnstileToken('');
             }}
@@ -184,6 +185,18 @@ const ContactForm: React.FC = () => {
             className={`bg-white/5 border ${errors.phone ? 'border-secondary' : 'border-white/10'} rounded-xl px-4 py-3 outline-none focus:border-primary-light focus:bg-white/10 transition-all text-white placeholder:text-white/20`}
           />
           {errors.phone && <span className="text-secondary text-[10px] font-bold uppercase px-1">{errors.phone}</span>}
+        </div>
+        <div className="flex flex-col gap-2 md:col-span-2">
+          <label className="text-xs font-bold uppercase tracking-widest text-white/50 px-1">{t.contact.label_preferred_language}</label>
+          <select
+            name="preferredLanguage"
+            value={formData.preferredLanguage}
+            onChange={handleChange}
+            className="bg-white/5 border border-white/10 rounded-xl px-4 py-3 outline-none focus:border-primary-light focus:bg-white/10 transition-all text-white"
+          >
+            <option value="en" className="bg-primary">English</option>
+            <option value="es" className="bg-primary">Español</option>
+          </select>
         </div>
         <div className="flex flex-col gap-2 md:col-span-2">
           <label className="text-xs font-bold uppercase tracking-widest text-white/50 px-1">{t.contact.label_description}</label>

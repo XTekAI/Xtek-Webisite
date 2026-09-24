@@ -16,7 +16,8 @@ const LandingContactForm: React.FC = () => {
         name: '',
         businessName: '',
         phone: '',
-        email: ''
+        email: '',
+        preferredLanguage: lang
     });
 
     const [errors, setErrors] = useState({
@@ -40,7 +41,7 @@ const LandingContactForm: React.FC = () => {
         return /^[+]?[(]?[0-9]{3}[)]?[-\s.]?[0-9]{3}[-\s.]?[0-9]{4,6}$/.test(phone.replace(/\s/g, '')) || phone.length >= 7;
     };
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
         const { name, value } = e.target;
         setFormData(prev => ({ ...prev, [name]: value }));
 
@@ -121,7 +122,7 @@ const LandingContactForm: React.FC = () => {
                     <button
                         onClick={() => {
                             setSubmitted(false); setConsent(emptyConsent); setConsentError(false);
-                            setFormData({ name: '', businessName: '', phone: '', email: '' });
+                            setFormData({ name: '', businessName: '', phone: '', email: '', preferredLanguage: lang });
                             setErrors({ phone: '', email: '' });
                             setHoneypot(''); setTurnstileToken('');
                         }}
@@ -188,6 +189,18 @@ const LandingContactForm: React.FC = () => {
                         className={`bg-white/5 border ${errors.email ? 'border-secondary' : 'border-white/10'} rounded-xl px-4 py-3 outline-none focus:border-primary-light focus:bg-white/10 transition-all text-white placeholder:text-white/20`}
                     />
                     {errors.email && <span className="text-secondary text-[10px] font-bold uppercase px-1">{errors.email}</span>}
+                </div>
+                <div className="flex flex-col gap-2 md:col-span-2">
+                    <label className="text-xs font-bold uppercase tracking-widest text-white/50 px-1">{t.contact.label_preferred_language}</label>
+                    <select
+                        name="preferredLanguage"
+                        value={formData.preferredLanguage}
+                        onChange={handleChange}
+                        className="bg-white/5 border border-white/10 rounded-xl px-4 py-3 outline-none focus:border-primary-light focus:bg-white/10 transition-all text-white"
+                    >
+                        <option value="en" className="bg-primary">English</option>
+                        <option value="es" className="bg-primary">Español</option>
+                    </select>
                 </div>
             </div>
 
