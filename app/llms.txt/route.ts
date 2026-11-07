@@ -19,6 +19,7 @@ export function GET() {
         '- Digital Marketing & AEO - traditional SEO plus optimization for AI answer engines.',
         '- Web Design & Development - fast, optimized websites with technical SEO built in.',
         '- Content Creation - copywriting, visual production and social media management.',
+        `- [Digital Products](${absoluteUrl('/products')}) - subscription apps for local businesses: MyLoyalink (https://www.myloyalink.com/en - stamp-based loyalty cards in Apple Wallet and Google Wallet, no app required, from $29/month with a 14-day free trial) and a digital menu for restaurants (in development).`,
         `- [Next Horizon](${absoluteUrl('/next-horizon')}) - closed-loop internal platform with departmental silos, private AI and unified meetings for government, healthcare and corporate teams.`,
         '',
         '## Key pages',

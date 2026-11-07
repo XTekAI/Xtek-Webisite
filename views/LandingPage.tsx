@@ -7,7 +7,7 @@ import { MagnetizeButton } from '../components/ui/magnetize-button';
 import NeuralBackground from '../components/ui/flow-field-background';
 import TrustedBy from '../components/TrustedBy';
 import AutomationBenefits from '../components/AutomationBenefits';
-import LandingContactForm from '../components/LandingContactForm';
+import ContactForm from '../components/ContactForm';
 import Legal from '../components/Legal';
 import GoogleReviews from '../components/GoogleReviews';
 import { useScrollToHash } from '../lib/useScrollToHash';
@@ -113,7 +113,7 @@ const LandingPage: React.FC = () => {
                         {t.contact.section_subtitle}
                     </p>
                 </div>
-                <LandingContactForm />
+                <ContactForm source="landing_contact_form" />
             </section>
 
             {/* ==================== FINAL URGENCY CTA ==================== */}

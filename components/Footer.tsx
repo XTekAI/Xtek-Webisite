@@ -94,6 +94,7 @@ const Footer: React.FC = () => {
               <li><a href="/#about" onClick={(e) => handleNavigation(e, 'about')} className="hover:text-white transition-colors">{t.footer.col1_item1}</a></li>
               <li><a href="/#services" onClick={(e) => handleNavigation(e, 'services')} className="hover:text-white transition-colors">{t.footer.col1_item2}</a></li>
               <li><a href="/#blog" onClick={(e) => handleNavigation(e, 'blog')} className="hover:text-white transition-colors">{t.footer.col1_item3}</a></li>
+              <li><Link href="/products" className="hover:text-white transition-colors">{t.nav.products}</Link></li>
               <li><Link href="/next-horizon" className="hover:text-white transition-colors flex items-center gap-1.5">Next Horizon <svg className="w-3 h-3 text-primary-light" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" /></svg></Link></li>
             </ul>
           </div>

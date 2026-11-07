@@ -7,6 +7,8 @@ import React from 'react';
 import { useLanguage } from '../context/LanguageContext';
 import { MagnetizeButton } from './ui/magnetize-button';
 import { homeHref } from '../lib/navigation';
+import ClientLogo from './ClientLogo';
+import GoogleProfileBadge from './GoogleProfileBadge';
 
 
 const SuccessStoryDetail: React.FC<{
@@ -15,27 +17,37 @@ const SuccessStoryDetail: React.FC<{
   challenge: string;
   solution: string;
   result: string;
-  image: string;
+  logo: string;
+  gbp: string;
   tags: string[];
   labels: {
     badge: string;
     challenge: string;
     solution: string;
     impact: string;
+    verified: string;
+    verifiedHint: string;
+    close: string;
   };
-}> = ({ title, client, challenge, solution, result, image, tags, labels }) => (
+}> = ({ title, client, challenge, solution, result, logo, gbp, tags, labels }) => (
   <div className="glass rounded-[40px] overflow-hidden mb-20 border border-white/5 group">
     <div className="grid grid-cols-1 lg:grid-cols-2">
-      <div className="relative h-80 lg:h-auto overflow-hidden">
-        <img src={image} alt={title} width={800} height={533} loading="lazy" decoding="async" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
-        <div className="absolute inset-0 bg-gradient-to-r from-primary/80 to-transparent"></div>
-        <div className="absolute bottom-10 left-10">
-          <div className="flex gap-2 mb-4">
+      <div className="relative min-h-[360px] lg:min-h-[480px] overflow-hidden bg-gradient-to-br from-white/[0.06] to-primary flex items-center justify-center pb-32">
+        <ClientLogo logo={logo} client={client} size="w-52 h-52" className="transition-transform duration-500 group-hover:scale-105" />
+        <div className="absolute bottom-10 left-10 right-10">
+          <div className="flex flex-wrap gap-2 mb-4">
             {tags.map(tag => (
               <span key={tag} className="px-3 py-1 bg-primary-light/30 backdrop-blur-md rounded-full text-[10px] font-bold uppercase tracking-widest">{tag}</span>
             ))}
           </div>
-          <h3 className="text-3xl font-bold">{client}</h3>
+          <h3 className="text-3xl font-bold mb-4">{client}</h3>
+          <GoogleProfileBadge
+            client={client}
+            image={gbp}
+            label={labels.verified}
+            hint={labels.verifiedHint}
+            closeLabel={labels.close}
+          />
         </div>
       </div>
       <div className="p-8 lg:p-16">
@@ -92,13 +104,17 @@ const SuccessStoriesPage: React.FC = () => {
             challenge={caseStudy.challenge}
             solution={caseStudy.solution}
             result={caseStudy.result}
-            image={caseStudy.image}
+            logo={caseStudy.logo}
+            gbp={caseStudy.gbp}
             tags={caseStudy.tags}
             labels={{
               badge: t.testimonials.story_badge,
               challenge: t.testimonials.challenge_label,
               solution: t.testimonials.solution_label,
-              impact: t.testimonials.impact_label
+              impact: t.testimonials.impact_label,
+              verified: t.testimonials.verified_label,
+              verifiedHint: t.testimonials.verified_hint,
+              close: t.testimonials.verified_close
             }}
           />
         ))}

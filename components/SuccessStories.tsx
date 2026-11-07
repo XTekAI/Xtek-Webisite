@@ -3,19 +3,19 @@
 import Link from 'next/link';
 import React from 'react';
 import { useLanguage } from '../context/LanguageContext';
+import ClientLogo from './ClientLogo';
 
 
 const StoryItem: React.FC<{
   title: string;
   client: string;
   result: string;
-  image: string;
-}> = ({ title, client, result, image }) => (
+  logo: string;
+}> = ({ title, client, result, logo }) => (
   <div className="glass rounded-[32px] overflow-hidden border border-white/5 group hover:border-primary-light/30 transition-all duration-500">
-    <div className="h-64 relative overflow-hidden">
-      <img src={image} alt={title} width={800} height={533} loading="lazy" decoding="async" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 grayscale group-hover:grayscale-0" />
-      <div className="absolute inset-0 bg-gradient-to-t from-primary to-transparent"></div>
-      <div className="absolute bottom-6 left-6">
+    <div className="h-60 relative overflow-hidden bg-gradient-to-br from-white/[0.06] to-primary flex items-center justify-center pb-8">
+      <ClientLogo logo={logo} client={client} size="w-32 h-32" className="transition-transform duration-500 group-hover:scale-110" />
+      <div className="absolute bottom-5 left-6">
         <span className="text-xs font-bold text-primary-light uppercase tracking-widest">{client}</span>
       </div>
     </div>
@@ -37,14 +37,13 @@ const CaseStudyDetail: React.FC<{
   challenge: string;
   solution: string;
   result: string;
-  image: string;
+  logo: string;
   tags: string[];
-}> = ({ title, client, challenge, solution, result, image, tags }) => (
+}> = ({ title, client, challenge, solution, result, logo, tags }) => (
   <div className="glass rounded-[40px] overflow-hidden mb-12 border border-white/5 group">
     <div className="grid grid-cols-1 lg:grid-cols-2">
-      <div className="relative h-64 lg:h-auto overflow-hidden">
-        <img src={image} alt={title} width={800} height={533} loading="lazy" decoding="async" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
-        <div className="absolute inset-0 bg-gradient-to-r from-primary/80 to-transparent"></div>
+      <div className="relative min-h-[300px] lg:min-h-[420px] overflow-hidden bg-gradient-to-br from-white/[0.06] to-primary flex items-center justify-center pb-24">
+        <ClientLogo logo={logo} client={client} size="w-44 h-44" className="transition-transform duration-500 group-hover:scale-105" />
         <div className="absolute bottom-8 left-8">
           <div className="flex flex-wrap gap-2 mb-3">
             {tags.map(tag => (
@@ -61,6 +60,10 @@ const CaseStudyDetail: React.FC<{
           <div>
             <h4 className="text-secondary font-bold mb-1">Challenge</h4>
             <p className="text-white/60 leading-relaxed">{challenge}</p>
+          </div>
+          <div>
+            <h4 className="text-primary-light font-bold mb-1">Solution</h4>
+            <p className="text-white/60 leading-relaxed">{solution}</p>
           </div>
           <div className="bg-white/5 rounded-xl p-4 border-l-4 border-primary-light">
             <h4 className="text-white font-bold mb-1">Impact</h4>
@@ -91,14 +94,14 @@ const SuccessStories: React.FC = () => {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-20">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-20">
           {t.testimonials.stories.map((story: any, index: number) => (
             <StoryItem
               key={index}
               title={story.title}
               client={story.client}
               result={story.result}
-              image={story.image}
+              logo={story.logo}
             />
           ))}
         </div>
@@ -128,7 +131,7 @@ const SuccessStories: React.FC = () => {
               challenge={caseStudy.challenge}
               solution={caseStudy.solution}
               result={caseStudy.result}
-              image={caseStudy.image}
+              logo={caseStudy.logo}
               tags={caseStudy.tags}
             />
           ))}

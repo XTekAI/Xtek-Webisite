@@ -5,6 +5,8 @@ export const translations = {
       about: "About Us",
       services: "Services",
       testimonials: "Success Stories",
+      products: "Digital Products",
+      more: "More",
       blog: "Blog",
       faq: "FAQ",
       contact: "Contact",
@@ -99,54 +101,120 @@ export const translations = {
       t3_quote: "Their audio chatbots are simply next level. Our clients can't believe they are talking to an AI. Total personalization for the global market.",
       stories: [
         {
-          title: "Finance Automation for Logistics",
-          client: "RetailPro USA",
-          result: "95% Manual Data Reduction",
-          image: "https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&q=80&w=800"
+          title: "Online Booking Powered by AI",
+          client: "Zambrano's Complete Auto Center",
+          result: "Customers book appointments online, 24/7",
+          logo: "/clients/zambranos-logo.jpg",
+          gbp: "/clients/zambranos-gbp.jpg"
         },
         {
-          title: "AEO Healthcare Strategy",
-          client: "HealthFirst USA",
-          result: "+25% Conversion Rate",
-          image: "https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&q=80&w=800"
+          title: "Social Media on Autopilot",
+          client: "Yoja Hair Lounge",
+          result: "AI agent answers clients on social media",
+          logo: "/clients/yoja-logo.jpg",
+          gbp: "/clients/yoja-gbp.jpg"
         },
         {
-          title: "Content Engine for SaaS",
-          client: "SaaS Matrix",
-          result: "300% Content Output",
-          image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=800"
+          title: "A Website That Talks Back",
+          client: "Inked City Tattoo",
+          result: "Voice agent answers FAQs on the website",
+          logo: "/clients/inked-city-logo.jpg",
+          gbp: "/clients/inked-city-gbp.jpg"
+        },
+        {
+          title: "Website + Loyalty App",
+          client: "Rollitos Ice Cream Rolls",
+          result: "Digital loyalty cards for repeat customers",
+          logo: "/clients/rollitos-logo.jpg",
+          gbp: "/clients/rollitos-gbp.jpg"
         }
       ],
       detailed_cases_title: "Detailed Success Cases",
-      detailed_cases_subtitle: "Discover how we translate bespoke intelligence into measurable growth for US enterprises.",
+      detailed_cases_subtitle: "Real projects we built for real local businesses, from booking systems to AI agents.",
       detailed_cases: [
         {
-          title: "From Manual Invoicing to Autonomous Finance",
-          client: "RetailPro USA",
-          challenge: "RetailPro was losing 15 hours a week in manual invoice processing and data entry errors across 12 warehouses.",
-          solution: "We implemented Executive AI: a custom administrative agent that extracts, validates, and syncs invoices automatically.",
-          result: "95% reduction in manual data entry and $120k saved annually in overhead.",
-          image: "https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&q=80&w=1200",
-          tags: ["Automation", "Finance", "AI Agents"]
+          title: "A Complete Online Booking System with AI",
+          client: "Zambrano's Complete Auto Center",
+          challenge: "Customers had to call or walk in to schedule a service, and the shop spent time on the phone instead of on cars.",
+          solution: "We built a complete system where customers schedule their appointments online, with AI helping them through the process.",
+          result: "Customers now book their own appointments online, any time of day.",
+          logo: "/clients/zambranos-logo.jpg",
+          gbp: "/clients/zambranos-gbp.jpg",
+          tags: ["Booking", "AI", "Automotive"]
         },
         {
-          title: "Optimizing the Human Journey with AEO",
-          client: "HealthFirst USA",
-          challenge: "Organic traffic was stagnant and traditional SEO wasn't answering specific patient questions on AI search engines.",
-          solution: "Redesigned content strategy for AEO (Answer Engine Optimization) and implemented a personalized healthcare assistant.",
-          result: "40% increase in Answer-Engine visibility and 25% conversion boost.",
-          image: "https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&q=80&w=1200",
-          tags: ["AEO", "SEO", "Healthcare"]
+          title: "Social Media Replies on Autopilot",
+          client: "Yoja Hair Lounge",
+          challenge: "Questions kept arriving through social media at all hours, and answering each one took time away from clients in the salon.",
+          solution: "We automated their social media and added an AI agent that answers client questions on its own.",
+          result: "Clients get answers right away, and the team stays focused on the salon.",
+          logo: "/clients/yoja-logo.jpg",
+          gbp: "/clients/yoja-gbp.jpg",
+          tags: ["Social Media", "AI Agents", "Beauty"]
+        },
+        {
+          title: "A Website With a Voice Agent",
+          client: "Inked City Tattoo",
+          challenge: "Clients kept asking the same questions before booking, and every message needed a manual reply.",
+          solution: "We built a complete website where people can send their questions, plus a voice agent on the site that answers frequently asked questions.",
+          result: "Visitors get instant answers by voice or message, any time of day.",
+          logo: "/clients/inked-city-logo.jpg",
+          gbp: "/clients/inked-city-gbp.jpg",
+          tags: ["Web Design", "Voice AI", "Tattoo & Piercing"]
+        },
+        {
+          title: "A Website and a Loyalty App, Together",
+          client: "Rollitos Ice Cream Rolls",
+          challenge: "The shop needed a professional online presence and a way to turn first-time visitors into regular customers.",
+          solution: "We built a complete website and integrated MyLoyalink, our loyalty app, so customers can save their loyalty card to Apple Wallet or Google Wallet.",
+          result: "Frequent customers are rewarded, and the shop has a real loyalty program.",
+          logo: "/clients/rollitos-logo.jpg",
+          gbp: "/clients/rollitos-gbp.jpg",
+          tags: ["Web Design", "Loyalty App", "Food & Dessert"]
         }
       ],
-      page_title: "Radical Transformation",
-      page_subtitle: "Discover how Xtek AI has helped industry leaders in the USA automate their chaos and dominate their markets using bespoke intelligence.",
+      page_title: "Real Projects, Real Results",
+      page_subtitle: "See what Xtek AI has built for local businesses: booking systems, AI agents, websites and loyalty apps.",
       story_badge: "Success Case Study",
       challenge_label: "The Challenge",
       solution_label: "Our AI Solution",
       impact_label: "Key Impact",
+      verified_label: "Real business on Google",
+      verified_hint: "View their Google Business Profile",
+      verified_close: "Close",
       next_story_title: "Your story could be next.",
       start_journey: "Start Your Journey"
+    },
+    products: {
+      badge: "Our Digital Products",
+      title: "Apps Built for Local Businesses",
+      subtitle: "Subscription apps we design and run ourselves, so your business can add loyalty, digital menus and more without building anything.",
+      items: [
+        {
+          name: "MyLoyalink",
+          tagline: "Your loyalty program, in their wallet",
+          description: "Customers save your branded loyalty card to Apple Wallet or Google Wallet. No app to install, no card to lose.",
+          features: ["Branded cards with your logo and colors, in Apple Wallet and Google Wallet", "Stamps, milestone rewards, QR join links and location-based notifications", "One dashboard with analytics and team roles for your staff"],
+          status: "live",
+          status_label: "Available now",
+          price: "From $29/month",
+          price_note: "14-day free trial, no credit card required",
+          href: "https://www.myloyalink.com/en",
+          cta: "Start your free trial"
+        },
+        {
+          name: "Digital Menu",
+          tagline: "Your restaurant menu, 100% digital",
+          description: "Upload your menu as a PDF or Word file and it becomes a fully digital menu your customers can use right away.",
+          features: ["Customers view the menu on their own phone", "Or bring an iPad to the table so they can pick their dishes", "Edit prices and add or remove products from an admin panel"],
+          status: "soon",
+          status_label: "In development",
+          cta: "Join the waiting list"
+        }
+      ],
+      more_title: "More products on the way",
+      more_desc: "We keep building new apps for the businesses we work with. Tell us what you need and we will let you know when it is ready.",
+      more_cta: "Tell us what you need"
     },
     faq: {
       badge: "Knowledge Base",
@@ -192,6 +260,44 @@ export const translations = {
       error_phone: "Please enter a valid phone number.",
       submit_error: "There was a problem sending your request. Please try again in a moment.",
       calendly_cta: "Book your call now",
+      wizard: {
+        step_of: "Step {n} of {total}",
+        back: "Back",
+        next: "Continue",
+        titles: ["Let's start with you", "What industry is your business in?", "What would you like to solve first?", "How soon would you like to start?", "Where can we reach you?"],
+        hints: ["Just your name and your business.", "Pick the one that fits best.", "Choose as many as you like.", "No pressure, this just helps us prepare.", "We'll reach out to plan your next step."],
+        placeholder_name: "Your name",
+        placeholder_business: "Your business name",
+        placeholder_other: "Tell us more",
+        error_name: "Please enter your name and your business name.",
+        error_pick: "Please choose an option to continue.",
+        error_other: "Please tell us a little more.",
+        industries: [
+          { value: "beauty_barber", label: "Beauty & barbershop" },
+          { value: "restaurant_food", label: "Restaurant & food" },
+          { value: "auto_home_services", label: "Auto & home services" },
+          { value: "health_wellness", label: "Health & wellness" },
+          { value: "retail", label: "Retail & e-commerce" },
+          { value: "professional_services", label: "Professional services" },
+          { value: "other", label: "Other" },
+        ],
+        challenges: [
+          { value: "invoicing", label: "Invoicing & billing" },
+          { value: "inventory", label: "Inventory" },
+          { value: "booking", label: "Booking & scheduling" },
+          { value: "customer_followup", label: "Customer follow-up" },
+          { value: "social_media", label: "Social media & marketing" },
+          { value: "answering_customers", label: "Answering calls & messages" },
+          { value: "manual_work", label: "Repetitive manual work" },
+          { value: "website", label: "Website & online presence" },
+          { value: "other", label: "Something else" },
+        ],
+        readiness: [
+          { value: "ready_now", label: "I'm ready to start now" },
+          { value: "one_to_three_months", label: "Within 1 to 3 months" },
+          { value: "exploring", label: "I'm just exploring" },
+        ],
+      },
       privacy_note: "* By submitting this form, you confirm you have read our privacy policy."
     },
     legal: {
@@ -1137,6 +1243,8 @@ export const translations = {
       about: "Sobre Nosotros",
       services: "Servicios",
       testimonials: "Casos de Éxito",
+      products: "Productos Digitales",
+      more: "Más",
       blog: "Blog",
       faq: "Preguntas Frecuentes",
       contact: "Contacto",
@@ -1231,54 +1339,120 @@ export const translations = {
       t3_quote: "Sus chatbots de audio son simplemente de otro nivel. Nuestros clientes no pueden creer que están hablando con una IA. Personalización total para el mercado global.",
       stories: [
         {
-          title: "Automatización Financiera para Logística",
-          client: "RetailPro USA",
-          result: "95% Reducción de Datos Manuales",
-          image: "https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&q=80&w=800"
+          title: "Citas en Línea con IA",
+          client: "Zambrano's Complete Auto Center",
+          result: "Los clientes agendan sus citas en línea, 24/7",
+          logo: "/clients/zambranos-logo.jpg",
+          gbp: "/clients/zambranos-gbp.jpg"
         },
         {
-          title: "Estrategia AEO para Salud",
-          client: "HealthFirst USA",
-          result: "+25% Tasa de Conversión",
-          image: "https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&q=80&w=800"
+          title: "Redes Sociales en Piloto Automático",
+          client: "Yoja Hair Lounge",
+          result: "Un agente de IA responde a los clientes en redes",
+          logo: "/clients/yoja-logo.jpg",
+          gbp: "/clients/yoja-gbp.jpg"
         },
         {
-          title: "Motor de Contenido para SaaS",
-          client: "SaaS Matrix",
-          result: "300% Producción de Contenido",
-          image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=800"
+          title: "Una Web que También Habla",
+          client: "Inked City Tattoo",
+          result: "Agente de voz que responde preguntas frecuentes",
+          logo: "/clients/inked-city-logo.jpg",
+          gbp: "/clients/inked-city-gbp.jpg"
+        },
+        {
+          title: "Página Web + App de Fidelización",
+          client: "Rollitos Ice Cream Rolls",
+          result: "Tarjetas de fidelidad digitales para clientes frecuentes",
+          logo: "/clients/rollitos-logo.jpg",
+          gbp: "/clients/rollitos-gbp.jpg"
         }
       ],
       detailed_cases_title: "Casos de Éxito Detallados",
-      detailed_cases_subtitle: "Descubre cómo traducimos inteligencia a medida en crecimiento medible para empresas.",
+      detailed_cases_subtitle: "Proyectos reales que construimos para negocios locales reales, desde sistemas de citas hasta agentes de IA.",
       detailed_cases: [
         {
-          title: "De Facturación Manual a Finanzas Autónomas",
-          client: "RetailPro USA",
-          challenge: "RetailPro perdía 15 horas semanales en procesamiento manual de facturas y errores de entrada de datos en 12 almacenes.",
-          solution: "Implementamos Executive AI: un agente administrativo personalizado que extrae, valida y sincroniza facturas automáticamente.",
-          result: "Reducción del 95% en entrada manual de datos y $120k ahorrados anualmente en gastos generales.",
-          image: "https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&q=80&w=1200",
-          tags: ["Automatización", "Finanzas", "Agentes IA"]
+          title: "Un Sistema Completo de Citas en Línea con IA",
+          client: "Zambrano's Complete Auto Center",
+          challenge: "Los clientes tenían que llamar o pasar por el taller para agendar un servicio, y el equipo perdía tiempo en el teléfono en lugar de atender autos.",
+          solution: "Creamos un sistema completo donde los clientes agendan sus citas en línea, con IA que los guía durante el proceso.",
+          result: "Los clientes ahora agendan sus propias citas en línea a cualquier hora del día.",
+          logo: "/clients/zambranos-logo.jpg",
+          gbp: "/clients/zambranos-gbp.jpg",
+          tags: ["Citas", "IA", "Automotriz"]
         },
         {
-          title: "Optimizando el Viaje Humano con AEO",
-          client: "HealthFirst USA",
-          challenge: "El tráfico orgánico estaba estancado y el SEO tradicional no respondía preguntas específicas de pacientes en motores de búsqueda de IA.",
-          solution: "Rediseñamos la estrategia de contenido para AEO (Optimización de Motores de Respuesta) e implementamos un asistente de salud personalizado.",
-          result: "Aumento del 40% en visibilidad en Motores de Respuesta y aumento del 25% en conversión.",
-          image: "https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&q=80&w=1200",
-          tags: ["AEO", "SEO", "Salud"]
+          title: "Respuestas en Redes Sociales en Piloto Automático",
+          client: "Yoja Hair Lounge",
+          challenge: "Las preguntas llegaban por redes sociales a toda hora, y responder cada una le quitaba tiempo al equipo con los clientes en el salón.",
+          solution: "Automatizamos sus redes sociales y añadimos un agente de IA que responde las preguntas de los clientes por sí solo.",
+          result: "Los clientes reciben respuesta de inmediato y el equipo se enfoca en el salón.",
+          logo: "/clients/yoja-logo.jpg",
+          gbp: "/clients/yoja-gbp.jpg",
+          tags: ["Redes Sociales", "Agentes IA", "Belleza"]
+        },
+        {
+          title: "Una Página Web con Agente de Voz",
+          client: "Inked City Tattoo",
+          challenge: "Los clientes hacían las mismas preguntas antes de agendar, y cada mensaje requería una respuesta manual.",
+          solution: "Creamos una página web completa donde las personas envían sus preguntas, más un agente de voz en el sitio que responde las preguntas frecuentes.",
+          result: "Los visitantes obtienen respuestas al instante, por voz o por mensaje, a cualquier hora.",
+          logo: "/clients/inked-city-logo.jpg",
+          gbp: "/clients/inked-city-gbp.jpg",
+          tags: ["Diseño Web", "IA de Voz", "Tatuajes y Piercing"]
+        },
+        {
+          title: "Página Web y App de Fidelización, Juntas",
+          client: "Rollitos Ice Cream Rolls",
+          challenge: "El negocio necesitaba una presencia en línea profesional y una forma de convertir visitantes nuevos en clientes frecuentes.",
+          solution: "Creamos una página web completa e integramos MyLoyalink, nuestra app de fidelización, para que los clientes guarden su tarjeta en Apple Wallet o Google Wallet.",
+          result: "Los clientes frecuentes son recompensados y el negocio tiene un programa de fidelidad real.",
+          logo: "/clients/rollitos-logo.jpg",
+          gbp: "/clients/rollitos-gbp.jpg",
+          tags: ["Diseño Web", "App de Fidelización", "Comida y Postres"]
         }
       ],
-      page_title: "Transformación Radical",
-      page_subtitle: "Descubre cómo Xtek AI ha ayudado a líderes de la industria en EE.UU. a automatizar su caos y dominar sus mercados usando inteligencia a medida.",
+      page_title: "Proyectos Reales, Resultados Reales",
+      page_subtitle: "Mira lo que Xtek AI ha construido para negocios locales: sistemas de citas, agentes de IA, páginas web y apps de fidelización.",
       story_badge: "Caso de Éxito",
       challenge_label: "El Desafío",
       solution_label: "Nuestra Solución IA",
       impact_label: "Impacto Clave",
+      verified_label: "Negocio real en Google",
+      verified_hint: "Ver su Perfil de Negocio de Google",
+      verified_close: "Cerrar",
       next_story_title: "Tu historia podría ser la siguiente.",
       start_journey: "Comienza Tu Viaje"
+    },
+    products: {
+      badge: "Nuestros Productos Digitales",
+      title: "Apps Creadas para Negocios Locales",
+      subtitle: "Apps por suscripción que diseñamos y operamos nosotros, para que tu negocio sume fidelización, menús digitales y más sin construir nada.",
+      items: [
+        {
+          name: "MyLoyalink",
+          tagline: "Tu programa de lealtad, en su billetera",
+          description: "Tus clientes guardan tu tarjeta de fidelidad con tu marca en Apple Wallet o Google Wallet. Sin instalar ninguna app y sin tarjetas que perder.",
+          features: ["Tarjetas con tu logo y tus colores, en Apple Wallet y Google Wallet", "Sellos, recompensas por hitos, enlaces y códigos QR de registro y notificaciones por ubicación", "Un panel con analíticas y roles para tu equipo"],
+          status: "live",
+          status_label: "Disponible ahora",
+          price: "Desde $29/mes",
+          price_note: "Prueba gratis de 14 días, sin tarjeta de crédito",
+          href: "https://www.myloyalink.com/en",
+          cta: "Empieza tu prueba gratis"
+        },
+        {
+          name: "Menú Digital",
+          tagline: "El menú de tu restaurante, 100% digital",
+          description: "Sube tu menú en PDF o Word y se convierte en un menú totalmente digital que tus clientes pueden usar de inmediato.",
+          features: ["Los clientes ven el menú en su propio teléfono", "O lleva un iPad a la mesa para que elijan sus platos", "Edita precios y agrega o quita productos desde un panel de control"],
+          status: "soon",
+          status_label: "En desarrollo",
+          cta: "Unirme a la lista de espera"
+        }
+      ],
+      more_title: "Más productos en camino",
+      more_desc: "Seguimos creando nuevas apps para los negocios con los que trabajamos. Cuéntanos qué necesitas y te avisamos cuando esté lista.",
+      more_cta: "Cuéntanos qué necesitas"
     },
     faq: {
       badge: "Base de Conocimiento",
@@ -1324,6 +1498,44 @@ export const translations = {
       error_phone: "Por favor, ingrese un número de teléfono válido.",
       submit_error: "Hubo un problema al enviar tu solicitud. Por favor, inténtalo de nuevo en un momento.",
       calendly_cta: "Agenda tu llamada ahora",
+      wizard: {
+        step_of: "Paso {n} de {total}",
+        back: "Atrás",
+        next: "Continuar",
+        titles: ["Empecemos contigo", "¿De qué industria es tu negocio?", "¿Qué te gustaría resolver primero?", "¿Qué tan pronto quieres empezar?", "¿Dónde te contactamos?"],
+        hints: ["Solo tu nombre y el de tu negocio.", "Elige la que mejor encaje.", "Elige todas las que quieras.", "Sin presión, esto solo nos ayuda a prepararnos.", "Te escribiremos para planear tu siguiente paso."],
+        placeholder_name: "Tu nombre",
+        placeholder_business: "Nombre de tu negocio",
+        placeholder_other: "Cuéntanos más",
+        error_name: "Escribe tu nombre y el nombre de tu negocio.",
+        error_pick: "Elige una opción para continuar.",
+        error_other: "Cuéntanos un poco más.",
+        industries: [
+          { value: "beauty_barber", label: "Belleza y barbería" },
+          { value: "restaurant_food", label: "Restaurante y comida" },
+          { value: "auto_home_services", label: "Autos y servicios para el hogar" },
+          { value: "health_wellness", label: "Salud y bienestar" },
+          { value: "retail", label: "Tienda y comercio en línea" },
+          { value: "professional_services", label: "Servicios profesionales" },
+          { value: "other", label: "Otra" },
+        ],
+        challenges: [
+          { value: "invoicing", label: "Facturación y cobros" },
+          { value: "inventory", label: "Inventario" },
+          { value: "booking", label: "Citas y reservas" },
+          { value: "customer_followup", label: "Seguimiento a clientes" },
+          { value: "social_media", label: "Redes sociales y marketing" },
+          { value: "answering_customers", label: "Atender llamadas y mensajes" },
+          { value: "manual_work", label: "Trabajo manual repetitivo" },
+          { value: "website", label: "Página web y presencia en línea" },
+          { value: "other", label: "Otra cosa" },
+        ],
+        readiness: [
+          { value: "ready_now", label: "Quiero empezar ya" },
+          { value: "one_to_three_months", label: "En 1 a 3 meses" },
+          { value: "exploring", label: "Solo estoy explorando" },
+        ],
+      },
       privacy_note: "* Al enviar este formulario, confirmas que las leído nuestra política de privacidad."
     },
     legal: {

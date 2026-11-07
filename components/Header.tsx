@@ -115,6 +115,18 @@ const Header: React.FC = () => {
     { id: 'contact', label: t.nav.contact },
   ];
 
+  // Main menu: the pages visitors look for first. Everything else lives under "More".
+  const primaryLinks = navLinks.filter(l => ['services', 'faq', 'contact'].includes(l.id));
+  const secondaryLinks = navLinks.filter(l => ['about', 'success-stories', 'blog'].includes(l.id));
+
+  const closeMenuClean = () => {
+    document.body.style.overflow = '';
+    document.body.style.position = '';
+    document.body.style.width = '';
+    document.body.style.top = '';
+    closeMenu();
+  };
+
   return (
     <header className={`fixed top-0 left-0 right-0 z-[100] transition-all duration-300 ${isScrolled ? 'bg-primary/80 backdrop-blur-md py-4' : 'bg-transparent py-6'}`}>
       <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
@@ -124,23 +136,37 @@ const Header: React.FC = () => {
         </button>
 
         {/* Desktop Nav */}
-        <nav className="hidden lg:flex items-center gap-8">
-          {navLinks.map(link => (
-            <a key={link.id} href={`/#${link.id}`} onClick={(e) => handleNavigation(e, link.id)} className="text-sm font-medium !text-white hover:text-primary-light transition-colors">{link.label}</a>
+        <nav className="hidden xl:flex items-center gap-8">
+          {primaryLinks.map(link => (
+            <React.Fragment key={link.id}>
+              {link.id === 'faq' && (
+                <>
+                  <Link href="/products" className="text-sm font-medium !text-white hover:text-primary-light transition-colors">{t.nav.products}</Link>
+                  <Link href="/next-horizon" className="text-sm font-medium !text-white hover:text-primary-light transition-colors flex items-center gap-1">
+                    Next Horizon
+                    <svg className="w-3.5 h-3.5 text-primary-light" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" /></svg>
+                  </Link>
+                </>
+              )}
+              <a href={`/#${link.id}`} onClick={(e) => handleNavigation(e, link.id)} className="text-sm font-medium !text-white hover:text-primary-light transition-colors">{link.label}</a>
+            </React.Fragment>
           ))}
-          <Link href="/next-horizon" className="text-sm font-medium !text-white hover:text-primary-light transition-colors flex items-center gap-1">
-            Next Horizon
-            <svg className="w-3.5 h-3.5 text-primary-light" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" /></svg>
-          </Link>
           <div className="relative group">
             <button className="text-sm font-medium !text-white hover:text-primary-light transition-colors flex items-center gap-1">
-              Service Areas
+              {t.nav.more}
               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" /></svg>
             </button>
-            <div className="absolute top-full left-0 mt-2 w-48 bg-[#0a0f1c]/95 backdrop-blur-md rounded-lg border border-primary-light/20 shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 flex flex-col pt-2 pb-2">
-              <Link href="/service-areas/hamilton-nj" className="px-4 py-2 text-sm text-white/80 hover:text-primary-light hover:bg-white/5 transition-colors">Hamilton, NJ</Link>
-              <Link href="/service-areas/philadelphia-pa" className="px-4 py-2 text-sm text-white/80 hover:text-primary-light hover:bg-white/5 transition-colors">Philadelphia, PA</Link>
-              <Link href="/service-areas/manhattan-ny" className="px-4 py-2 text-sm text-white/80 hover:text-primary-light hover:bg-white/5 transition-colors">Manhattan, NY</Link>
+            <div className="absolute top-full right-0 pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible focus-within:opacity-100 focus-within:visible transition-all duration-300">
+              <div className="w-56 bg-[#0a0f1c]/95 backdrop-blur-md rounded-lg border border-primary-light/20 shadow-xl flex flex-col py-2">
+                {secondaryLinks.map(link => (
+                  <a key={link.id} href={`/#${link.id}`} onClick={(e) => handleNavigation(e, link.id)} className="px-4 py-2 text-sm text-white/80 hover:text-primary-light hover:bg-white/5 transition-colors">{link.label}</a>
+                ))}
+                <div className="h-px bg-white/10 my-2 mx-4"></div>
+                <span className="px-4 pb-1 text-[10px] font-bold tracking-widest text-white/40 uppercase">Service Areas</span>
+                <Link href="/service-areas/hamilton-nj" className="px-4 py-2 text-sm text-white/80 hover:text-primary-light hover:bg-white/5 transition-colors">Hamilton, NJ</Link>
+                <Link href="/service-areas/philadelphia-pa" className="px-4 py-2 text-sm text-white/80 hover:text-primary-light hover:bg-white/5 transition-colors">Philadelphia, PA</Link>
+                <Link href="/service-areas/manhattan-ny" className="px-4 py-2 text-sm text-white/80 hover:text-primary-light hover:bg-white/5 transition-colors">Manhattan, NY</Link>
+              </div>
             </div>
           </div>
         </nav>
@@ -155,7 +181,7 @@ const Header: React.FC = () => {
 
           {/* Mobile Menu Button */}
           <button
-            className="lg:hidden p-2 text-white relative z-[110]"
+            className="xl:hidden p-2 text-white relative z-[110]"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
             aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
           >
@@ -173,20 +199,31 @@ const Header: React.FC = () => {
         className={`fixed inset-0 bg-primary/95 backdrop-blur-xl z-[105] transition-all duration-300 flex flex-col items-center justify-center gap-6 overflow-y-auto ${isMenuOpen ? 'opacity-100 visible' : 'opacity-0 invisible pointer-events-none'}`}
         onClick={(e) => { if (e.target === e.currentTarget) closeMenu(); }}
       >
-        {navLinks.map(link => (
-          <a key={link.id} href={`/#${link.id}`} onClick={(e) => { e.preventDefault(); closeMenuAndNavigate(link.id); }} className="text-2xl font-bold !text-white hover:text-primary-light transition-colors">{link.label}</a>
+        {primaryLinks.map(link => (
+          <React.Fragment key={link.id}>
+            {link.id === 'faq' && (
+              <>
+                <Link href="/products" onClick={closeMenuClean} className="text-2xl font-bold !text-white hover:text-primary-light transition-colors">{t.nav.products}</Link>
+                <Link href="/next-horizon" onClick={closeMenuClean} className="text-2xl font-bold !text-white hover:text-primary-light transition-colors flex items-center gap-2">
+                  Next Horizon
+                  <svg className="w-5 h-5 text-primary-light" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" /></svg>
+                </Link>
+              </>
+            )}
+            <a href={`/#${link.id}`} onClick={(e) => { e.preventDefault(); closeMenuAndNavigate(link.id); }} className="text-2xl font-bold !text-white hover:text-primary-light transition-colors">{link.label}</a>
+          </React.Fragment>
         ))}
 
         <div className="w-16 h-px bg-white/20 my-2"></div>
-        <Link href="/next-horizon" onClick={() => { document.body.style.overflow = ''; document.body.style.position = ''; document.body.style.width = ''; document.body.style.top = ''; closeMenu(); }} className="text-2xl font-bold !text-white hover:text-primary-light transition-colors flex items-center gap-2">
-          Next Horizon
-          <svg className="w-5 h-5 text-primary-light" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" /></svg>
-        </Link>
+        <span className="text-sm font-bold tracking-widest text-white/50 uppercase">{t.nav.more}</span>
+        {secondaryLinks.map(link => (
+          <a key={link.id} href={`/#${link.id}`} onClick={(e) => { e.preventDefault(); closeMenuAndNavigate(link.id); }} className="text-xl font-bold !text-white hover:text-primary-light transition-colors">{link.label}</a>
+        ))}
         <div className="w-16 h-px bg-white/20 my-2"></div>
         <span className="text-sm font-bold tracking-widest text-white/50 uppercase">Service Areas</span>
-        <Link href="/service-areas/hamilton-nj" onClick={() => { document.body.style.overflow = ''; document.body.style.position = ''; document.body.style.width = ''; document.body.style.top = ''; closeMenu(); }} className="text-xl font-bold !text-white hover:text-primary-light transition-colors">Hamilton, NJ</Link>
-        <Link href="/service-areas/philadelphia-pa" onClick={() => { document.body.style.overflow = ''; document.body.style.position = ''; document.body.style.width = ''; document.body.style.top = ''; closeMenu(); }} className="text-xl font-bold !text-white hover:text-primary-light transition-colors">Philadelphia, PA</Link>
-        <Link href="/service-areas/manhattan-ny" onClick={() => { document.body.style.overflow = ''; document.body.style.position = ''; document.body.style.width = ''; document.body.style.top = ''; closeMenu(); }} className="text-xl font-bold !text-white hover:text-primary-light transition-colors">Manhattan, NY</Link>
+        <Link href="/service-areas/hamilton-nj" onClick={closeMenuClean} className="text-xl font-bold !text-white hover:text-primary-light transition-colors">Hamilton, NJ</Link>
+        <Link href="/service-areas/philadelphia-pa" onClick={closeMenuClean} className="text-xl font-bold !text-white hover:text-primary-light transition-colors">Philadelphia, PA</Link>
+        <Link href="/service-areas/manhattan-ny" onClick={closeMenuClean} className="text-xl font-bold !text-white hover:text-primary-light transition-colors">Manhattan, NY</Link>
         <div className="w-16 h-px bg-white/20 my-2"></div>
 
         <a href="/#contact" onClick={(e) => { e.preventDefault(); closeMenuAndNavigate('contact'); }} className="mt-4 px-8 py-3 bg-primary-light !text-white rounded-full font-bold text-xl">{t.nav.cta}</a>
