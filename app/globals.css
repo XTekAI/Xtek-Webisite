@@ -4,9 +4,10 @@
   --color-primary: #00384B;
   --color-primary-light: #057BA3;
   --color-secondary: #A7566A;
+  --color-accent: #FF7A59;
   --color-neutral-950: #020617;
-  --font-sans: Inter, sans-serif;
-  --font-serif: "Playfair Display", serif;
+  --font-sans: var(--font-inter), Inter, sans-serif;
+  --font-serif: var(--font-playfair), "Playfair Display", serif;
   
   --animate-fade-in-up: fadeInUp 0.8s ease-out forwards;
   --animate-float: float 6s ease-in-out infinite;
@@ -31,6 +32,11 @@ body {
   color: var(--foreground);
   font-family: var(--font-sans);
   overflow-x: hidden;
+}
+
+/* Mobile menu open: hide the ElevenLabs call widget so it does not cover the menu. */
+body.menu-open elevenlabs-convai {
+  display: none;
 }
 
 .glass {

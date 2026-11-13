@@ -172,8 +172,8 @@ const NextHorizon: React.FC = () => {
                     </div>
 
                     <h1 className="text-4xl md:text-6xl lg:text-8xl font-bold tracking-tight mb-8 animate-fade-in-up [animation-delay:200ms] !text-white leading-tight">
-                        Your Organization&apos;s <br />
-                        <span className="gradient-text">Internal Fortress</span>
+                        Secure private AI platform: <br />
+                        <span className="gradient-text">your organization&apos;s internal fortress</span>
                     </h1>
 
                     <p className="max-w-3xl mx-auto text-lg md:text-2xl text-white/60 mb-12 animate-fade-in-up [animation-delay:400ms]">

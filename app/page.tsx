@@ -9,8 +9,6 @@ export const metadata: Metadata = buildMetadata({
   description:
     'Xtek AI is a US-based AI implementation agency offering SmartFlow AI audits, Executive AI accounting automation, AEO marketing, and web design.',
   path: '/',
-  keywords:
-    'AI agency USA, Artificial Intelligence consulting, Business automation, SmartFlow AI, Executive AI, AEO optimization, Web Design, Web Development, AI chatbots for business, digital marketing agency',
 });
 
 export default function Page() {

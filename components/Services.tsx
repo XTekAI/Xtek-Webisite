@@ -2,8 +2,18 @@
 
 
 import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import Link from 'next/link';
+import { ArrowRight } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
 import { MagnetizeButton } from './ui/magnetize-button';
+import { serviceByHomeIndex } from '../content/services';
+import { saveServicesReturn, takeServicesReturn } from '../lib/serviceReturn';
+
+// Every card is a layer stacked on the same spot; GSAP pins the section and fades one layer into the
+// next as you scroll (on phones too, with mobile fixes below). On phones the card is kept short (title,
+// short description, "Learn more") so it fits one screen; the full detail lives on each service page.
+const LAYER_CLASS =
+  'service-layer absolute inset-0 flex flex-col items-center justify-center invisible opacity-0 px-4 pt-20 md:pt-0 md:px-6';
 
 const ServiceLayer: React.FC<{
   title: string;
@@ -11,23 +21,30 @@ const ServiceLayer: React.FC<{
   items: string[];
   icon: React.ReactNode;
   index: number;
-  isLast?: boolean;
-}> = ({ title, description, items, icon, index, isLast }) => {
+  href?: string;
+  learnMore: string;
+}> = ({ title, description, items, icon, index, href, learnMore }) => {
   return (
-    <div
-      className="service-layer absolute inset-0 flex flex-col items-center justify-center opacity-0 px-6"
-      style={{ zIndex: 10 + index }}
-    >
-      <div className="max-w-4xl w-full glass rounded-[40px] p-8 md:p-16 border-t border-white/10 shadow-2xl">
-        <div className="flex flex-col md:flex-row gap-12 items-center">
+    <div className={LAYER_CLASS} style={{ zIndex: 10 + index }}>
+      <div className="max-w-4xl w-full glass rounded-3xl md:rounded-[40px] p-6 md:p-16 border-t border-white/10 shadow-2xl">
+        <div className="flex flex-col md:flex-row gap-6 md:gap-12 items-center">
           <div className="w-full md:w-1/2">
-            <div className="w-16 h-16 bg-primary-light/20 text-primary-light rounded-2xl flex items-center justify-center mb-8">
+            <div className="w-12 h-12 md:w-16 md:h-16 bg-primary-light/20 text-primary-light rounded-2xl flex items-center justify-center mb-5 md:mb-8">
               {icon}
             </div>
-            <h3 className="text-2xl md:text-5xl font-bold mb-6 tracking-tight leading-tight !text-white">{title}</h3>
-            <p className="text-xl text-white/60 leading-relaxed mb-8">{description}</p>
+            <h3 className="text-2xl md:text-5xl font-bold mb-3 md:mb-6 tracking-tight leading-tight !text-white">{title}</h3>
+            <p className="text-base md:text-xl text-white/60 leading-relaxed mb-6 md:mb-8 line-clamp-3 md:line-clamp-none">{description}</p>
+            {href && (
+              <Link
+                href={href}
+                onClick={() => saveServicesReturn(index)}
+                className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-secondary !text-white font-bold shadow-lg shadow-secondary/30 hover:bg-secondary/90 hover:scale-105 transition-all"
+              >
+                {learnMore} <ArrowRight className="w-4 h-4" />
+              </Link>
+            )}
           </div>
-          <div className="w-full md:w-1/2 bg-white/5 rounded-3xl p-8 border border-white/5">
+          <div className="hidden md:block w-full md:w-1/2 bg-white/5 rounded-3xl p-8 border border-white/5">
             <p className="text-sm font-bold uppercase tracking-widest text-primary-light mb-6">Key Focus Areas</p>
             <ul className="space-y-4">
               {items.map((item, i) => (
@@ -53,6 +70,7 @@ const Services: React.FC = () => {
   // GSAP loads after hydration (afterInteractive), so wait for it instead of
   // blocking the page on the CDN scripts.
   const [gsapReady, setGsapReady] = useState(false);
+
 
   useEffect(() => {
     const isReady = () => Boolean((window as any).gsap && (window as any).ScrollTrigger);
@@ -101,16 +119,20 @@ const Services: React.FC = () => {
       });
 
       layers.forEach((layer: any, i: number) => {
+        // autoAlpha (not just opacity) also toggles visibility, so hidden cards cannot sit on top of
+        // the visible one and swallow taps/clicks on its "Learn more" button.
         tl.to(layer, {
-          opacity: 1,
+          autoAlpha: 1,
           y: 0,
           duration: 1,
           ease: "power2.inOut"
         });
+        // The moment this card is fully visible (used to come back to it from a service page).
+        tl.addLabel(`card${i}`);
 
         if (i < layers.length - 1) {
           tl.to(layer, {
-            opacity: 0,
+            autoAlpha: 0,
             scale: isMobile ? 0.95 : 0.9, // Subtler scale on mobile
             y: isMobile ? -20 : -50, // Less movement on mobile
             duration: 1,
@@ -118,14 +140,40 @@ const Services: React.FC = () => {
           }, "+=0.3");
         }
       });
+      return tl;
     };
 
-    mm.add({
-      isDesktop: "(min-width: 768px)",
-      isMobile: "(max-width: 767px)"
-    }, (context: any) => {
-      const { isMobile } = context.conditions;
-      setupTimeline(isMobile);
+    // Coming back (browser Back) from a service page: jump straight to the card the visitor left from.
+    const restoreCard = (tl: any) => {
+      const cardIndex = takeServicesReturn();
+      if (cardIndex === null) return;
+      requestAnimationFrame(() => {
+        ScrollTrigger.refresh();
+        const st = tl.scrollTrigger;
+        const label = tl.labels[`card${cardIndex}`];
+        if (!st || label === undefined) return;
+        // A bit past the label so the card is settled, not still fading in.
+        const progress = Math.min(1, (label + 0.15) / tl.duration());
+        const y = st.start + progress * (st.end - st.start);
+        window.scrollTo({ top: y, behavior: 'instant' as ScrollBehavior });
+        st.update();
+        st.getTween?.()?.progress(1); // skip the scrub catch-up so cards do not flash by
+        tl.progress(progress);
+      });
+    };
+
+    mm.add("(min-width: 768px)", () => {
+      restoreCard(setupTimeline(false));
+    });
+
+    // Phones: same pinned effect, tuned for touch. ignoreMobileResize stops the address bar (which
+    // changes the viewport height) from re-calculating the pin mid-scroll; normalizeScroll takes over
+    // touch scrolling so momentum does not fight the pinned section.
+    mm.add("(max-width: 767px)", () => {
+      ScrollTrigger.config({ ignoreMobileResize: true });
+      ScrollTrigger.normalizeScroll(true);
+      restoreCard(setupTimeline(true));
+      return () => ScrollTrigger.normalizeScroll(false);
     });
 
     return () => {
@@ -134,7 +182,7 @@ const Services: React.FC = () => {
   }, [gsapReady]);
 
   return (
-    <section id="services" ref={mainRef} className="relative h-screen bg-primary overflow-hidden">
+    <section id="services" ref={mainRef} className="relative h-[100svh] md:h-screen bg-primary overflow-hidden">
       {/* Dynamic Background (Inkwell style) */}
       <div className="absolute inset-0 bg-gradient-to-b from-primary via-primary-light/5 to-primary pointer-events-none"></div>
 
@@ -149,13 +197,15 @@ const Services: React.FC = () => {
 
       <div className="relative h-full w-full">
         {/* Intro Header (Visible before first layer) */}
-        <div ref={titleRef} className="absolute top-20 left-0 w-full text-center px-6 z-40">
+        <div ref={titleRef} className="absolute top-24 md:top-20 left-0 w-full text-center px-6 z-40">
           <span className="text-sm font-bold text-secondary uppercase tracking-widest mb-4 inline-block">{t.services.badge}</span>
         </div>
 
         <div ref={layersContainerRef} className="relative h-full w-full">
           <ServiceLayer
             index={0}
+            href={`/services/${serviceByHomeIndex(1)?.slug}`}
+            learnMore={t.services.learn_more}
             icon={<svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" /></svg>}
             title={t.services.s1_title}
             description={t.services.s1_desc}
@@ -163,6 +213,8 @@ const Services: React.FC = () => {
           />
           <ServiceLayer
             index={1}
+            href={`/services/${serviceByHomeIndex(2)?.slug}`}
+            learnMore={t.services.learn_more}
             icon={<svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>}
             title={t.services.s2_title}
             description={t.services.s2_desc}
@@ -170,6 +222,8 @@ const Services: React.FC = () => {
           />
           <ServiceLayer
             index={2}
+            href={`/services/${serviceByHomeIndex(3)?.slug}`}
+            learnMore={t.services.learn_more}
             icon={<svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" /></svg>}
             title={t.services.s3_title}
             description={t.services.s3_desc}
@@ -177,6 +231,8 @@ const Services: React.FC = () => {
           />
           <ServiceLayer
             index={3}
+            href={`/services/${serviceByHomeIndex(4)?.slug}`}
+            learnMore={t.services.learn_more}
             icon={<svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>}
             title={t.services.s4_title}
             description={t.services.s4_desc}
@@ -184,6 +240,8 @@ const Services: React.FC = () => {
           />
           <ServiceLayer
             index={4}
+            href={`/services/${serviceByHomeIndex(5)?.slug}`}
+            learnMore={t.services.learn_more}
             icon={<svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" /></svg>}
             title={t.services.s5_title}
             description={t.services.s5_desc}
@@ -191,6 +249,8 @@ const Services: React.FC = () => {
           />
           <ServiceLayer
             index={5}
+            href={`/services/${serviceByHomeIndex(6)?.slug}`}
+            learnMore={t.services.learn_more}
             icon={<svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" /></svg>}
             title={t.services.s6_title}
             description={t.services.s6_desc}
@@ -198,8 +258,8 @@ const Services: React.FC = () => {
           />
 
           {/* Last specialized CTA layer */}
-          <div className="service-layer absolute inset-0 flex flex-col items-center justify-center opacity-0 px-6 z-[30]">
-            <div className="max-w-4xl w-full glass rounded-[40px] p-12 md:p-20 border-t border-secondary/30 text-center flex flex-col items-center shadow-2xl">
+          <div className={`${LAYER_CLASS} z-[30]`}>
+            <div className="max-w-4xl w-full glass rounded-3xl md:rounded-[40px] p-8 md:p-20 border-t border-secondary/30 text-center flex flex-col items-center shadow-2xl">
               <div className="w-24 h-24 bg-secondary/10 rounded-full flex items-center justify-center mb-8 animate-pulse">
                 <svg className="w-12 h-12 text-secondary" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
               </div>

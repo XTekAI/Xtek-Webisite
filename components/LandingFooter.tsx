@@ -14,8 +14,7 @@ const LandingFooter: React.FC = () => {
             <div className="max-w-7xl mx-auto px-6">
                 <div className="flex flex-col md:flex-row justify-between items-center gap-6">
                     <div className="flex items-center gap-3">
-                        <div className="w-8 h-8 bg-primary-light rounded flex items-center justify-center font-bold !text-white notranslate">X</div>
-                        <span className="text-xl font-bold tracking-tight uppercase !text-white notranslate">Xtek AI</span>
+                        <img src="/brand/xtek-horizontal-negativo.svg" alt="XTEK AI" width={164} height={50} className="h-11 w-auto" />
                     </div>
 
                     <div className="flex flex-wrap justify-center gap-6 text-sm text-white/40">

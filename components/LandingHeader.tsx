@@ -34,8 +34,7 @@ const LandingHeader: React.FC = () => {
             <header className={`transition-all duration-500 ${isScrolled ? 'bg-primary/95 backdrop-blur-lg py-2 shadow-2xl' : 'bg-transparent py-4'}`}>
                 <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
                     <a href="/" onClick={goHome} aria-label="Xtek AI" className="flex items-center gap-3 group">
-                        <div className="w-10 h-10 bg-primary-light rounded-lg flex items-center justify-center font-bold text-xl !text-white transition-transform group-hover:scale-110 notranslate">X</div>
-                        <span className="text-2xl font-bold tracking-tight uppercase !text-white notranslate">XTEK AI</span>
+                        <img src="/brand/xtek-horizontal-negativo.svg" alt="XTEK AI" width={164} height={50} className="h-10 md:h-12 w-auto transition-transform group-hover:scale-105" />
                     </a>
 
                     <MagnetizeButton

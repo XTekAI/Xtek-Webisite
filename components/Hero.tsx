@@ -12,7 +12,7 @@ const Hero: React.FC = () => {
   const heroContent = isLandingMode ? t.landing.hero : t.hero;
 
   return (
-    <section id="hero" className={`relative min-h-screen flex items-center overflow-hidden ${isLandingMode ? 'pt-40' : 'pt-20'}`}>
+    <section id="hero" className={`relative min-h-[100svh] flex items-center overflow-hidden ${isLandingMode ? 'pt-40' : 'pt-20'}`}>
       {/* Dynamic Background with Shooting Stars */}
       <div className="absolute inset-0 z-0">
         <NeuralBackground
@@ -28,8 +28,8 @@ const Hero: React.FC = () => {
 
       <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1639322537228-f710d846310a?auto=format&fit=crop&q=80')] bg-cover bg-center opacity-10 mix-blend-overlay z-0 pointer-events-none"></div>
 
-      <div className="max-w-7xl mx-auto text-center relative z-10">
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-primary-light text-xs font-bold uppercase tracking-widest mb-8 animate-fade-in-up">
+      <div className="max-w-7xl mx-auto text-center relative z-10 px-5 md:px-6">
+        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/10 text-primary-light text-[10px] sm:text-xs font-bold uppercase tracking-wider sm:tracking-widest mb-8 animate-fade-in-up">
           <span className="relative flex h-2 w-2">
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary-light opacity-75"></span>
             <span className="relative inline-flex rounded-full h-2 w-2 bg-primary-light"></span>
@@ -37,9 +37,10 @@ const Hero: React.FC = () => {
           {heroContent.badge}
         </div>
 
-        <h1 className="text-4xl md:text-7xl lg:text-8xl font-bold tracking-tight mb-8 animate-fade-in-up [animation-delay:200ms] !text-white">
-          {heroContent.title_part1} <br />
-          <span className="gradient-text">{heroContent.title_part2}</span>
+        {/* Brand mix rule: Inter Bold headline + the key phrase in Playfair Display italic (coral on dark). */}
+        <h1 className="max-w-5xl mx-auto text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight leading-[1.08] mb-8 md:animate-fade-in-up md:[animation-delay:200ms] !text-white">
+          {heroContent.title_part1}{' '}
+          <span className="font-serif italic font-medium text-accent">{heroContent.title_part2}</span>
         </h1>
 
         <p className="max-w-3xl mx-auto text-xl md:text-2xl text-white/70 mb-12 animate-fade-in-up [animation-delay:400ms]">

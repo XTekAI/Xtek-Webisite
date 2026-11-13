@@ -1,4 +1,4 @@
-import { GOOGLE_PROFILE_URL, ORG_ID } from '../lib/seo';
+import { GOOGLE_PROFILE_URL, ORG_ID, SITE_NAME, SITE_URL } from '../lib/seo';
 
 /**
  * Reviews copied from the public Google Business Profile of Xtek AI.
@@ -68,6 +68,9 @@ export const reviewsJsonLd = () => ({
     '@context': 'https://schema.org',
     '@type': 'Organization',
     '@id': ORG_ID,
+    // Same entity as the site-wide Organization block; name and url repeated so this block stands alone.
+    name: SITE_NAME,
+    url: SITE_URL,
     aggregateRating: {
         '@type': 'AggregateRating',
         ratingValue: GOOGLE_PROFILE.rating,

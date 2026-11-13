@@ -70,6 +70,9 @@ const ContactForm: React.FC<{ source?: 'contact_form' | 'landing_contact_form' }
   const w = t.contact.wizard;
 
   const [step, setStep] = useState(0);
+  // Only autofocus fields once the visitor is using the form; autofocusing on page load
+  // made the browser jump to this section (and open the keyboard on phones).
+  const [interacted, setInteracted] = useState(false);
   const [name, setName] = useState('');
   const [businessName, setBusinessName] = useState('');
   const [industry, setIndustry] = useState('');
@@ -97,6 +100,7 @@ const ContactForm: React.FC<{ source?: 'contact_form' | 'landing_contact_form' }
 
   const goTo = (next: number) => {
     setError('');
+    setInteracted(true);
     setStep(next);
     // Keep the top of the card in view when the content height changes between steps.
     requestAnimationFrame(() => {
@@ -291,7 +295,7 @@ const ContactForm: React.FC<{ source?: 'contact_form' | 'landing_contact_form' }
           <div className="grid grid-cols-1 gap-5">
             <div className="flex flex-col gap-2">
               <label className={labelClass}>{t.contact.label_name}</label>
-              <input autoFocus type="text" name="name" autoComplete="name" value={name} onChange={(e) => { setName(e.target.value); setError(''); }} placeholder={w.placeholder_name} className={inputClass} />
+              <input autoFocus={interacted} type="text" name="name" autoComplete="name" value={name} onChange={(e) => { setName(e.target.value); setError(''); }} placeholder={w.placeholder_name} className={inputClass} />
             </div>
             <div className="flex flex-col gap-2">
               <label className={labelClass}>{t.contact.label_business}</label>

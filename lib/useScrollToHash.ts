@@ -2,6 +2,7 @@
 
 import { useEffect } from 'react';
 import { scrollToSectionSettled } from './navigation';
+import { hasPendingServicesReturn } from './serviceReturn';
 
 /**
  * Scrolls to the section named in the URL hash (e.g. "/#contact") when the page opens and whenever the
@@ -17,6 +18,11 @@ export function useScrollToHash() {
             stop?.();
             stop = scrollToSectionSettled(id);
         };
+
+        // Without a hash, always open at the hero. Restoring the old scroll position on reload lands
+        // in the wrong place on phones, because the pinned sections and images change the page height.
+        if ('scrollRestoration' in window.history) window.history.scrollRestoration = 'manual';
+        if (!window.location.hash && !hasPendingServicesReturn()) window.scrollTo(0, 0);
 
         go();
         window.addEventListener('hashchange', go);

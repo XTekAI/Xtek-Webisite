@@ -9,10 +9,11 @@ import { handleSmoothScroll } from '../lib/utils';
 import { SOCIAL_LINKS } from '../lib/seo';
 import { openCookieSettings } from '../lib/consent';
 import { homeHref } from '../lib/navigation';
+import { services } from '../content/services';
 
 
 const Footer: React.FC = () => {
-  const { t } = useLanguage();
+  const { t, lang } = useLanguage();
   const pathname = usePathname();
   const router = useRouter();
 
@@ -43,8 +44,7 @@ const Footer: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-12 mb-16">
           <div className="lg:col-span-1">
             <button onClick={scrollToTop} className="flex items-center gap-3 mb-6">
-              <div className="w-8 h-8 bg-primary-light rounded flex items-center justify-center font-bold !text-white notranslate">X</div>
-              <span className="text-xl font-bold tracking-tight uppercase !text-white notranslate">Xtek AI</span>
+              <img src="/brand/xtek-horizontal-negativo.svg" alt="XTEK AI" width={164} height={50} className="h-11 w-auto" />
             </button>
             <p className="text-white/40 text-sm leading-relaxed mb-6">
               {t.footer.desc}
@@ -139,6 +139,18 @@ const Footer: React.FC = () => {
             </ul>
           </div>
         </div>
+
+        {/* One link per service page (internal linking for SEO) */}
+        <nav aria-label={t.nav.services} className="pb-10 mb-8 border-t border-white/5 pt-8">
+          <h4 className="font-bold mb-5 text-sm uppercase tracking-widest text-primary-light">{t.nav.services}</h4>
+          <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-1 text-sm text-white/60">
+            {services.map((s) => (
+              <li key={s.slug}>
+                <Link href={`/services/${s.slug}`} className="block py-2 hover:text-white transition-colors">{s[lang].name}</Link>
+              </li>
+            ))}
+          </ul>
+        </nav>
 
         <div className="pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-white/30 text-xs">

@@ -10,12 +10,13 @@ export const translations = {
       blog: "Blog",
       faq: "FAQ",
       contact: "Contact",
-      cta: "Get Started"
+      cta: "Get Started",
+      all_services: "All services"
     },
     hero: {
-      badge: "The New Era of Productivity",
-      title_part1: "Stop doing the work of",
-      title_part2: "four people at once",
+      badge: "AI Automation & Digital Marketing Agency",
+      title_part1: "AI automation that does the work of",
+      title_part2: "four people for your business",
       subtitle: "Xtek AI helps businesses scale by automating repetitive processes through high-performance Artificial Intelligence and data-driven digital marketing strategies.",
       cta_primary: "Book an initial meeting",
       cta_secondary: "Our Services",
@@ -81,7 +82,8 @@ export const translations = {
       s6_items: ["Persuasive Copywriting", "Premium Visual Production", "Strategic Social Media Management", "Content Personalization at Scale"],
       custom_title: "Don't see what you need?",
       custom_desc: "We design custom solutions tailored to your specific industry challenges.",
-      custom_cta: "Consult us now"
+      custom_cta: "Consult us now",
+      learn_more: "Learn more"
     },
     testimonials: {
       badge: "Testimonials",
@@ -173,7 +175,7 @@ export const translations = {
           tags: ["Web Design", "Loyalty App", "Food & Dessert"]
         }
       ],
-      page_title: "Real Projects, Real Results",
+      page_title: "AI Automation Success Stories: Real Projects, Real Results",
       page_subtitle: "See what Xtek AI has built for local businesses: booking systems, AI agents, websites and loyalty apps.",
       story_badge: "Success Case Study",
       challenge_label: "The Challenge",
@@ -187,7 +189,7 @@ export const translations = {
     },
     products: {
       badge: "Our Digital Products",
-      title: "Apps Built for Local Businesses",
+      title: "Loyalty & Business Apps Built for Local Businesses",
       subtitle: "Subscription apps we design and run ourselves, so your business can add loyalty, digital menus and more without building anything.",
       items: [
         {
@@ -328,6 +330,7 @@ export const translations = {
     blog: {
       badge: "Knowledge Hub",
       title: "Latest Insights",
+      page_title: "AI Automation & Digital Marketing Blog",
       subtitle: "Strategic intelligence for the AI-driven enterprise.",
       read_more: "Read Article",
       back: "Back to Home",
@@ -1248,12 +1251,13 @@ export const translations = {
       blog: "Blog",
       faq: "Preguntas Frecuentes",
       contact: "Contacto",
-      cta: "Empezar Ahora"
+      cta: "Empezar Ahora",
+      all_services: "Ver todos los servicios"
     },
     hero: {
-      badge: "La Nueva Era de la Productividad",
-      title_part1: "Deja de hacer el trabajo de",
-      title_part2: "cuatro personas a la vez",
+      badge: "Agencia de Automatización con IA y Marketing Digital",
+      title_part1: "Automatización con IA que hace el trabajo de",
+      title_part2: "cuatro personas en tu negocio",
       subtitle: "Xtek AI ayuda a empresas a escalar automatizando procesos repetitivos mediante Inteligencia Artificial de alto rendimiento y estrategias de marketing digital basadas en datos.",
       cta_primary: "Reservar reunión inicial",
       cta_secondary: "Nuestros Servicios",
@@ -1319,7 +1323,8 @@ export const translations = {
       s6_items: ["Copywriting Persuasivo", "Producción Visual Premium", "Gestión Estratégica de Redes Sociales", "Personalización de Contenido a Escala"],
       custom_title: "¿No ves lo que necesitas?",
       custom_desc: "Diseñamos soluciones a medida según los desafíos específicos de tu industria.",
-      custom_cta: "Consúltanos ahora"
+      custom_cta: "Consúltanos ahora",
+      learn_more: "Conocer más"
     },
     testimonials: {
       badge: "Testimonios",
@@ -1411,7 +1416,7 @@ export const translations = {
           tags: ["Diseño Web", "App de Fidelización", "Comida y Postres"]
         }
       ],
-      page_title: "Proyectos Reales, Resultados Reales",
+      page_title: "Casos de Éxito con IA: Proyectos Reales, Resultados Reales",
       page_subtitle: "Mira lo que Xtek AI ha construido para negocios locales: sistemas de citas, agentes de IA, páginas web y apps de fidelización.",
       story_badge: "Caso de Éxito",
       challenge_label: "El Desafío",
@@ -1425,7 +1430,7 @@ export const translations = {
     },
     products: {
       badge: "Nuestros Productos Digitales",
-      title: "Apps Creadas para Negocios Locales",
+      title: "Apps de Fidelización y Gestión para Negocios Locales",
       subtitle: "Apps por suscripción que diseñamos y operamos nosotros, para que tu negocio sume fidelización, menús digitales y más sin construir nada.",
       items: [
         {
@@ -1566,6 +1571,7 @@ export const translations = {
     blog: {
       badge: "Centro de Conocimiento",
       title: "Últimas Perspectivas",
+      page_title: "Blog de Automatización con IA y Marketing Digital",
       subtitle: "Inteligencia estratégica para la empresa impulsada por IA.",
       read_more: "Leer Artículo",
       back: "Volver al Inicio",

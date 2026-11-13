@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { services } from '../content/services';
 
 export const SITE_URL = 'https://www.xtekai.com';
 export const SITE_NAME = 'Xtek AI';
@@ -18,6 +19,13 @@ export const SOCIAL_LINKS = {
     instagram: 'https://www.instagram.com/xtek.ai/',
     linkedin: 'https://www.linkedin.com/in/lisandro-xtek-ai-b20b043a9/',
     google: GOOGLE_PROFILE_URL,
+};
+
+// Founder and CEO.
+export const FOUNDER = {
+    name: 'Lisandro Orellana',
+    jobTitle: 'Founder & CEO',
+    linkedin: SOCIAL_LINKS.linkedin,
 };
 
 export const OG_IMAGE = {
@@ -115,6 +123,14 @@ export function toIsoDate(date: string): string | undefined {
 // ---------------------------------------------------------------------------
 
 export const ORG_ID = `${SITE_URL}/#organization`;
+
+const city = (name: string, state: string) => ({
+    '@type': 'City',
+    name,
+    containedInPlace: { '@type': 'State', name: state },
+});
+
+const STATE_NAMES: Record<string, string> = { NJ: 'New Jersey', PA: 'Pennsylvania', NY: 'New York' };
 const WEBSITE_ID = `${SITE_URL}/#website`;
 
 export const organizationJsonLd = () => ({
@@ -126,7 +142,7 @@ export const organizationJsonLd = () => ({
     url: SITE_URL,
     logo: {
         '@type': 'ImageObject',
-        url: `${SITE_URL}/favicon.png`,
+        url: `${SITE_URL}/icon-512.png`,
         width: 512,
         height: 512,
     },
@@ -136,6 +152,12 @@ export const organizationJsonLd = () => ({
         'Xtek AI is a US-based AI implementation agency offering SmartFlow AI audits, Executive AI accounting automation, AI agents and chatbots, AEO marketing, and web design and development.',
     email: CONTACT.email,
     telephone: CONTACT.phone,
+    // State level only, on purpose: the street address is not published.
+    address: {
+        '@type': 'PostalAddress',
+        addressRegion: 'NJ',
+        addressCountry: 'US',
+    },
     contactPoint: [
         {
             '@type': 'ContactPoint',
@@ -146,12 +168,51 @@ export const organizationJsonLd = () => ({
         },
     ],
     areaServed: [
-        { '@type': 'City', name: 'Hamilton, NJ' },
-        { '@type': 'City', name: 'Philadelphia, PA' },
-        { '@type': 'City', name: 'Manhattan, NY' },
+        { '@type': 'Country', name: 'United States' },
+        city('Hamilton', 'New Jersey'),
+        city('Philadelphia', 'Pennsylvania'),
+        city('Manhattan', 'New York'),
     ],
+    // Topics the company is an authority on (helps search engines and AI assistants place the entity).
+    knowsAbout: [
+        'AI automation',
+        'Business process automation',
+        'AI agents',
+        'AI chatbots',
+        'Voice AI agents',
+        'Accounting automation',
+        'Answer Engine Optimization (AEO)',
+        'Search engine optimization (SEO)',
+        'Digital marketing',
+        'Web design and development',
+        'Content creation',
+    ],
+    // The six service pages, linked by @id to the Service node on each page.
+    hasOfferCatalog: {
+        '@type': 'OfferCatalog',
+        name: 'Xtek AI services',
+        itemListElement: services.map((s) => ({
+            '@type': 'Offer',
+            itemOffered: {
+                '@type': 'Service',
+                '@id': `${absoluteUrl(`/services/${s.slug}`)}#service`,
+                name: s.en.name,
+                url: absoluteUrl(`/services/${s.slug}`),
+            },
+        })),
+    },
     hasMap: GOOGLE_PROFILE_URL,
-    sameAs: Object.values(SOCIAL_LINKS),
+    // The LinkedIn link is the founder's personal profile, so it belongs to the founder, not the company.
+    founder: {
+        '@type': 'Person',
+        '@id': `${SITE_URL}/#founder`,
+        name: FOUNDER.name,
+        jobTitle: FOUNDER.jobTitle,
+        sameAs: [FOUNDER.linkedin],
+        worksFor: { '@id': ORG_ID },
+    },
+    // Profiles of the company itself (the Google Maps listing is already in hasMap).
+    sameAs: [SOCIAL_LINKS.facebook, SOCIAL_LINKS.instagram],
 });
 
 export const websiteJsonLd = () => ({
@@ -183,20 +244,19 @@ interface ServiceAreaInput {
     service_keywords: string[];
 }
 
+// A city page describes the services offered in that city, not a separate local branch: there is no
+// office per city, so it is a Service provided by the organization (no address of its own).
 export const serviceAreaJsonLd = (area: ServiceAreaInput) => ({
     '@context': 'https://schema.org',
-    '@type': 'ProfessionalService',
+    '@type': 'Service',
     '@id': `${absoluteUrl(`/service-areas/${area.id}`)}#service`,
-    name: `${SITE_NAME} - AI Automation & Marketing in ${area.city}, ${area.state}`,
+    name: `AI Automation & Marketing in ${area.city}, ${area.state}`,
+    serviceType: 'AI automation and digital marketing',
     url: absoluteUrl(`/service-areas/${area.id}`),
     description: area.metaDescription,
-    image: `${SITE_URL}${OG_IMAGE.url}`,
-    email: CONTACT.email,
-    telephone: CONTACT.phone,
-    parentOrganization: { '@id': ORG_ID },
-    areaServed: { '@type': 'City', name: `${area.city}, ${area.state}` },
-    knowsAbout: area.service_keywords,
-    sameAs: Object.values(SOCIAL_LINKS),
+    provider: { '@id': ORG_ID },
+    areaServed: city(area.city, STATE_NAMES[area.state] ?? area.state),
+    keywords: area.service_keywords.join(', '),
 });
 
 interface PostInput {
@@ -281,4 +341,35 @@ export const nextHorizonJsonLd = (description: string) => ({
         '@type': 'Audience',
         audienceType: 'Government, healthcare and corporate organizations',
     },
+});
+
+interface ServicePageInput {
+    slug: string;
+    name: string;
+    serviceType: string;
+    description: string;
+}
+
+/** A service page (/services/<slug>), offered by the organization across the US. */
+export const serviceJsonLd = (service: ServicePageInput) => ({
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    '@id': `${absoluteUrl(`/services/${service.slug}`)}#service`,
+    name: service.name,
+    serviceType: service.serviceType,
+    description: service.description,
+    url: absoluteUrl(`/services/${service.slug}`),
+    provider: { '@id': ORG_ID },
+    areaServed: { '@type': 'Country', name: 'United States' },
+});
+
+/** FAQ block for questions that are visible on the page. */
+export const faqJsonLd = (faqs: { q: string; a: string }[]) => ({
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faqs.map((f) => ({
+        '@type': 'Question',
+        name: f.q,
+        acceptedAnswer: { '@type': 'Answer', text: f.a },
+    })),
 });

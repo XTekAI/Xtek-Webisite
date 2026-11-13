@@ -1,5 +1,6 @@
 import { getAllPosts } from '../../lib/blogLoader';
 import { serviceAreas } from '../../content/service-areas';
+import { services } from '../../content/services';
 import { CONTACT, SITE_URL, SOCIAL_LINKS, absoluteUrl } from '../../lib/seo';
 
 export const dynamic = 'force-static';
@@ -10,21 +11,16 @@ export function GET() {
     const lines = [
         '# Xtek AI',
         '',
-        '> Xtek AI is a US-based AI implementation agency. We help businesses automate workflows, accounting and admin work, deploy AI agents and chatbots, and grow through AEO (Answer Engine Optimization) marketing, web design and development.',
+        '> Xtek AI is an AI implementation agency based in New Jersey, USA, founded by Lisandro Orellana (Founder & CEO). We help businesses automate workflows, accounting and admin work, deploy AI agents and chatbots, and grow through AEO (Answer Engine Optimization) marketing, web design and development.',
         '',
         '## Services',
-        '- SmartFlow AI: Growth Audit - in-depth analysis of marketing and sales processes to find bottlenecks and maximize revenue flow.',
-        '- Executive AI: Admin Audit - automation of invoicing, inventory, document workflows and financial reporting.',
-        '- AI Agents & Chatbots - conversational text and voice agents integrated with your business data.',
-        '- Digital Marketing & AEO - traditional SEO plus optimization for AI answer engines.',
-        '- Web Design & Development - fast, optimized websites with technical SEO built in.',
-        '- Content Creation - copywriting, visual production and social media management.',
+        ...services.map((s) => `- [${s.en.name}](${absoluteUrl(`/services/${s.slug}`)}) - ${s.en.metaDescription}`),
         `- [Digital Products](${absoluteUrl('/products')}) - subscription apps for local businesses: MyLoyalink (https://www.myloyalink.com/en - stamp-based loyalty cards in Apple Wallet and Google Wallet, no app required, from $29/month with a 14-day free trial) and a digital menu for restaurants (in development).`,
         `- [Next Horizon](${absoluteUrl('/next-horizon')}) - closed-loop internal platform with departmental silos, private AI and unified meetings for government, healthcare and corporate teams.`,
         '',
         '## Key pages',
         `- [Home](${SITE_URL}/): overview of services and contact form`,
-        `- [Success Stories](${absoluteUrl('/stories')}): client case studies with measured results`,
+        `- [Success Stories](${absoluteUrl('/stories')}): real client projects (booking systems, AI agents, websites, loyalty apps)`,
         `- [Blog](${absoluteUrl('/blog')}): articles on AI automation and digital marketing`,
         `- [Privacy Policy](${absoluteUrl('/privacy')})`,
         `- [Terms and Conditions](${absoluteUrl('/terms')})`,

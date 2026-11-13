@@ -20,10 +20,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     }
 
     return buildMetadata({
-        title: area.metaTitle,
+        title: `${area.metaTitle} | Xtek AI`,
         description: area.metaDescription,
         path: `/service-areas/${area.id}`,
-        keywords: area.service_keywords.join(', '),
     });
 }
 

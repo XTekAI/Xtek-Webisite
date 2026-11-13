@@ -8,23 +8,33 @@ import { useLanguage } from '../context/LanguageContext';
 import { handleSmoothScroll } from '../lib/utils';
 import { MagnetizeButton } from './ui/magnetize-button';
 import { homeHref } from '../lib/navigation';
+import { services } from '../content/services';
 
+
+// One row of the mobile menu: full-width tap target (min 48px) with a divider.
+const mobileRowClass =
+  'flex items-center justify-between py-3 text-lg font-semibold !text-white border-b border-white/10 hover:text-primary-light transition-colors';
 
 const Header: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const { t } = useLanguage();
+  const { t, lang } = useLanguage();
   const pathname = usePathname();
+  // Mobile menu: the Services row opens a list of the service pages in place.
+  const [servicesOpen, setServicesOpen] = useState(false);
   const router = useRouter();
 
   // Lock body scroll when menu is open to prevent background scrolling
   useEffect(() => {
+    // While the menu is open, also hide the ElevenLabs call widget (it covered the menu's button).
+    document.body.classList.toggle('menu-open', isMenuOpen);
     if (isMenuOpen) {
       document.body.style.overflow = 'hidden';
       document.body.style.position = 'fixed';
       document.body.style.width = '100%';
       document.body.style.top = `-${window.scrollY}px`;
     } else {
+      setServicesOpen(false);
       const scrollY = document.body.style.top;
       document.body.style.overflow = '';
       document.body.style.position = '';
@@ -48,6 +58,7 @@ const Header: React.FC = () => {
   }, []);
 
   const closeMenu = useCallback(() => {
+    setServicesOpen(false);
     setIsMenuOpen(false);
   }, []);
 
@@ -130,9 +141,8 @@ const Header: React.FC = () => {
   return (
     <header className={`fixed top-0 left-0 right-0 z-[100] transition-all duration-300 ${isScrolled ? 'bg-primary/80 backdrop-blur-md py-4' : 'bg-transparent py-6'}`}>
       <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
-        <button onClick={scrollToTop} className="flex items-center gap-3 group relative z-50">
-          <div className="w-10 h-10 bg-primary-light rounded-lg flex items-center justify-center font-bold text-xl !text-white transition-transform group-hover:scale-110 notranslate">X</div>
-          <span className="text-2xl font-bold tracking-tight uppercase !text-white notranslate">XTEK AI</span>
+        <button onClick={scrollToTop} className="flex items-center gap-3 group relative z-[110]">
+          <img src="/brand/xtek-horizontal-negativo.svg" alt="XTEK AI" width={164} height={50} className="h-10 md:h-12 w-auto transition-transform group-hover:scale-105" />
         </button>
 
         {/* Desktop Nav */}
@@ -181,7 +191,7 @@ const Header: React.FC = () => {
 
           {/* Mobile Menu Button */}
           <button
-            className="xl:hidden p-2 text-white relative z-[110]"
+            className="xl:hidden p-2.5 -mr-2.5 text-white relative z-[110]"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
             aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
           >
@@ -194,39 +204,112 @@ const Header: React.FC = () => {
         </div>
       </div>
 
-      {/* Mobile Menu Overlay - moved outside inner container */}
+      {/* Mobile menu: compact list that starts under the logo and scrolls when needed. (The old one
+          centered ~14 large links vertically, so on phones the top of the list was cut off.) */}
       <div
-        className={`fixed inset-0 bg-primary/95 backdrop-blur-xl z-[105] transition-all duration-300 flex flex-col items-center justify-center gap-6 overflow-y-auto ${isMenuOpen ? 'opacity-100 visible' : 'opacity-0 invisible pointer-events-none'}`}
+        className={`xl:hidden fixed inset-0 bg-primary z-[105] transition-all duration-300 flex flex-col overflow-y-auto overscroll-contain px-6 pt-24 pb-8 ${isMenuOpen ? 'opacity-100 visible' : 'opacity-0 invisible pointer-events-none'}`}
         onClick={(e) => { if (e.target === e.currentTarget) closeMenu(); }}
       >
-        {primaryLinks.map(link => (
-          <React.Fragment key={link.id}>
-            {link.id === 'faq' && (
-              <>
-                <Link href="/products" onClick={closeMenuClean} className="text-2xl font-bold !text-white hover:text-primary-light transition-colors">{t.nav.products}</Link>
-                <Link href="/next-horizon" onClick={closeMenuClean} className="text-2xl font-bold !text-white hover:text-primary-light transition-colors flex items-center gap-2">
-                  Next Horizon
-                  <svg className="w-5 h-5 text-primary-light" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" /></svg>
-                </Link>
-              </>
-            )}
-            <a href={`/#${link.id}`} onClick={(e) => { e.preventDefault(); closeMenuAndNavigate(link.id); }} className="text-2xl font-bold !text-white hover:text-primary-light transition-colors">{link.label}</a>
-          </React.Fragment>
-        ))}
+        <nav className="flex flex-col">
+          {primaryLinks.map(link => (
+            <React.Fragment key={link.id}>
+              {link.id === 'faq' && (
+                <>
+                  <Link href="/products" onClick={closeMenuClean} className={mobileRowClass}>
+                    {t.nav.products}
+                    <span className="text-white/30">›</span>
+                  </Link>
+                  <Link href="/next-horizon" onClick={closeMenuClean} className={mobileRowClass}>
+                    <span className="flex items-center gap-2">
+                      Next Horizon
+                      <svg className="w-4 h-4 text-primary-light" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" /></svg>
+                    </span>
+                    <span className="text-white/30">›</span>
+                  </Link>
+                </>
+              )}
+              {link.id === 'services' ? (
+                <div className="border-b border-white/10">
+                  <button
+                    type="button"
+                    onClick={() => setServicesOpen((o) => !o)}
+                    aria-expanded={servicesOpen}
+                    aria-controls="mobile-services-list"
+                    className={`${mobileRowClass} w-full border-b-0`}
+                  >
+                    {link.label}
+                    <svg className={`w-5 h-5 text-primary-light transition-transform duration-300 ${servicesOpen ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" /></svg>
+                  </button>
+                  <div
+                    id="mobile-services-list"
+                    className={`grid transition-all duration-300 ${servicesOpen ? 'grid-rows-[1fr] opacity-100 pb-3' : 'grid-rows-[0fr] opacity-0'}`}
+                  >
+                    <ul className="overflow-hidden pl-3 border-l border-secondary/50 ml-1">
+                      {services.map((s) => (
+                        <li key={s.slug}>
+                          <Link
+                            href={`/services/${s.slug}`}
+                            onClick={closeMenuClean}
+                            tabIndex={servicesOpen ? 0 : -1}
+                            className="block py-2.5 text-[15px] font-medium !text-white/80 hover:!text-white"
+                          >
+                            {s[lang].name}
+                          </Link>
+                        </li>
+                      ))}
+                      <li>
+                        <a
+                          href="/#services"
+                          tabIndex={servicesOpen ? 0 : -1}
+                          onClick={(e) => { e.preventDefault(); closeMenuAndNavigate('services'); }}
+                          className="block py-2.5 text-[15px] font-semibold !text-accent"
+                        >
+                          {t.nav.all_services} →
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              ) : (
+                <a href={`/#${link.id}`} onClick={(e) => { e.preventDefault(); closeMenuAndNavigate(link.id); }} className={mobileRowClass}>
+                  {link.label}
+                  <span className="text-white/30">›</span>
+                </a>
+              )}
+            </React.Fragment>
+          ))}
+        </nav>
 
-        <div className="w-16 h-px bg-white/20 my-2"></div>
-        <span className="text-sm font-bold tracking-widest text-white/50 uppercase">{t.nav.more}</span>
-        {secondaryLinks.map(link => (
-          <a key={link.id} href={`/#${link.id}`} onClick={(e) => { e.preventDefault(); closeMenuAndNavigate(link.id); }} className="text-xl font-bold !text-white hover:text-primary-light transition-colors">{link.label}</a>
-        ))}
-        <div className="w-16 h-px bg-white/20 my-2"></div>
-        <span className="text-sm font-bold tracking-widest text-white/50 uppercase">Service Areas</span>
-        <Link href="/service-areas/hamilton-nj" onClick={closeMenuClean} className="text-xl font-bold !text-white hover:text-primary-light transition-colors">Hamilton, NJ</Link>
-        <Link href="/service-areas/philadelphia-pa" onClick={closeMenuClean} className="text-xl font-bold !text-white hover:text-primary-light transition-colors">Philadelphia, PA</Link>
-        <Link href="/service-areas/manhattan-ny" onClick={closeMenuClean} className="text-xl font-bold !text-white hover:text-primary-light transition-colors">Manhattan, NY</Link>
-        <div className="w-16 h-px bg-white/20 my-2"></div>
+        <p className="mt-7 mb-1 text-[11px] font-bold tracking-widest text-white/40 uppercase">{t.nav.more}</p>
+        <nav className="flex flex-col">
+          {secondaryLinks.map(link => (
+            <a key={link.id} href={`/#${link.id}`} onClick={(e) => { e.preventDefault(); closeMenuAndNavigate(link.id); }} className={mobileRowClass}>
+              {link.label}
+              <span className="text-white/30">›</span>
+            </a>
+          ))}
+        </nav>
 
-        <a href="/#contact" onClick={(e) => { e.preventDefault(); closeMenuAndNavigate('contact'); }} className="mt-4 px-8 py-3 bg-primary-light !text-white rounded-full font-bold text-xl">{t.nav.cta}</a>
+        <p className="mt-7 mb-3 text-[11px] font-bold tracking-widest text-white/40 uppercase">Service Areas</p>
+        <div className="flex flex-wrap gap-2">
+          {[
+            ['/service-areas/hamilton-nj', 'Hamilton, NJ'],
+            ['/service-areas/philadelphia-pa', 'Philadelphia, PA'],
+            ['/service-areas/manhattan-ny', 'Manhattan, NY'],
+          ].map(([href, label]) => (
+            <Link key={href} href={href} onClick={closeMenuClean} className="px-4 py-2 rounded-full border border-white/15 text-sm !text-white/80 hover:border-primary-light">
+              {label}
+            </Link>
+          ))}
+        </div>
+
+        <a
+          href="/#contact"
+          onClick={(e) => { e.preventDefault(); closeMenuAndNavigate('contact'); }}
+          className="mt-8 w-full py-4 bg-secondary !text-white rounded-full font-bold text-base text-center shadow-lg shadow-secondary/30"
+        >
+          {t.nav.cta}
+        </a>
       </div>
     </header>
   );
