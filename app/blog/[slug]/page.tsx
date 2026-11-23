@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { notFound } from 'next/navigation';
 import { getAllPosts, getPostBySlug } from '../../../lib/blogLoader';
 import BlogPost from '../../../views/BlogPost';
 import JsonLd from '../../../components/JsonLd';
@@ -33,6 +34,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     });
 }
 
+// Only published posts exist; any other slug gets the branded 404 with a real 404 status.
+export const dynamicParams = false;
+
 export function generateStaticParams() {
     const posts = getAllPosts();
     return posts.map((post) => ({
@@ -43,6 +47,7 @@ export function generateStaticParams() {
 export default async function BlogPostPage({ params }: Props) {
     const { slug } = await params;
     const post = getPostBySlug(slug);
+    if (!post) notFound();
 
     return (
         <>
