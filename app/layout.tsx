@@ -31,9 +31,9 @@ const playfair = Playfair_Display({
   weight: ["500"],
 });
 
-const DEFAULT_TITLE = "Xtek AI | AI Automation Agency & Business Automation USA";
+const DEFAULT_TITLE = "Xtek AI | AI Automation Agency in New Jersey & Nationwide";
 const DEFAULT_DESCRIPTION =
-  "Xtek AI is a US-based AI implementation agency offering SmartFlow AI audits, Executive AI accounting automation, AEO marketing, and web design.";
+  "Xtek AI is a New Jersey AI automation agency building AI agents, workflow automation, websites and AEO marketing for NJ, NYC, Philadelphia and beyond.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),

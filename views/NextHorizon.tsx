@@ -98,7 +98,7 @@ const QuoteForm: React.FC = () => {
     const labelClass = "text-xs font-bold uppercase tracking-widest text-white/50 px-1";
 
     return (
-        <form onSubmit={handleSubmit} className="glass max-w-2xl mx-auto p-8 md:p-12 rounded-3xl border border-white/10">
+        <form onSubmit={handleSubmit} className="liquid-glass max-w-2xl mx-auto p-8 md:p-12">
             <Honeypot value={honeypot} onChange={setHoneypot} />
             <TurnstileWidget ref={turnstileRef} onToken={setTurnstileToken} />
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">

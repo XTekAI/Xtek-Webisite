@@ -1,6 +1,7 @@
 "use client";
 
 import Link from 'next/link';
+import LiquidBackdrop from '../components/LiquidBackdrop';
 import Image from 'next/image';
 import { useRouter, usePathname, useParams, redirect } from 'next/navigation';
 
@@ -85,7 +86,7 @@ const BlogPost: React.FC = () => {
         <div className="pt-40 pb-24 px-6 min-h-screen">
             <div className="max-w-4xl mx-auto">
                 <Link href="/blog"
-                    className="flex items-center gap-2 text-white/50 hover:text-primary-light transition-colors mb-12 group"
+                    className="flex items-center gap-2 text-white/50 hover:text-accent transition-colors mb-12 group"
                 >
                     <svg className="w-5 h-5 transition-transform group-hover:-translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -150,14 +151,16 @@ const BlogPost: React.FC = () => {
                         {serviceAreas.map((area, i) => (
                             <React.Fragment key={area.id}>
                                 {i > 0 && (i === serviceAreas.length - 1 ? ', or ' : ', ')}
-                                <Link href={`/service-areas/${area.id}`} className="text-primary-light underline underline-offset-2 hover:text-white">{area.city}, {area.state}</Link>
+                                <Link href={`/service-areas/${area.id}`} className="text-primary-light underline underline-offset-2 hover:text-white">{area.name}</Link>
                             </React.Fragment>
                         ))}
                         .
                     </p>
                 </section>
 
-                <div className="glass rounded-[40px] border border-white/5 p-8 md:p-12 mb-16 text-center">
+                <div className="relative isolate">
+                <LiquidBackdrop variant="section" />
+                <div className="liquid-glass p-8 md:p-12 mb-16 text-center">
                     <h3 className="text-2xl font-bold mb-6">{t.blog.newsletter_title}</h3>
                     {submitted ? (
                         <div className="animate-fade-in">
@@ -204,6 +207,7 @@ const BlogPost: React.FC = () => {
                             </MagnetizeButton>
                         </form>
                     )}
+                </div>
                 </div>
 
                 <div className="text-center">

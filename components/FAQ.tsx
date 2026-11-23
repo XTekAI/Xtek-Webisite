@@ -11,7 +11,7 @@ const FAQItem: React.FC<{ question: string; answer: string }> = ({ question, ans
     <div className="border-b border-white/10">
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="w-full py-6 flex items-center justify-between text-left hover:text-primary-light transition-colors group"
+        className="w-full py-6 flex items-center justify-between text-left hover:text-accent transition-colors group"
       >
         <h3 className="text-lg md:text-xl font-medium pr-8">{question}</h3>
         <span className={`transform transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`}>

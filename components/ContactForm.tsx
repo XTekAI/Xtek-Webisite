@@ -241,7 +241,7 @@ const ContactForm: React.FC<{ source?: 'contact_form' | 'landing_contact_form' }
 
   if (submitted) {
     return (
-      <div className="glass max-w-2xl mx-auto p-12 text-center rounded-3xl animate-fade-in-up">
+      <div className="liquid-glass max-w-2xl mx-auto p-12 text-center animate-fade-in-up">
         <div className="w-20 h-20 bg-primary-light/20 rounded-full flex items-center justify-center mx-auto mb-6">
           <svg className="w-10 h-10 text-primary-light" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
@@ -270,7 +270,7 @@ const ContactForm: React.FC<{ source?: 'contact_form' | 'landing_contact_form' }
   const needsContinueButton = step === 0 || step === 2 || (step === 1 && industry === 'other') || isLast;
 
   return (
-    <form onSubmit={handleSubmit} noValidate className="glass max-w-2xl mx-auto p-8 md:p-12 rounded-3xl border border-white/10">
+    <form onSubmit={handleSubmit} noValidate className="liquid-glass max-w-2xl mx-auto p-8 md:p-12">
       <div ref={topRef} className="scroll-mt-28" />
       <Honeypot value={honeypot} onChange={setHoneypot} />
       <TurnstileWidget ref={turnstileRef} onToken={setTurnstileToken} />

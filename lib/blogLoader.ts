@@ -1,4 +1,4 @@
-import { translations } from '../translations';
+import storedPosts from '../content/blog/posts.json';
 import { clampDescription } from './seo';
 
 const HTML_TAGS = 'a|b|i|em|strong|p|div|span|ul|ol|li|h[1-6]|blockquote|br|hr|table|thead|tbody|tr|td|th|section|article|code|pre';
@@ -14,29 +14,20 @@ function normalizeHtml(html: string): string {
         .replace(new RegExp(`<\\s+(${HTML_TAGS})\\b`, 'gi'), '<$1');
 }
 
-// Search-friendly titles (max ~50 chars, so "<title> | Xtek AI" stays under 60).
-// The full title is still used for the on-page H1 and the BlogPosting headline.
-const SEO_TITLES: Record<string, string> = {
-    'the-strategic-guide-to-ai-automation-agencies-transforming-business-operations': 'The Strategic Guide to AI Automation Agencies',
-    'reclaiming-your-time-how-ai-automation-is-transforming-nj-and-pa-businesses': 'Reclaim Your Time: AI Automation for NJ & PA',
-    'navigating-new-jersey-s-digital-marketing-agency-landscape': 'New Jersey Digital Marketing Agency Landscape',
-    'quantum-computing-breakthroughs-2024-the-new-frontiers-in-technology-ai-and-global-regulation': 'Quantum Computing Breakthroughs in 2024',
-    'the-rising-stars-of-ai-image-generators-a-2026-curated-list': 'Rising Stars of AI Image Generators: 2026 List',
-    'aws-ai-factories-a-groundbreaking-leap-in-ai-application-development': 'AWS AI Factories: A Leap in AI Development',
-    'the-rise-and-thrive-of-the-digital-marketing-agency-scene-in-raleigh-nc': 'Digital Marketing Agency Scene in Raleigh, NC',
-    'understanding-pydantic-ai-the-revolutionary-python-agent-framework': 'Understanding Pydantic AI: Python Agent Framework',
-    'exploring-the-world-of-effective-context-engineering-for-ai-agents': 'Effective Context Engineering for AI Agents',
-};
-
-// Complete meta descriptions (120-160 chars) for posts whose excerpt is too
-// short or too long for a search snippet.
-const SEO_DESCRIPTIONS: Record<string, string> = {
-    'reclaiming-your-time-how-ai-automation-is-transforming-nj-and-pa-businesses': 'Automation lets you grow revenue without growing headcount. See how AI automation helps New Jersey and Pennsylvania businesses reclaim their time.',
-    'quantum-computing-breakthroughs-2024-the-new-frontiers-in-technology-ai-and-global-regulation': "Exploring 2024's major leaps in quantum computing, AI governance and global regulation, and what they mean for businesses adopting AI.",
-    'the-rise-and-thrive-of-the-digital-marketing-agency-scene-in-raleigh-nc': 'Raleigh, NC has become a dynamic hub for digital marketing innovation. Learn what defines the local agency scene and how to choose a partner.',
-    'understanding-pydantic-ai-the-revolutionary-python-agent-framework': 'Pydantic AI is a new Python agent framework drawing attention from developers who want to build more reliable AI systems.',
-    'your-complete-guide-to-digital-marketing-agencies': 'Digital marketing agencies have become the guiding star for businesses cracking the code of online success. Here is your complete guide.',
-};
+/**
+ * One entry per post. The n8n "XTEK · Blog SEO" workflow appends new posts to this file through
+ * GitHub, so every field except slug/title/date/content is optional.
+ */
+interface StoredPost {
+    slug: string;
+    title: string;
+    seoTitle?: string;
+    description?: string;
+    date: string; // YYYY-MM-DD
+    tags?: string[];
+    image?: string;
+    content: string; // HTML
+}
 
 export interface BlogPost {
     title: string;
@@ -55,45 +46,47 @@ export interface BlogPost {
     seoDescription: string;
 }
 
-// Helper to convert translations blog post to BlogPost format
-function convertTranslationPost(post: any): BlogPost {
-    // Generate slug from title if not provided
-    const slug = post.title
-        .toLowerCase()
-        .replace(/[^a-z0-9]+/g, '-')
-        .replace(/(^-|-$)/g, '');
+const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
+/** "2026-03-08" -> "Mar 08, 2026" (the display format the views and toIsoDate expect). */
+function displayDate(iso: string): string {
+    const m = /^(\d{4})-(\d{2})-(\d{2})/.exec(iso || '');
+    if (!m) return iso || '';
+    return `${MONTHS[Number(m[2]) - 1]} ${m[3]}, ${m[1]}`;
+}
+
+function readingTime(html: string): string {
+    const words = html.replace(/<[^>]+>/g, ' ').split(/\s+/).filter(Boolean).length;
+    return `${Math.max(1, Math.round(words / 230))} min`;
+}
+
+function toBlogPost(post: StoredPost): BlogPost {
+    const tags = post.tags ?? [];
+    const content = normalizeHtml(post.content || '');
+    const desc = post.description || '';
     return {
-        seoTitle: SEO_TITLES[slug] || post.title,
-        seoDescription: SEO_DESCRIPTIONS[slug] || clampDescription(post.desc || ''),
-        id: post.id || slug,
+        id: post.slug,
+        slug: post.slug,
         title: post.title,
-        slug: slug,
-        date: post.date || 'Jan 01, 2025',
-        readingTime: '5 min',
-        category: post.tags?.[0] || 'General',
-        tags: post.tags || [],
-        excerpt: post.desc || '',
+        seoTitle: post.seoTitle || post.title,
+        seoDescription: clampDescription(desc),
+        date: displayDate(post.date),
+        readingTime: readingTime(content),
+        category: tags[0] || 'General',
+        tags,
+        excerpt: desc,
+        desc,
         featuredImage: post.image || '',
-        content: normalizeHtml(post.content || ''),
-        desc: post.desc,
-        image: post.image
+        image: post.image || '',
+        content,
     };
 }
 
 export function getAllPosts(): BlogPost[] {
-    // Get posts from translations (English version)
-    const translationPosts = translations.en.blog?.posts || [];
-
-    // Convert to BlogPost format
-    const posts: BlogPost[] = translationPosts.map(convertTranslationPost);
-
-    // Sort by date (newest first)
-    return posts.sort((a, b) => {
-        const dateA = new Date(a.date).getTime();
-        const dateB = new Date(b.date).getTime();
-        return dateB - dateA;
-    });
+    return (storedPosts as StoredPost[])
+        .slice()
+        .sort((a, b) => (b.date || '').localeCompare(a.date || ''))
+        .map(toBlogPost);
 }
 
 export function getPostBySlug(slug: string): BlogPost | undefined {

@@ -1,6 +1,7 @@
 "use client";
 
 import Link from 'next/link';
+import LiquidBackdrop from '../components/LiquidBackdrop';
 
 import React, { useRef, useState } from 'react';
 import { useLanguage } from '../context/LanguageContext';
@@ -88,11 +89,11 @@ const BlogIndex: React.FC = () => {
                             </div>
                             <div className="p-8 flex flex-col flex-grow">
                                 <div className="text-primary-light text-xs font-bold mb-4 uppercase tracking-widest">{post.date} • {post.readingTime}</div>
-                                <h3 className="text-2xl font-bold mb-4 leading-tight group-hover:text-primary-light transition-colors">{post.title}</h3>
+                                <h3 className="text-2xl font-bold mb-4 leading-tight group-hover:text-accent transition-colors">{post.title}</h3>
                                 <p className="text-white/60 mb-6 line-clamp-3 text-sm">{post.excerpt || post.content.substring(0, 100)}...</p>
                                 <div className="mt-auto pt-6 border-t border-white/5">
                                     <Link href={`/blog/${post.slug}`}
-                                        className="flex items-center gap-2 text-white font-bold text-sm tracking-widest uppercase group/btn hover:text-primary-light transition-colors"
+                                        className="flex items-center gap-2 text-white font-bold text-sm tracking-widest uppercase group/btn hover:text-accent transition-colors"
                                     >
                                         {t.blog.read_more}
                                         <svg className="w-4 h-4 transition-transform group-hover/btn:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -105,7 +106,9 @@ const BlogIndex: React.FC = () => {
                     ))}
                 </div>
 
-                <div className="glass rounded-[40px] border border-white/5 p-8 md:p-12 mt-24 mb-16 text-center max-w-4xl mx-auto">
+                <div className="relative isolate">
+                <LiquidBackdrop variant="section" />
+                <div className="liquid-glass p-8 md:p-12 mt-24 mb-16 text-center max-w-4xl mx-auto">
                     <h3 className="text-2xl font-bold mb-6">{t.blog.newsletter_title}</h3>
                     {submitted ? (
                         <div className="animate-fade-in">
@@ -153,10 +156,11 @@ const BlogIndex: React.FC = () => {
                         </form>
                     )}
                 </div>
+                </div>
 
                 <div className="text-center mt-16">
                     <Link href="/"
-                        className="flex items-center gap-2 text-white/50 hover:text-primary-light transition-colors mx-auto group inline-flex"
+                        className="flex items-center gap-2 text-white/50 hover:text-accent transition-colors mx-auto group inline-flex"
                     >
                         <svg className="w-5 h-5 transition-transform group-hover:-translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />

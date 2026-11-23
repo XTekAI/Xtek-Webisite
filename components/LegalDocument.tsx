@@ -67,7 +67,7 @@ export default function LegalDocument({ title, intro, sections, otherPage }: Leg
         <div className="pt-40 pb-24 px-6 min-h-screen">
             <div className="max-w-4xl mx-auto">
                 <nav aria-label="Breadcrumb" className="mb-8 text-sm text-white/55">
-                    <Link href="/" className="hover:text-primary-light transition-colors">Home</Link>
+                    <Link href="/" className="hover:text-accent transition-colors">Home</Link>
                     <span className="mx-2">/</span>
                     <span className="text-white/80">{title}</span>
                 </nav>
@@ -88,7 +88,7 @@ export default function LegalDocument({ title, intro, sections, otherPage }: Leg
                     <ol className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-2 list-decimal pl-5 text-white/75 marker:text-sky-300">
                         {sections.map((section) => (
                             <li key={section.id}>
-                                <a href={`#${section.id}`} className="hover:text-primary-light underline-offset-2 hover:underline">{section.title}</a>
+                                <a href={`#${section.id}`} className="hover:text-accent underline-offset-2 hover:underline">{section.title}</a>
                             </li>
                         ))}
                     </ol>

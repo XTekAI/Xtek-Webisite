@@ -2,7 +2,8 @@ import type { Metadata } from 'next';
 import { serviceAreas } from '../../../content/service-areas';
 import ServiceAreaLayout from '../../../views/service-areas/ServiceAreaLayout';
 import JsonLd from '../../../components/JsonLd';
-import { breadcrumbJsonLd, buildMetadata, serviceAreaJsonLd } from '../../../lib/seo';
+import { breadcrumbJsonLd, buildMetadata, faqJsonLd, serviceAreaJsonLd } from '../../../lib/seo';
+import { notFound } from 'next/navigation';
 
 interface Props {
     params: Promise<{ cityId: string }>;
@@ -26,6 +27,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     });
 }
 
+export const dynamicParams = false;
+
 export function generateStaticParams() {
     return serviceAreas.map((area) => ({
         cityId: area.id,
@@ -36,20 +39,23 @@ export default async function ServiceAreaPage({ params }: Props) {
     const { cityId } = await params;
     const area = serviceAreas.find((a) => a.id === cityId);
 
+    if (!area) notFound();
+
     return (
         <>
             {area && (
                 <JsonLd
                     data={[
                         serviceAreaJsonLd(area),
+                        faqJsonLd(area.faqs),
                         breadcrumbJsonLd([
                             { name: 'Home', path: '/' },
-                            { name: `${area.city}, ${area.state}`, path: `/service-areas/${area.id}` },
+                            { name: area.name, path: `/service-areas/${area.id}` },
                         ]),
                     ]}
                 />
             )}
-            <ServiceAreaLayout />
+            <ServiceAreaLayout area={area} />
         </>
     );
 }

@@ -28,7 +28,7 @@ export function GET() {
         '',
         '## Service areas',
         ...serviceAreas.map(
-            (area) => `- [${area.city}, ${area.state}](${absoluteUrl(`/service-areas/${area.id}`)}): ${area.metaTitle}`
+            (area) => `- [${area.name}](${absoluteUrl(`/service-areas/${area.id}`)}): ${area.metaTitle}`
         ),
         '',
         '## Blog articles',

@@ -110,7 +110,7 @@ const SuccessStories: React.FC = () => {
           <div className="text-center mb-20">
             <Link href="/stories"
               onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-              className="inline-flex items-center gap-3 text-white/60 hover:text-primary-light font-bold text-lg transition-colors group"
+              className="inline-flex items-center gap-3 text-white/60 hover:text-accent font-bold text-lg transition-colors group"
             >
               {t.testimonials.view_all}
               <svg className="w-5 h-5 transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">

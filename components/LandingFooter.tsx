@@ -20,12 +20,12 @@ const LandingFooter: React.FC = () => {
                     <div className="flex flex-wrap justify-center gap-6 text-sm text-white/40">
                         <a
                             href="mailto:tekmanager@xtekai.com"
-                            className="hover:text-white transition-colors flex items-center gap-2"
+                            className="hover:text-accent transition-colors flex items-center gap-2"
                         >
                             <span className="text-primary-light">@</span>
                             tekmanager@xtekai.com
                         </a>
-                        <a href="tel:6099126800" className="hover:text-white transition-colors flex items-center gap-2">
+                        <a href="tel:6099126800" className="hover:text-accent transition-colors flex items-center gap-2">
                             <span className="text-primary-light">P:</span>
                             609 912 6800
                         </a>
@@ -34,10 +34,10 @@ const LandingFooter: React.FC = () => {
 
                 <div className="mt-8 pt-6 border-t border-white/5 text-center">
                     <div className="flex justify-center gap-6 mb-4 text-xs text-white/40">
-                        <Link href={modeHref('/privacy')} className="hover:text-white transition-colors">Privacy Policy</Link>
-                        <Link href={modeHref('/terms')} className="hover:text-white transition-colors">Terms and Conditions</Link>
-                        <Link href={modeHref('/sms-terms')} className="hover:text-white transition-colors">SMS Terms</Link>
-                        <button type="button" onClick={openCookieSettings} className="hover:text-white transition-colors">Your Privacy Choices</button>
+                        <Link href={modeHref('/privacy')} className="hover:text-accent transition-colors">Privacy Policy</Link>
+                        <Link href={modeHref('/terms')} className="hover:text-accent transition-colors">Terms and Conditions</Link>
+                        <Link href={modeHref('/sms-terms')} className="hover:text-accent transition-colors">SMS Terms</Link>
+                        <button type="button" onClick={openCookieSettings} className="hover:text-accent transition-colors">Your Privacy Choices</button>
                     </div>
                     <p className="text-white/30 text-xs">
                         © {new Date().getFullYear()} XTEK AI Agency. {t.footer.rights}

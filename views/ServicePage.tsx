@@ -7,6 +7,7 @@ import { getService, services, type ServiceSlug } from '../content/services';
 import { useLanguage } from '../context/LanguageContext';
 import { CONTACT } from '../lib/seo';
 import { homeHref } from '../lib/navigation';
+import ContactSection from '../components/ContactSection';
 
 const UI = {
     en: { home: 'Home', services: 'Services', other: 'Other services', learnMore: 'Learn more', contact: 'Send us a message', challenge: 'The challenge', solution: 'What we did', result: 'The result' },
@@ -24,12 +25,12 @@ const CallButtons: React.FC<{ cta: string; contact: string }> = ({ cta, contact 
         >
             {cta} <ArrowRight className="w-4 h-4" />
         </a>
-        <Link
-            href={homeHref('contact')}
+        <a
+            href="#contact"
             className="inline-flex items-center justify-center px-7 py-4 border border-white/20 !text-white rounded-full font-bold hover:bg-white/5 transition-colors"
         >
             {contact}
-        </Link>
+        </a>
     </div>
 );
 
@@ -156,6 +157,8 @@ const ServicePage: React.FC<{ slug: ServiceSlug }> = ({ slug }) => {
                 <p className="text-white/65 text-lg mb-8 max-w-2xl mx-auto">{c.ctaText}</p>
                 <CallButtons cta={c.cta} contact={ui.contact} />
             </section>
+
+            <ContactSection />
 
             {/* Other services (internal links) */}
             <nav aria-label={ui.other} className="max-w-5xl mx-auto">

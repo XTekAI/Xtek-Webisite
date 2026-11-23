@@ -130,6 +130,12 @@ const city = (name: string, state: string) => ({
     containedInPlace: { '@type': 'State', name: state },
 });
 
+const county = (name: string, state: string) => ({
+    '@type': 'AdministrativeArea',
+    name,
+    containedInPlace: { '@type': 'State', name: state },
+});
+
 const STATE_NAMES: Record<string, string> = { NJ: 'New Jersey', PA: 'Pennsylvania', NY: 'New York' };
 const WEBSITE_ID = `${SITE_URL}/#website`;
 
@@ -167,11 +173,16 @@ export const organizationJsonLd = () => ({
             availableLanguage: ['English', 'Spanish'],
         },
     ],
+    // Mirrors the service areas of the Google Business Profile (2026-11-23).
     areaServed: [
         { '@type': 'Country', name: 'United States' },
-        city('Hamilton', 'New Jersey'),
+        { '@type': 'State', name: 'New Jersey' },
+        county('Bergen County', 'New Jersey'),
+        ...['Trenton', 'Princeton', 'Hamilton Township', 'West Windsor', 'Plainsboro', 'East Windsor', 'North Brunswick',
+            'South Brunswick', 'New Brunswick', 'Cherry Hill', 'Marlton', 'Voorhees Township', 'Evesham Township', 'Medford',
+            'Haddon Township', 'Mount Laurel', 'Lakewood'].map((name) => city(name, 'New Jersey')),
         city('Philadelphia', 'Pennsylvania'),
-        city('Manhattan', 'New York'),
+        city('New York', 'New York'),
     ],
     // Topics the company is an authority on (helps search engines and AI assistants place the entity).
     knowsAbout: [
@@ -238,24 +249,34 @@ export const breadcrumbJsonLd = (items: { name: string; path: string }[]) => ({
 
 interface ServiceAreaInput {
     id: string;
-    city: string;
+    name: string;
     state: string;
+    kind: 'State' | 'Region' | 'County' | 'City';
     metaDescription: string;
+    towns: string[];
     service_keywords: string[];
 }
 
-// A city page describes the services offered in that city, not a separate local branch: there is no
-// office per city, so it is a Service provided by the organization (no address of its own).
+const areaPlace = (area: ServiceAreaInput) => {
+    const state = STATE_NAMES[area.state] ?? area.state;
+    if (area.kind === 'State') return { '@type': 'State', name: state };
+    if (area.kind === 'County') return county(area.name, state);
+    if (area.kind === 'Region') return { '@type': 'AdministrativeArea', name: area.name, containedInPlace: { '@type': 'State', name: state } };
+    return city(area.name, state);
+};
+
+// An area page describes the services offered there, not a separate local branch: there is no
+// office per area, so it is a Service provided by the organization (no address of its own).
 export const serviceAreaJsonLd = (area: ServiceAreaInput) => ({
     '@context': 'https://schema.org',
     '@type': 'Service',
     '@id': `${absoluteUrl(`/service-areas/${area.id}`)}#service`,
-    name: `AI Automation & Marketing in ${area.city}, ${area.state}`,
+    name: `AI Automation & Marketing in ${area.name}`,
     serviceType: 'AI automation and digital marketing',
     url: absoluteUrl(`/service-areas/${area.id}`),
     description: area.metaDescription,
     provider: { '@id': ORG_ID },
-    areaServed: city(area.city, STATE_NAMES[area.state] ?? area.state),
+    areaServed: [areaPlace(area), ...(area.kind === 'City' ? [] : area.towns.map((t) => ({ '@type': 'Place', name: t })))],
     keywords: area.service_keywords.join(', '),
 });
 

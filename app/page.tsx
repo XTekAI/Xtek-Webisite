@@ -5,9 +5,9 @@ import { reviewsJsonLd } from '../content/google-reviews';
 import { buildMetadata } from '../lib/seo';
 
 export const metadata: Metadata = buildMetadata({
-  title: 'Xtek AI | AI Automation Agency & Business Automation USA',
+  title: 'Xtek AI | AI Automation Agency in New Jersey & Nationwide',
   description:
-    'Xtek AI is a US-based AI implementation agency offering SmartFlow AI audits, Executive AI accounting automation, AEO marketing, and web design.',
+    'Xtek AI is a New Jersey AI automation agency building AI agents, workflow automation, websites and AEO marketing for NJ, NYC, Philadelphia and beyond.',
   path: '/',
 });
 

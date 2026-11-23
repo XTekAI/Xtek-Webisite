@@ -7,13 +7,13 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { useLanguage } from '../context/LanguageContext';
 import { handleSmoothScroll } from '../lib/utils';
 import { MagnetizeButton } from './ui/magnetize-button';
-import { homeHref } from '../lib/navigation';
+import { homeHref, scrollToSection } from '../lib/navigation';
 import { services } from '../content/services';
 
 
 // One row of the mobile menu: full-width tap target (min 48px) with a divider.
 const mobileRowClass =
-  'flex items-center justify-between py-3 text-lg font-semibold !text-white border-b border-white/10 hover:text-primary-light transition-colors';
+  'flex items-center justify-between py-3 text-lg font-semibold !text-white border-b border-white/10 hover:text-accent transition-colors';
 
 const Header: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -79,7 +79,8 @@ const Header: React.FC = () => {
     setIsMenuOpen(false);
 
     // If not on home page, navigate to home first then scroll
-    if (pathname !== '/') {
+    // (except "contact" on pages that have their own contact form).
+    if (pathname !== '/' && !(targetId === 'contact' && document.getElementById('contact'))) {
       router.push(homeHref(targetId));
       pendingNavRef.current = null;
     } else {
@@ -110,6 +111,8 @@ const Header: React.FC = () => {
 
   const handleNavigation = (e: React.MouseEvent, targetId: string) => {
     e.preventDefault();
+    // Pages with their own contact form (service and area pages) scroll to it instead of leaving.
+    if (pathname !== '/' && targetId === 'contact' && scrollToSection('contact')) return;
     if (pathname !== '/') {
       router.push(homeHref(targetId));
     } else {
@@ -151,31 +154,29 @@ const Header: React.FC = () => {
             <React.Fragment key={link.id}>
               {link.id === 'faq' && (
                 <>
-                  <Link href="/products" className="text-sm font-medium !text-white hover:text-primary-light transition-colors">{t.nav.products}</Link>
-                  <Link href="/next-horizon" className="text-sm font-medium !text-white hover:text-primary-light transition-colors flex items-center gap-1">
+                  <Link href="/products" className="text-sm font-medium !text-white hover:text-accent transition-colors">{t.nav.products}</Link>
+                  <Link href="/next-horizon" className="text-sm font-medium !text-white hover:text-accent transition-colors flex items-center gap-1">
                     Next Horizon
                     <svg className="w-3.5 h-3.5 text-primary-light" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" /></svg>
                   </Link>
                 </>
               )}
-              <a href={`/#${link.id}`} onClick={(e) => handleNavigation(e, link.id)} className="text-sm font-medium !text-white hover:text-primary-light transition-colors">{link.label}</a>
+              <a href={`/#${link.id}`} onClick={(e) => handleNavigation(e, link.id)} className="text-sm font-medium !text-white hover:text-accent transition-colors">{link.label}</a>
             </React.Fragment>
           ))}
           <div className="relative group">
-            <button className="text-sm font-medium !text-white hover:text-primary-light transition-colors flex items-center gap-1">
+            <button className="text-sm font-medium !text-white hover:text-accent transition-colors flex items-center gap-1">
               {t.nav.more}
               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" /></svg>
             </button>
             <div className="absolute top-full right-0 pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible focus-within:opacity-100 focus-within:visible transition-all duration-300">
               <div className="w-56 bg-[#0a0f1c]/95 backdrop-blur-md rounded-lg border border-primary-light/20 shadow-xl flex flex-col py-2">
                 {secondaryLinks.map(link => (
-                  <a key={link.id} href={`/#${link.id}`} onClick={(e) => handleNavigation(e, link.id)} className="px-4 py-2 text-sm text-white/80 hover:text-primary-light hover:bg-white/5 transition-colors">{link.label}</a>
+                  <a key={link.id} href={`/#${link.id}`} onClick={(e) => handleNavigation(e, link.id)} className="px-4 py-2 text-sm text-white/80 hover:text-accent hover:bg-white/5 transition-colors">{link.label}</a>
                 ))}
                 <div className="h-px bg-white/10 my-2 mx-4"></div>
                 <span className="px-4 pb-1 text-[10px] font-bold tracking-widest text-white/40 uppercase">Service Areas</span>
-                <Link href="/service-areas/hamilton-nj" className="px-4 py-2 text-sm text-white/80 hover:text-primary-light hover:bg-white/5 transition-colors">Hamilton, NJ</Link>
-                <Link href="/service-areas/philadelphia-pa" className="px-4 py-2 text-sm text-white/80 hover:text-primary-light hover:bg-white/5 transition-colors">Philadelphia, PA</Link>
-                <Link href="/service-areas/manhattan-ny" className="px-4 py-2 text-sm text-white/80 hover:text-primary-light hover:bg-white/5 transition-colors">Manhattan, NY</Link>
+                <Link href="/service-areas" className="px-4 py-2 text-sm text-white/80 hover:text-accent hover:bg-white/5 transition-colors">All service areas</Link>
               </div>
             </div>
           </div>
@@ -293,9 +294,7 @@ const Header: React.FC = () => {
         <p className="mt-7 mb-3 text-[11px] font-bold tracking-widest text-white/40 uppercase">Service Areas</p>
         <div className="flex flex-wrap gap-2">
           {[
-            ['/service-areas/hamilton-nj', 'Hamilton, NJ'],
-            ['/service-areas/philadelphia-pa', 'Philadelphia, PA'],
-            ['/service-areas/manhattan-ny', 'Manhattan, NY'],
+            ['/service-areas', 'All service areas'],
           ].map(([href, label]) => (
             <Link key={href} href={href} onClick={closeMenuClean} className="px-4 py-2 rounded-full border border-white/15 text-sm !text-white/80 hover:border-primary-light">
               {label}

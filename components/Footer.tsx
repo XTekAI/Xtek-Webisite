@@ -91,19 +91,19 @@ const Footer: React.FC = () => {
           <div>
             <h4 className="font-bold mb-6 text-sm uppercase tracking-widest text-primary-light">{t.footer.col1_title}</h4>
             <ul className="space-y-4 text-sm text-white/60">
-              <li><a href="/#about" onClick={(e) => handleNavigation(e, 'about')} className="hover:text-white transition-colors">{t.footer.col1_item1}</a></li>
-              <li><a href="/#services" onClick={(e) => handleNavigation(e, 'services')} className="hover:text-white transition-colors">{t.footer.col1_item2}</a></li>
-              <li><a href="/#blog" onClick={(e) => handleNavigation(e, 'blog')} className="hover:text-white transition-colors">{t.footer.col1_item3}</a></li>
-              <li><Link href="/products" className="hover:text-white transition-colors">{t.nav.products}</Link></li>
-              <li><Link href="/next-horizon" className="hover:text-white transition-colors flex items-center gap-1.5">Next Horizon <svg className="w-3 h-3 text-primary-light" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" /></svg></Link></li>
+              <li><a href="/#about" onClick={(e) => handleNavigation(e, 'about')} className="hover:text-accent transition-colors">{t.footer.col1_item1}</a></li>
+              <li><a href="/#services" onClick={(e) => handleNavigation(e, 'services')} className="hover:text-accent transition-colors">{t.footer.col1_item2}</a></li>
+              <li><a href="/#blog" onClick={(e) => handleNavigation(e, 'blog')} className="hover:text-accent transition-colors">{t.footer.col1_item3}</a></li>
+              <li><Link href="/products" className="hover:text-accent transition-colors">{t.nav.products}</Link></li>
+              <li><Link href="/next-horizon" className="hover:text-accent transition-colors flex items-center gap-1.5">Next Horizon <svg className="w-3 h-3 text-primary-light" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" /></svg></Link></li>
             </ul>
           </div>
 
           <div>
             <h4 className="font-bold mb-6 text-sm uppercase tracking-widest text-primary-light">{t.footer.col2_title}</h4>
             <ul className="space-y-4 text-sm text-white/60">
-              <li><a href="/#contact" onClick={(e) => handleNavigation(e, 'contact')} className="hover:text-white transition-colors">{t.footer.col2_item1}</a></li>
-              <li><a href="/#contact" onClick={(e) => handleNavigation(e, 'contact')} className="hover:text-white transition-colors">{t.footer.col2_item3}</a></li>
+              <li><a href="/#contact" onClick={(e) => handleNavigation(e, 'contact')} className="hover:text-accent transition-colors">{t.footer.col2_item1}</a></li>
+              <li><a href="/#contact" onClick={(e) => handleNavigation(e, 'contact')} className="hover:text-accent transition-colors">{t.footer.col2_item3}</a></li>
             </ul>
           </div>
 
@@ -113,14 +113,14 @@ const Footer: React.FC = () => {
               <li>
                 <a
                   href="mailto:tekmanager@xtekai.com?subject=Inquiry from Xtek AI Website&body=Hello Xtek AI Team,%0D%0A%0D%0AI would like to learn more about your services.%0D%0A%0D%0AName:%0D%0ACompany:%0D%0APhone:"
-                  className="hover:text-white transition-colors flex flex-col"
+                  className="hover:text-accent transition-colors flex flex-col"
                 >
                   <span className="text-[10px] uppercase tracking-wider text-white/30">{t.footer.email_label}</span>
                   tekmanager@xtekai.com
                 </a>
               </li>
               <li>
-                <a href="tel:6099126800" className="hover:text-white transition-colors flex flex-col">
+                <a href="tel:6099126800" className="hover:text-accent transition-colors flex flex-col">
                   <span className="text-[10px] uppercase tracking-wider text-white/30">{t.footer.phone_label}</span>
                   609 912 6800
                 </a>
@@ -131,11 +131,11 @@ const Footer: React.FC = () => {
           <div>
             <h4 className="font-bold mb-6 text-sm uppercase tracking-widest text-primary-light">{t.footer.col3_title}</h4>
             <ul className="space-y-4 text-sm text-white/60">
-              <li><Link href="/terms" className="hover:text-white transition-colors">{t.footer.col3_item1}</Link></li>
-              <li><Link href="/sms-terms" className="hover:text-white transition-colors">SMS Terms</Link></li>
-              <li><Link href="/privacy" className="hover:text-white transition-colors">{t.footer.col3_item2}</Link></li>
-              <li><Link href="/privacy#cookies" className="hover:text-white transition-colors">{t.footer.col3_item3}</Link></li>
-              <li><button type="button" onClick={openCookieSettings} className="hover:text-white transition-colors text-left">Your Privacy Choices</button></li>
+              <li><Link href="/terms" className="hover:text-accent transition-colors">{t.footer.col3_item1}</Link></li>
+              <li><Link href="/sms-terms" className="hover:text-accent transition-colors">SMS Terms</Link></li>
+              <li><Link href="/privacy" className="hover:text-accent transition-colors">{t.footer.col3_item2}</Link></li>
+              <li><Link href="/privacy#cookies" className="hover:text-accent transition-colors">{t.footer.col3_item3}</Link></li>
+              <li><button type="button" onClick={openCookieSettings} className="hover:text-accent transition-colors text-left">Your Privacy Choices</button></li>
             </ul>
           </div>
         </div>
@@ -146,7 +146,7 @@ const Footer: React.FC = () => {
           <ul className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-1 text-sm text-white/60">
             {services.map((s) => (
               <li key={s.slug}>
-                <Link href={`/services/${s.slug}`} className="block py-2 hover:text-white transition-colors">{s[lang].name}</Link>
+                <Link href={`/services/${s.slug}`} className="block py-2 hover:text-accent transition-colors">{s[lang].name}</Link>
               </li>
             ))}
           </ul>

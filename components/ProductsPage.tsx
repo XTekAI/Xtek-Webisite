@@ -84,7 +84,7 @@ const ProductsPage: React.FC = () => {
       <div className="max-w-7xl mx-auto">
         <Link
           href="/"
-          className="flex items-center gap-2 text-white/50 hover:text-primary-light transition-colors mb-12 group inline-flex"
+          className="flex items-center gap-2 text-white/50 hover:text-accent transition-colors mb-12 group inline-flex"
         >
           <svg className="w-5 h-5 transition-transform group-hover:-translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
