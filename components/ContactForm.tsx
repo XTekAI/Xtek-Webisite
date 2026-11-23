@@ -1,5 +1,7 @@
 "use client";
 
+import PhoneField from './PhoneField';
+import { DEFAULT_PHONE_COUNTRY, isValidEmail, isValidPersonName, isValidPhone, sanitizePersonName, toE164 } from '../lib/formValidation';
 import React, { useEffect, useRef, useState } from 'react';
 import { useLanguage } from '../context/LanguageContext';
 import { translations } from '../translations';
@@ -25,9 +27,6 @@ const inputClass =
   'bg-white/5 border border-white/10 rounded-xl px-4 py-3 outline-none focus:border-primary-light focus:bg-white/10 transition-all text-white placeholder:text-white/20';
 const labelClass = 'text-xs font-bold uppercase tracking-widest text-white/50 px-1';
 
-const validateEmail = (email: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-const validatePhone = (phone: string) =>
-  /^[+]?[(]?[0-9]{3}[)]?[-\s.]?[0-9]{3}[-\s.]?[0-9]{4,6}$/.test(phone.replace(/\s/g, '')) || phone.length >= 7;
 
 const readinessToTemperature = (value: string) =>
   value === 'ready_now' ? 'hot' : value === 'one_to_three_months' ? 'warm' : 'cold';
@@ -82,6 +81,7 @@ const ContactForm: React.FC<{ source?: 'contact_form' | 'landing_contact_form' }
   const [readiness, setReadiness] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
+  const [phoneCountry, setPhoneCountry] = useState(DEFAULT_PHONE_COUNTRY);
   const [preferredLanguage, setPreferredLanguage] = useState<string>(lang);
 
   const [error, setError] = useState('');
@@ -113,6 +113,7 @@ const ContactForm: React.FC<{ source?: 'contact_form' | 'landing_contact_form' }
 
   const stepError = (current: number): string => {
     if (current === 0 && (!name.trim() || !businessName.trim())) return w.error_name;
+    if (current === 0 && !isValidPersonName(name)) return t.contact.error_person_name;
     if (current === 1) {
       if (!industry) return w.error_pick;
       if (industry === 'other' && !industryOther.trim()) return w.error_other;
@@ -184,8 +185,8 @@ const ContactForm: React.FC<{ source?: 'contact_form' | 'landing_contact_form' }
     }
 
     const newErrors = { phone: '', email: '' };
-    if (!validateEmail(email)) newErrors.email = t.contact.error_email;
-    if (!validatePhone(phone)) newErrors.phone = t.contact.error_phone;
+    if (!isValidEmail(email)) newErrors.email = t.contact.error_email;
+    if (!isValidPhone(phone, phoneCountry)) newErrors.phone = t.contact.error_phone;
     if (newErrors.email || newErrors.phone) {
       setErrors(newErrors);
       return;
@@ -201,7 +202,7 @@ const ContactForm: React.FC<{ source?: 'contact_form' | 'landing_contact_form' }
         name: name.trim(),
         businessName: businessName.trim(),
         email: email.trim(),
-        phone: phone.trim(),
+        phone: toE164(phone, phoneCountry),
         preferredLanguage,
         description: buildDescription(),
         // The n8n workflow reads `niche` into the CRM's "Niche" column (readable English, whatever the visitor's language).
@@ -233,7 +234,7 @@ const ContactForm: React.FC<{ source?: 'contact_form' | 'landing_contact_form' }
     setStep(0);
     setName(''); setBusinessName(''); setIndustry(''); setIndustryOther('');
     setChallenges([]); setChallengeOther(''); setReadiness('');
-    setEmail(''); setPhone(''); setPreferredLanguage(lang);
+    setEmail(''); setPhone(''); setPhoneCountry(DEFAULT_PHONE_COUNTRY); setPreferredLanguage(lang);
     setConsent(emptyConsent); setConsentError(false);
     setErrors({ phone: '', email: '' }); setError('');
     setHoneypot(''); setTurnstileToken('');
@@ -295,7 +296,7 @@ const ContactForm: React.FC<{ source?: 'contact_form' | 'landing_contact_form' }
           <div className="grid grid-cols-1 gap-5">
             <div className="flex flex-col gap-2">
               <label className={labelClass}>{t.contact.label_name}</label>
-              <input autoFocus={interacted} type="text" name="name" autoComplete="name" value={name} onChange={(e) => { setName(e.target.value); setError(''); }} placeholder={w.placeholder_name} className={inputClass} />
+              <input autoFocus={interacted} type="text" name="name" autoComplete="name" value={name} onChange={(e) => { setName(sanitizePersonName(e.target.value)); setError(''); }} placeholder={w.placeholder_name} className={inputClass} />
             </div>
             <div className="flex flex-col gap-2">
               <label className={labelClass}>{t.contact.label_business}</label>
@@ -341,15 +342,15 @@ const ContactForm: React.FC<{ source?: 'contact_form' | 'landing_contact_form' }
         {step === 4 && (
           <>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mb-8">
-              <div className="flex flex-col gap-2">
+              <div className="flex flex-col gap-2 md:col-span-2">
                 <label className={labelClass}>{t.contact.label_email}</label>
                 <input autoFocus type="email" name="email" autoComplete="email" value={email} onChange={(e) => { setEmail(e.target.value); setErrors((p) => ({ ...p, email: '' })); }} placeholder="hello@company.com" className={`${inputClass} ${errors.email ? '!border-secondary' : ''}`} />
-                {errors.email && <span className="text-secondary text-[10px] font-bold uppercase px-1">{errors.email}</span>}
+                {errors.email && <span className="text-accent text-[11px] font-bold uppercase px-1">{errors.email}</span>}
               </div>
-              <div className="flex flex-col gap-2">
+              <div className="flex flex-col gap-2 md:col-span-2">
                 <label className={labelClass}>{t.contact.label_phone}</label>
-                <input type="tel" name="phone" autoComplete="tel" value={phone} onChange={(e) => { setPhone(e.target.value); setErrors((p) => ({ ...p, phone: '' })); }} placeholder="+1 (201) 555-0123" className={`${inputClass} ${errors.phone ? '!border-secondary' : ''}`} />
-                {errors.phone && <span className="text-secondary text-[10px] font-bold uppercase px-1">{errors.phone}</span>}
+                <PhoneField country={phoneCountry} digits={phone} onCountryChange={setPhoneCountry} onDigitsChange={(d) => { setPhone(d); setErrors((p) => ({ ...p, phone: '' })); }} inputClass={inputClass} hasError={!!errors.phone} />
+                {errors.phone && <span className="text-accent text-[11px] font-bold uppercase px-1">{errors.phone}</span>}
               </div>
               <div className="flex flex-col gap-2 md:col-span-2">
                 <label className={labelClass}>{t.contact.label_preferred_language}</label>
@@ -363,7 +364,7 @@ const ContactForm: React.FC<{ source?: 'contact_form' | 'landing_contact_form' }
           </>
         )}
 
-        {error && <p role="alert" className="text-secondary text-sm font-bold mt-4">{error}</p>}
+        {error && <p role="alert" className="text-accent text-sm font-bold mt-4">{error}</p>}
       </div>
 
       <div className="flex items-center justify-between gap-4 mt-8">

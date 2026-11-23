@@ -1,5 +1,7 @@
 "use client";
 
+import PhoneField from '../components/PhoneField';
+import { DEFAULT_PHONE_COUNTRY, isValidEmail, isValidPersonName, isValidPhone, sanitizePersonName, toE164 } from '../lib/formValidation';
 import React, { useRef, useState } from 'react';
 import Link from 'next/link';
 import { useLanguage } from '../context/LanguageContext';
@@ -19,7 +21,8 @@ const QuoteForm: React.FC = () => {
     const [formData, setFormData] = useState({
         name: '', organization: '', email: '', phone: '', sector: '', preferredLanguage: lang, message: ''
     });
-    const [errors, setErrors] = useState({ email: '', phone: '' });
+    const [errors, setErrors] = useState({ name: '', email: '', phone: '' });
+    const [phoneCountry, setPhoneCountry] = useState(DEFAULT_PHONE_COUNTRY);
     const [submitted, setSubmitted] = useState(false);
     const [consent, setConsent] = useState<ContactConsent>(emptyConsent);
     const [consentError, setConsentError] = useState(false);
@@ -27,14 +30,11 @@ const QuoteForm: React.FC = () => {
     const [turnstileToken, setTurnstileToken] = useState('');
     const turnstileRef = useRef<TurnstileWidgetHandle>(null);
 
-    const validateEmail = (email: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-    const validatePhone = (phone: string) =>
-        /^[+]?[(]?[0-9]{3}[)]?[-\s.]?[0-9]{3}[-\s.]?[0-9]{4,6}$/.test(phone.replace(/\s/g, '')) || phone.length >= 7;
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
         const { name, value } = e.target;
-        setFormData(prev => ({ ...prev, [name]: value }));
-        if (name === 'email' || name === 'phone') setErrors(prev => ({ ...prev, [name]: '' }));
+        setFormData(prev => ({ ...prev, [name]: name === 'name' ? sanitizePersonName(value) : value }));
+        if (name === 'email' || name === 'phone' || name === 'name') setErrors(prev => ({ ...prev, [name]: '' }));
     };
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -43,9 +43,10 @@ const QuoteForm: React.FC = () => {
         if (!name || !organization || !email || !phone) { alert('Please fill in all required fields.'); return; }
 
         let hasErrors = false;
-        const newErrors = { phone: '', email: '' };
-        if (!validateEmail(email)) { newErrors.email = t.contact.error_email; hasErrors = true; }
-        if (!validatePhone(phone)) { newErrors.phone = t.contact.error_phone; hasErrors = true; }
+        const newErrors = { name: '', phone: '', email: '' };
+        if (!isValidPersonName(formData.name)) { newErrors.name = t.contact.error_person_name; hasErrors = true; }
+        if (!isValidEmail(email)) { newErrors.email = t.contact.error_email; hasErrors = true; }
+        if (!isValidPhone(phone, phoneCountry)) { newErrors.phone = t.contact.error_phone; hasErrors = true; }
         if (hasErrors) { setErrors(newErrors); return; }
 
         if (!hasRequiredConsent(consent)) {
@@ -54,7 +55,7 @@ const QuoteForm: React.FC = () => {
         }
 
         const ok = await submitLead(
-            { ...formData, ...buildConsentRecord(consent, lang), source: 'next_horizon_quote' },
+            { ...formData, phone: toE164(phone, phoneCountry), ...buildConsentRecord(consent, lang), source: 'next_horizon_quote' },
             turnstileToken,
             honeypot,
         );
@@ -86,7 +87,7 @@ const QuoteForm: React.FC = () => {
                     {t.contact.calendly_cta}
                 </a>
                 <div>
-                    <button onClick={() => { setSubmitted(false); setConsent(emptyConsent); setConsentError(false); setFormData({ name: '', organization: '', email: '', phone: '', sector: '', preferredLanguage: lang, message: '' }); setHoneypot(''); setTurnstileToken(''); }} className="text-primary-light font-bold hover:underline">
+                    <button onClick={() => { setSubmitted(false); setConsent(emptyConsent); setConsentError(false); setFormData({ name: '', organization: '', email: '', phone: '', sector: '', preferredLanguage: lang, message: '' }); setPhoneCountry(DEFAULT_PHONE_COUNTRY); setHoneypot(''); setTurnstileToken(''); }} className="text-primary-light font-bold hover:underline">
                         Submit another request
                     </button>
                 </div>
@@ -104,7 +105,8 @@ const QuoteForm: React.FC = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
                 <div className="flex flex-col gap-2">
                     <label className={labelClass}>Full Name *</label>
-                    <input required type="text" name="name" value={formData.name} onChange={handleChange} placeholder="Jane Smith" className={inputClass} />
+                    <input required type="text" name="name" autoComplete="name" value={formData.name} onChange={handleChange} placeholder="Jane Smith" className={`${inputClass} ${errors.name ? 'border-secondary' : ''}`} />
+                    {errors.name && <span className="text-accent text-[11px] font-bold uppercase px-1">{errors.name}</span>}
                 </div>
                 <div className="flex flex-col gap-2">
                     <label className={labelClass}>Organization *</label>
@@ -113,12 +115,12 @@ const QuoteForm: React.FC = () => {
                 <div className="flex flex-col gap-2">
                     <label className={labelClass}>Email *</label>
                     <input required type="email" name="email" value={formData.email} onChange={handleChange} placeholder="jane@organization.gov" className={`${inputClass} ${errors.email ? 'border-secondary' : ''}`} />
-                    {errors.email && <span className="text-secondary text-[10px] font-bold uppercase px-1">{errors.email}</span>}
+                    {errors.email && <span className="text-accent text-[11px] font-bold uppercase px-1">{errors.email}</span>}
                 </div>
-                <div className="flex flex-col gap-2">
+                <div className="flex flex-col gap-2 md:col-span-2">
                     <label className={labelClass}>Phone *</label>
-                    <input required type="tel" name="phone" value={formData.phone} onChange={handleChange} placeholder="+1 (555) 000-0000" className={`${inputClass} ${errors.phone ? 'border-secondary' : ''}`} />
-                    {errors.phone && <span className="text-secondary text-[10px] font-bold uppercase px-1">{errors.phone}</span>}
+                    <PhoneField required country={phoneCountry} digits={formData.phone} onCountryChange={setPhoneCountry} onDigitsChange={(d) => { setFormData(prev => ({ ...prev, phone: d })); setErrors(prev => ({ ...prev, phone: '' })); }} inputClass={inputClass} hasError={!!errors.phone} />
+                    {errors.phone && <span className="text-accent text-[11px] font-bold uppercase px-1">{errors.phone}</span>}
                 </div>
                 <div className="flex flex-col gap-2">
                     <label htmlFor="quote-sector" className={labelClass}>Sector</label>
@@ -187,7 +189,7 @@ const NextHorizon: React.FC = () => {
                         >
                             Schedule a Private Consultation
                         </MagnetizeButton>
-                        <a href="#architecture" onClick={(e) => handleSmoothScroll(e, 'architecture')} className="w-full sm:w-auto px-8 py-5 bg-white/5 text-white font-bold rounded-full border border-white/10 hover:bg-white/10 transition-all text-center">
+                        <a href="#architecture" onClick={(e) => handleSmoothScroll(e, 'architecture')} className="w-full sm:w-auto px-8 py-5 bg-white/5 text-white font-bold rounded-full border border-white/10 hover:bg-secondary hover:border-secondary transition-all text-center">
                             See the Architecture
                         </a>
                     </div>

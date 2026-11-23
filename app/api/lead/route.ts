@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { isValidE164, isValidEmail, isValidPersonName } from '../../../lib/formValidation';
 
 // Keep this in sync with the `source` value every form sends — the CRM (Airtable) keys its
 // "Form Source" field off these exact strings, so they must never change here without changing
@@ -79,6 +80,15 @@ export async function POST(req: NextRequest) {
     if (typeof body.website === 'string' && body.website.trim() !== '') {
         return NextResponse.json({ ok: true });
     }
+
+    // 3b) Same field rules as the forms (lib/formValidation), so a request that skips the browser can't
+    // put numbers in a name, a malformed email, or anything but a real phone number into the CRM.
+    const name = String(body.name ?? '');
+    const email = String(body.email ?? '');
+    const phone = String(body.phone ?? '');
+    if (!isValidPersonName(name)) return fail(400, 'name');
+    if (!isValidEmail(email)) return fail(400, 'email');
+    if (phone && !isValidE164(phone)) return fail(400, 'phone');
 
     // 4) Invisible Cloudflare Turnstile challenge, verified here (server-side, with our secret —
     // the secret never reaches the browser).

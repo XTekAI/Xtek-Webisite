@@ -1,5 +1,7 @@
 import { getAllPosts } from '../../lib/blogLoader';
 import { serviceAreas } from '../../content/service-areas';
+import { industries } from '../../content/industries';
+import { solutions } from '../../content/solutions';
 import { services } from '../../content/services';
 import { CONTACT, SITE_URL, SOCIAL_LINKS, absoluteUrl } from '../../lib/seo';
 
@@ -30,6 +32,12 @@ export function GET() {
         ...serviceAreas.map(
             (area) => `- [${area.name}](${absoluteUrl(`/service-areas/${area.id}`)}): ${area.metaTitle}`
         ),
+        '',
+        '## Solutions (specific automations)',
+        ...solutions.map((s) => `- [${s.name}](${absoluteUrl(`/solutions/${s.slug}`)}): ${s.metaDescription}`),
+        '',
+        '## Industries',
+        ...industries.map((i) => `- [${i.name}](${absoluteUrl(`/industries/${i.slug}`)}): ${i.metaDescription}`),
         '',
         '## Blog articles',
         ...getAllPosts().map((post) => `- [${post.title}](${absoluteUrl(`/blog/${post.slug}`)})`),

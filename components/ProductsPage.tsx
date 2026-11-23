@@ -6,6 +6,7 @@ import React from 'react';
 import { useLanguage } from '../context/LanguageContext';
 import { MagnetizeButton } from './ui/magnetize-button';
 import { homeHref } from '../lib/navigation';
+import CtaButton from './CtaButton';
 
 type Product = {
   name: string;
@@ -53,21 +54,18 @@ const ProductCard: React.FC<{ product: Product; onCta: () => void }> = ({ produc
         </div>
       )}
       {product.href ? (
-        <a
-          href={product.href}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="self-start px-8 py-3 bg-primary-light text-white font-bold rounded-full hover:bg-secondary hover:scale-105 transition-all"
-        >
-          {product.cta}
-        </a>
+        <div className="self-start">
+          <CtaButton href={product.href} arrow={false} className="!py-3">{product.cta}</CtaButton>
+        </div>
       ) : (
-        <button
-          onClick={onCta}
-          className="self-start px-8 py-3 bg-primary-light text-white font-bold rounded-full hover:bg-secondary hover:scale-105 transition-all"
-        >
-          {product.cta}
-        </button>
+        <div className="self-start">
+          <MagnetizeButton
+            onClick={onCta}
+            className="px-8 py-3 bg-primary-light text-white font-bold rounded-full hover:bg-secondary hover:scale-105 transition-all shadow-lg shadow-primary-light/20 border-none h-auto"
+          >
+            {product.cta}
+          </MagnetizeButton>
+        </div>
       )}
     </div>
   );

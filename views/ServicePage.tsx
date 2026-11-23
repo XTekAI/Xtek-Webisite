@@ -8,6 +8,7 @@ import { useLanguage } from '../context/LanguageContext';
 import { CONTACT } from '../lib/seo';
 import { homeHref } from '../lib/navigation';
 import ContactSection from '../components/ContactSection';
+import CtaButton from '../components/CtaButton';
 
 const UI = {
     en: { home: 'Home', services: 'Services', other: 'Other services', learnMore: 'Learn more', contact: 'Send us a message', challenge: 'The challenge', solution: 'What we did', result: 'The result' },
@@ -17,20 +18,8 @@ const UI = {
 /** Main call to action: book a call (Calendly) or go to the contact form on the home page. */
 const CallButtons: React.FC<{ cta: string; contact: string }> = ({ cta, contact }) => (
     <div className="flex flex-col sm:flex-row gap-3 justify-center">
-        <a
-            href={CONTACT.calendlyUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center justify-center gap-2 px-7 py-4 bg-secondary !text-white rounded-full font-bold shadow-lg shadow-secondary/30 hover:bg-secondary/90 transition-colors"
-        >
-            {cta} <ArrowRight className="w-4 h-4" />
-        </a>
-        <a
-            href="#contact"
-            className="inline-flex items-center justify-center px-7 py-4 border border-white/20 !text-white rounded-full font-bold hover:bg-white/5 transition-colors"
-        >
-            {contact}
-        </a>
+        <CtaButton href={CONTACT.calendlyUrl}>{cta}</CtaButton>
+        <CtaButton href="#contact" variant="secondary" arrow={false}>{contact}</CtaButton>
     </div>
 );
 

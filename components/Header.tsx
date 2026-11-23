@@ -177,6 +177,8 @@ const Header: React.FC = () => {
                 <div className="h-px bg-white/10 my-2 mx-4"></div>
                 <span className="px-4 pb-1 text-[10px] font-bold tracking-widest text-white/40 uppercase">Service Areas</span>
                 <Link href="/service-areas" className="px-4 py-2 text-sm text-white/80 hover:text-accent hover:bg-white/5 transition-colors">All service areas</Link>
+                <Link href="/industries" className="px-4 py-2 text-sm text-white/80 hover:text-accent hover:bg-white/5 transition-colors">Industries we serve</Link>
+                <Link href="/solutions" className="px-4 py-2 text-sm text-white/80 hover:text-accent hover:bg-white/5 transition-colors">All solutions</Link>
               </div>
             </div>
           </div>
@@ -295,6 +297,8 @@ const Header: React.FC = () => {
         <div className="flex flex-wrap gap-2">
           {[
             ['/service-areas', 'All service areas'],
+            ['/industries', 'Industries we serve'],
+            ['/solutions', 'All solutions'],
           ].map(([href, label]) => (
             <Link key={href} href={href} onClick={closeMenuClean} className="px-4 py-2 rounded-full border border-white/15 text-sm !text-white/80 hover:border-primary-light">
               {label}

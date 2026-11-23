@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import LiquidBackdrop from '../components/LiquidBackdrop';
 
+import { isValidEmail, isValidPersonName, sanitizePersonName } from '../lib/formValidation';
 import React, { useRef, useState } from 'react';
 import { useLanguage } from '../context/LanguageContext';
 import { MagnetizeButton } from '../components/ui/magnetize-button';
@@ -22,6 +23,7 @@ const BlogIndex: React.FC = () => {
     const [submitted, setSubmitted] = useState(false);
     const [consentChecked, setConsentChecked] = useState(false);
     const [consentError, setConsentError] = useState(false);
+    const [newsletterError, setNewsletterError] = useState('');
     const [honeypot, setHoneypot] = useState('');
     const [turnstileToken, setTurnstileToken] = useState('');
     const turnstileRef = useRef<TurnstileWidgetHandle>(null);
@@ -34,6 +36,15 @@ const BlogIndex: React.FC = () => {
             alert(t.contact.validation_error);
             return;
         }
+        if (!isValidPersonName(name)) {
+            setNewsletterError(t.contact.error_person_name);
+            return;
+        }
+        if (!isValidEmail(email)) {
+            setNewsletterError(t.contact.error_email);
+            return;
+        }
+        setNewsletterError('');
 
         if (!consentChecked) {
             setConsentError(true);
@@ -125,7 +136,7 @@ const BlogIndex: React.FC = () => {
                                 type="text"
                                 placeholder={t.blog.newsletter_name}
                                 value={newsletterData.name}
-                                onChange={(e) => setNewsletterData(prev => ({ ...prev, name: e.target.value }))}
+                                onChange={(e) => { setNewsletterData(prev => ({ ...prev, name: sanitizePersonName(e.target.value) })); setNewsletterError(''); }}
                                 required
                                 className="w-full px-6 py-4 bg-white/5 border border-white/10 rounded-xl focus:outline-none focus:border-primary-light transition-colors text-white"
                             />
@@ -133,10 +144,11 @@ const BlogIndex: React.FC = () => {
                                 type="email"
                                 placeholder={t.blog.newsletter_email}
                                 value={newsletterData.email}
-                                onChange={(e) => setNewsletterData(prev => ({ ...prev, email: e.target.value }))}
+                                onChange={(e) => { setNewsletterData(prev => ({ ...prev, email: e.target.value })); setNewsletterError(''); }}
                                 required
                                 className="w-full px-6 py-4 bg-white/5 border border-white/10 rounded-xl focus:outline-none focus:border-primary-light transition-colors text-white"
                             />
+                            {newsletterError && <p role="alert" className="text-accent text-sm font-bold text-left px-1">{newsletterError}</p>}
                             <div className="flex flex-col gap-2 text-left">
                                 <label className="text-xs font-bold uppercase tracking-widest text-white/50 px-1">{t.contact.label_preferred_language}</label>
                                 <select

@@ -2,10 +2,9 @@
 
 
 import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
-import Link from 'next/link';
-import { ArrowRight } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
 import { MagnetizeButton } from './ui/magnetize-button';
+import CtaButton from './CtaButton';
 import { serviceByHomeIndex } from '../content/services';
 import { saveServicesReturn, takeServicesReturn } from '../lib/serviceReturn';
 
@@ -35,13 +34,9 @@ const ServiceLayer: React.FC<{
             <h3 className="text-2xl md:text-5xl font-bold mb-3 md:mb-6 tracking-tight leading-tight !text-white">{title}</h3>
             <p className="text-base md:text-xl text-white/60 leading-relaxed mb-6 md:mb-8 line-clamp-3 md:line-clamp-none">{description}</p>
             {href && (
-              <Link
-                href={href}
-                onClick={() => saveServicesReturn(index)}
-                className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-secondary !text-white font-bold shadow-lg shadow-secondary/30 hover:bg-secondary/90 hover:scale-105 transition-all"
-              >
-                {learnMore} <ArrowRight className="w-4 h-4" />
-              </Link>
+              <CtaButton href={href} onClick={() => saveServicesReturn(index)} className="!px-6 !py-3">
+                {learnMore}
+              </CtaButton>
             )}
           </div>
           <div className="hidden md:block w-full md:w-1/2 bg-white/5 rounded-3xl p-8 border border-white/5">

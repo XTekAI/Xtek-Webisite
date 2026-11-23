@@ -280,6 +280,52 @@ export const serviceAreaJsonLd = (area: ServiceAreaInput) => ({
     keywords: area.service_keywords.join(', '),
 });
 
+interface IndustryInput {
+    slug: string;
+    name: string;
+    audience: string;
+    metaDescription: string;
+    keywords: string[];
+}
+
+// An industry page describes the services offered to one type of business, nationwide.
+export const industryJsonLd = (industry: IndustryInput) => ({
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    '@id': `${absoluteUrl(`/industries/${industry.slug}`)}#service`,
+    name: `AI Automation for ${industry.name}`,
+    serviceType: 'AI automation and digital marketing',
+    url: absoluteUrl(`/industries/${industry.slug}`),
+    description: industry.metaDescription,
+    provider: { '@id': ORG_ID },
+    audience: { '@type': 'BusinessAudience', audienceType: industry.audience },
+    areaServed: [{ '@type': 'Country', name: 'United States' }, { '@type': 'State', name: 'New Jersey' }],
+    keywords: industry.keywords.join(', '),
+});
+
+interface SolutionInput {
+    slug: string;
+    name: string;
+    metaDescription: string;
+    keywords: string[];
+    parent: { label: string; href: string };
+}
+
+// A specific automation, offered nationwide as part of one of the main services.
+export const solutionJsonLd = (solution: SolutionInput) => ({
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    '@id': `${absoluteUrl(`/solutions/${solution.slug}`)}#service`,
+    name: solution.name,
+    serviceType: solution.name,
+    url: absoluteUrl(`/solutions/${solution.slug}`),
+    description: solution.metaDescription,
+    provider: { '@id': ORG_ID },
+    areaServed: [{ '@type': 'Country', name: 'United States' }, { '@type': 'State', name: 'New Jersey' }],
+    isRelatedTo: { '@type': 'Service', name: solution.parent.label, url: absoluteUrl(solution.parent.href) },
+    keywords: solution.keywords.join(', '),
+});
+
 interface PostInput {
     title: string;
     slug: string;

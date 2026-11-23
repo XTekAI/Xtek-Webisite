@@ -4,8 +4,10 @@ import { ArrowRight, CheckCircle, MapPin, Video, Car } from 'lucide-react';
 
 import { serviceAreas, type ServiceArea } from '../../content/service-areas';
 import { getService } from '../../content/services';
+import { industries } from '../../content/industries';
 import ContactSection from '../../components/ContactSection';
 import LiquidBackdrop from '../../components/LiquidBackdrop';
+import CtaButton from '../../components/CtaButton';
 
 const pill =
     'px-5 py-2 rounded-full bg-white/5 border border-white/10 text-sm text-white/80 hover:text-accent hover:border-primary-light/40 transition-colors';
@@ -24,9 +26,9 @@ const ServiceAreaLayout: React.FC<{ area: ServiceArea }> = ({ area }) => {
                 </p>
                 <h1 className="text-4xl md:text-6xl font-bold mb-6 gradient-text max-w-4xl mx-auto leading-tight relative">{area.heroTitle}</h1>
                 <p className="text-xl md:text-2xl text-white/60 mb-10 max-w-3xl mx-auto leading-relaxed relative">{area.heroSub}</p>
-                <a href="#contact" className="relative inline-flex items-center justify-center gap-2 px-7 py-4 bg-secondary !text-white rounded-full font-bold shadow-lg shadow-secondary/30 hover:bg-secondary/90 transition-colors">
-                    Book a free strategy call <ArrowRight className="w-4 h-4" />
-                </a>
+                <div className="relative flex justify-center">
+                    <CtaButton>Book a free strategy call</CtaButton>
+                </div>
             </header>
 
             {/* Intro */}
@@ -123,6 +125,14 @@ const ServiceAreaLayout: React.FC<{ area: ServiceArea }> = ({ area }) => {
                         ))}
                     <Link href="/stories" className={pill}>Success stories</Link>
                     <Link href="/blog" className={pill}>AI automation blog</Link>
+                </div>
+                <h2 className="text-2xl font-bold mt-12 mb-8">Industries we work with in {area.name}</h2>
+                <div className="flex flex-wrap justify-center gap-3">
+                    {industries.map((i) => (
+                        <Link key={i.slug} href={`/industries/${i.slug}`} className={pill}>
+                            {i.short}
+                        </Link>
+                    ))}
                 </div>
             </nav>
 
