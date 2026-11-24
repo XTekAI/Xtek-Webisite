@@ -26,6 +26,8 @@ interface StoredPost {
     date: string; // YYYY-MM-DD
     tags?: string[];
     image?: string;
+    /** 3-4 short "Label: text" points shown in the Key Takeaways box. */
+    takeaways?: string[];
     content: string; // HTML
 }
 
@@ -60,6 +62,73 @@ function readingTime(html: string): string {
     return `${Math.max(1, Math.round(words / 230))} min`;
 }
 
+
+const escapeHtml = (s: string) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+const textOf = (html: string) =>
+    html.replace(/<[^>]+>/g, ' ').replace(/&amp;/g, '&').replace(/&#x27;|&#39;/g, "'").replace(/&quot;/g, '"').replace(/\s+/g, ' ').trim();
+const slugify = (s: string) => s.toLowerCase().replace(/&/g, 'and').replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '').slice(0, 60) || 'section';
+
+/**
+ * Gives every article the same structure, whoever wrote it (a person or the n8n blog workflow):
+ * ids on the section titles, a Key Takeaways box and a Table of Contents (unless the article already has
+ * its own), and the FAQ turned into drop-downs. Styling lives in app/globals.css (.blog-body).
+ */
+function enhanceContent(html: string, takeaways?: string[]): string {
+    let out = html;
+    const hasTakeaways = /Key Takeaways/i.test(out);
+    const hasToc = /Table of Contents/i.test(out);
+
+    // 1) ids on h2 (reused when the article already has them) + the list of sections
+    const used = new Set<string>();
+    const headings: { id: string; text: string }[] = [];
+    out = out.replace(/<h2([^>]*)>([\s\S]*?)<\/h2>/gi, (match, attrs: string, inner: string) => {
+        const text = textOf(inner);
+        const existing = /\bid="([^"]+)"/.exec(attrs);
+        let id = existing ? existing[1] : slugify(text);
+        if (!existing) {
+            const base = id;
+            let n = 2;
+            while (used.has(id)) id = `${base}-${n++}`;
+        }
+        used.add(id);
+        if (!/Key Takeaways|Table of Contents/i.test(text)) headings.push({ id, text });
+        return existing ? match : `<h2${attrs} id="${id}">${inner}</h2>`;
+    });
+
+    // 2) FAQ section: each question + its answer becomes a drop-down
+    out = out.replace(/(<h2[^>]*>(?:(?!<\/h2>)[\s\S])*(?:Frequently asked questions|FAQ)(?:(?!<\/h2>)[\s\S])*<\/h2>)([\s\S]*?)(?=<h2\b|$)/i, (_m, head: string, body: string) => {
+        const converted = body.replace(
+            /<h3[^>]*>([\s\S]*?)<\/h3>\s*(<p[^>]*>[\s\S]*?<\/p>)/gi,
+            (_q, question: string, answer: string) => `<details class="blog-faq"><summary>${textOf(question)}</summary><div>${answer}</div></details>`,
+        );
+        // Older articles write each question/answer as <div><p bold>question</p><p>answer</p></div>
+        const convertedDivs = converted.replace(
+            /<div[^>]*>\s*<p[^>]*font-weight:\s*bold[^>]*>([\s\S]*?)<\/p>\s*(<p[^>]*>[\s\S]*?<\/p>)\s*<\/div>/gi,
+            (_q, question: string, answer: string) => `<details class="blog-faq"><summary>${textOf(question)}</summary><div>${answer}</div></details>`,
+        );
+        return head + convertedDivs;
+    });
+
+    // 3) Key Takeaways + Table of Contents, right after the opening paragraph
+    const lead: string[] = [];
+    if (takeaways && takeaways.length && !hasTakeaways) {
+        const items = takeaways.map((t) => {
+            const m = /^(.{3,45}?):\s+([\s\S]+)$/.exec(t.trim());
+            return `<li>${m ? `<strong>${escapeHtml(m[1])}:</strong> ${escapeHtml(m[2])}` : escapeHtml(t)}</li>`;
+        });
+        lead.push(`<aside class="blog-callout"><h2>Key Takeaways</h2><ul>${items.join('')}</ul></aside>`);
+    }
+    if (!hasToc && headings.length >= 3) {
+        const items = headings.map((h) => `<li><a href="#${h.id}">${escapeHtml(h.text)}</a></li>`);
+        lead.push(`<nav class="blog-callout blog-toc" aria-label="Table of contents"><h2>Table of Contents</h2><ul>${items.join('')}</ul></nav>`);
+    }
+    if (lead.length) {
+        const firstP = /^\s*<p[\s\S]*?<\/p>/i.exec(out);
+        out = firstP ? out.slice(0, firstP[0].length) + lead.join('') + out.slice(firstP[0].length) : lead.join('') + out;
+    }
+    return out;
+}
+
 function toBlogPost(post: StoredPost): BlogPost {
     const tags = post.tags ?? [];
     const content = normalizeHtml(post.content || '');
@@ -78,7 +147,7 @@ function toBlogPost(post: StoredPost): BlogPost {
         desc,
         featuredImage: post.image || '',
         image: post.image || '',
-        content,
+        content: enhanceContent(content, post.takeaways),
     };
 }
 

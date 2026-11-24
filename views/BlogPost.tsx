@@ -134,9 +134,7 @@ const BlogPost: React.FC = () => {
                         </div>
                     )}
 
-                    <div className="prose prose-invert prose-lg max-w-none">
-                        <div className="text-xl leading-relaxed text-white/80 font-light mb-8" dangerouslySetInnerHTML={{ __html: post.content }}></div>
-                    </div>
+                    <div className="blog-body mb-4" dangerouslySetInnerHTML={{ __html: post.content }}></div>
                 </div>
 
                 {/* Related articles + service links (internal linking) */}
