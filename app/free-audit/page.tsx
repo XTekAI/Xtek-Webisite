@@ -1,11 +1,13 @@
 import type { Metadata } from 'next';
 import AuditLanding from '../../views/AuditLanding';
-import { AUDIT_COPY, AUDIT_PATHS } from '../../content/audit-landing';
+import { AUDIT_COPY, AUDIT_PATHS, LANDING_ORIGIN } from '../../content/audit-landing';
 
 // Meta Ads landing page (en). Kept out of search results: it duplicates the offer on the main site.
 const copy = AUDIT_COPY.en.meta;
 
 export const metadata: Metadata = {
+    // Served from landing.xtekai.com only (see proxy.ts), so links, canonical and share image use that host.
+    metadataBase: new URL(LANDING_ORIGIN),
     title: { absolute: copy.title },
     description: copy.description,
     alternates: { canonical: AUDIT_PATHS.en, languages: { en: AUDIT_PATHS.en, es: AUDIT_PATHS.es } },

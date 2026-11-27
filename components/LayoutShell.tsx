@@ -8,6 +8,7 @@ import Header from './Header';
 import Footer from './Footer';
 import LandingHeader from './LandingHeader';
 import LandingFooter from './LandingFooter';
+import AuditLegalShell from './AuditLegalShell';
 
 const LayoutShell: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const { isLandingMode } = useLanguage();
@@ -18,6 +19,9 @@ const LayoutShell: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     if (Object.values(AUDIT_PATHS).includes(pathname) || (isLandingMode && pathname === '/')) {
         return <>{children}</>;
     }
+
+    // The legal pages inside the ad funnel: landing header, no site menu.
+    if (pathname.startsWith('/legal/')) return <AuditLegalShell>{children}</AuditLegalShell>;
 
     if (isLandingMode) {
         return (

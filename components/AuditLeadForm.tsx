@@ -11,7 +11,7 @@ import { DEFAULT_PHONE_COUNTRY, isValidEmail, isValidPersonName, isValidPhone, s
 import { buildConsentRecord, emptyConsent, hasRequiredConsent, type ContactConsent } from '../lib/contactConsent';
 import { submitLead } from '../lib/submitLead';
 import { CONTACT } from '../lib/seo';
-import { AUDIT_COPY, AUDIT_PATHS, type AuditLang } from '../content/audit-landing';
+import { AUDIT_COPY, AUDIT_LEGAL, AUDIT_PATHS, type AuditLang } from '../content/audit-landing';
 
 // 4-step lead wizard for the Meta Ads landing pages:
 //   1. what to improve (multi-select)  2. business + name  3. phone + email  4. consent + send.
@@ -302,7 +302,7 @@ const AuditLeadForm: React.FC<{ lang: AuditLang; id?: string }> = ({ lang, id })
                                             <p><span className="text-white font-semibold">{business}</span> · {name}</p>
                                             <p>{email}</p>
                                         </div>
-                                        <ContactConsentFields consent={consent} onChange={(v) => { setConsent(v); setError(''); }} showErrors={consentTried} lang={lang} />
+                                        <ContactConsentFields consent={consent} onChange={(v) => { setConsent(v); setError(''); }} showErrors={consentTried} lang={lang} hrefs={AUDIT_LEGAL} />
                                     </div>
                                 )}
                             </motion.div>

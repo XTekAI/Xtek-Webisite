@@ -1,5 +1,5 @@
 import React from 'react';
-import Link from 'next/link';
+import LegalLink from './LegalLink';
 import { LEGAL } from '../content/legal';
 
 export interface LegalSection {
@@ -24,7 +24,7 @@ export const H3: React.FC<{ children: React.ReactNode }> = ({ children }) => (
 
 export const A: React.FC<{ href: string; children: React.ReactNode }> = ({ href, children }) => {
     const className = 'text-sky-300 underline underline-offset-2 hover:text-white';
-    if (href.startsWith('/')) return <Link href={href} className={className}>{children}</Link>;
+    if (href.startsWith('/')) return <LegalLink href={href} className={className}>{children}</LegalLink>;
     if (href.startsWith('mailto:') || href.startsWith('tel:')) return <a href={href} className={className}>{children}</a>;
     return <a href={href} className={className} target="_blank" rel="noopener noreferrer">{children}</a>;
 };
@@ -67,7 +67,7 @@ export default function LegalDocument({ title, intro, sections, otherPage }: Leg
         <div className="pt-40 pb-24 px-6 min-h-screen">
             <div className="max-w-4xl mx-auto">
                 <nav aria-label="Breadcrumb" className="mb-8 text-sm text-white/55">
-                    <Link href="/" className="hover:text-accent transition-colors">Home</Link>
+                    <LegalLink href="/" className="hover:text-accent transition-colors">Home</LegalLink>
                     <span className="mx-2">/</span>
                     <span className="text-white/80">{title}</span>
                 </nav>
@@ -107,8 +107,8 @@ export default function LegalDocument({ title, intro, sections, otherPage }: Leg
                 </div>
 
                 <div className="mt-16 pt-8 border-t border-white/10 flex flex-wrap gap-6 text-sm">
-                    <Link href={otherPage.href} className="text-sky-300 underline underline-offset-2 hover:text-white">{otherPage.label}</Link>
-                    <Link href="/" className="text-white/60 hover:text-white transition-colors">Back to home</Link>
+                    <LegalLink href={otherPage.href} className="text-sky-300 underline underline-offset-2 hover:text-white">{otherPage.label}</LegalLink>
+                    <LegalLink href="/" className="text-white/60 hover:text-white transition-colors">Back to home</LegalLink>
                 </div>
             </div>
         </div>

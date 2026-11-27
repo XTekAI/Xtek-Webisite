@@ -9,7 +9,9 @@ import { scrollToSection } from '../lib/navigation';
 import { GOOGLE_PROFILE_URL } from '../lib/seo';
 import {
     AUDIT_COPY,
+    AUDIT_LEGAL,
     AUDIT_PATHS,
+    LANDING_LAST_KEY,
     CLIENT_NAMES,
     CLIENT_PROFILES,
     WORK_VIDEOS,
@@ -730,9 +732,9 @@ const Footer: React.FC<{ lang: AuditLang }> = ({ lang }) => {
                 <img src="/brand/xtek-horizontal-negativo.svg" alt="Xtek AI" className="h-7 w-auto opacity-80" />
                 <p>© {new Date().getFullYear()} X-Tek AI LLC · New Jersey, US · {c.rights}</p>
                 <div className="flex gap-5">
-                    <a href="/privacy" className="hover:text-white">{c.privacy}</a>
-                    <a href="/terms" className="hover:text-white">{c.terms}</a>
-                    <a href="/sms-terms" className="hover:text-white">SMS</a>
+                    <a href={AUDIT_LEGAL.privacy} className="hover:text-white">{c.privacy}</a>
+                    <a href={AUDIT_LEGAL.terms} className="hover:text-white">{c.terms}</a>
+                    <a href={AUDIT_LEGAL.sms} className="hover:text-white">SMS</a>
                 </div>
             </div>
         </footer>
@@ -741,9 +743,22 @@ const Footer: React.FC<{ lang: AuditLang }> = ({ lang }) => {
 
 /* ---------------------------------- page ---------------------------------- */
 
+// Remembers which landing (and its UTMs) the visitor is on, so the legal pages' "back" link returns here.
+const RememberLanding: React.FC = () => {
+    useEffect(() => {
+        try {
+            sessionStorage.setItem(LANDING_LAST_KEY, window.location.pathname + window.location.search);
+        } catch {
+            /* storage blocked */
+        }
+    }, []);
+    return null;
+};
+
 const AuditLanding: React.FC<{ lang: AuditLang }> = ({ lang }) => (
     <div className="audit-landing relative bg-primary text-white overflow-x-clip" lang={lang}>
         <div aria-hidden className="audit-grain pointer-events-none fixed inset-0 z-[1] opacity-[0.035]" />
+        <RememberLanding />
         <Header lang={lang} />
         <main className="relative z-[2]">
             <Hero lang={lang} />

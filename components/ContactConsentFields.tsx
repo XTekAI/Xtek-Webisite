@@ -16,19 +16,21 @@ interface ContactConsentFieldsProps {
     showErrors: boolean;
     /** Overrides the site language (the ad landing pages pick their language from the URL). */
     lang?: 'en' | 'es';
+    /** Overrides where the terms / privacy / SMS links point (the ad landing keeps visitors on its own legal pages). */
+    hrefs?: Record<'terms' | 'privacy' | 'sms', string>;
 }
 
 const linkClass = 'text-sky-300 underline underline-offset-2 hover:text-white';
 
 /** Renders consent wording, turning {terms} / {privacy} / {sms} into links that open in a new tab. */
-export function renderConsentText(text: string, lang: 'en' | 'es'): React.ReactNode[] {
+export function renderConsentText(text: string, lang: 'en' | 'es', hrefs: Record<'terms' | 'privacy' | 'sms', string> = CONSENT_LINK_HREFS): React.ReactNode[] {
     const labels = CONSENT_LINK_LABELS[lang];
     return text.split(/(\{terms\}|\{privacy\}|\{sms\})/).map((part, index) => {
         const match = part.match(/^\{(terms|privacy|sms)\}$/);
         if (!match) return <React.Fragment key={index}>{part}</React.Fragment>;
         const key = match[1] as 'terms' | 'privacy' | 'sms';
         return (
-            <a key={index} href={CONSENT_LINK_HREFS[key]} target="_blank" rel="noopener noreferrer" className={linkClass}>
+            <a key={index} href={hrefs[key]} target="_blank" rel="noopener noreferrer" className={linkClass}>
                 {labels[key]}
             </a>
         );
@@ -85,7 +87,7 @@ export const ConsentBox: React.FC<BoxProps> = ({ id, name, checked, onChange, re
  *  3. marketing texts (optional, separate, with the disclosures carriers and Twilio require),
  *  4. marketing emails (optional).
  */
-const ContactConsentFields: React.FC<ContactConsentFieldsProps> = ({ consent, onChange, showErrors, lang: langOverride }) => {
+const ContactConsentFields: React.FC<ContactConsentFieldsProps> = ({ consent, onChange, showErrors, lang: langOverride, hrefs }) => {
     const { lang: siteLang } = useLanguage();
     const lang = langOverride ?? siteLang;
     const text = CONSENT_TEXT[lang];
@@ -105,7 +107,7 @@ const ContactConsentFields: React.FC<ContactConsentFieldsProps> = ({ consent, on
                 badge={text.required}
                 errorText={text.requiredError}
             >
-                {renderConsentText(text.terms, lang)}
+                {renderConsentText(text.terms, lang, hrefs)}
             </ConsentBox>
 
             <ConsentBox
@@ -118,7 +120,7 @@ const ContactConsentFields: React.FC<ContactConsentFieldsProps> = ({ consent, on
                 badge={text.required}
                 errorText={text.requiredError}
             >
-                {renderConsentText(text.service, lang)}
+                {renderConsentText(text.service, lang, hrefs)}
             </ConsentBox>
 
             <ConsentBox
@@ -129,7 +131,7 @@ const ContactConsentFields: React.FC<ContactConsentFieldsProps> = ({ consent, on
                 badge={text.optional}
                 errorText=""
             >
-                {renderConsentText(text.marketingSms, lang)}
+                {renderConsentText(text.marketingSms, lang, hrefs)}
             </ConsentBox>
 
             <ConsentBox
@@ -140,7 +142,7 @@ const ContactConsentFields: React.FC<ContactConsentFieldsProps> = ({ consent, on
                 badge={text.optional}
                 errorText=""
             >
-                {renderConsentText(text.marketingEmail, lang)}
+                {renderConsentText(text.marketingEmail, lang, hrefs)}
             </ConsentBox>
         </fieldset>
     );
