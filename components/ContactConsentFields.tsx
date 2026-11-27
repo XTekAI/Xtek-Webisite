@@ -14,6 +14,8 @@ interface ContactConsentFieldsProps {
     onChange: (consent: ContactConsent) => void;
     /** True after a submit attempt: unchecked required boxes then show an error. */
     showErrors: boolean;
+    /** Overrides the site language (the ad landing pages pick their language from the URL). */
+    lang?: 'en' | 'es';
 }
 
 const linkClass = 'text-sky-300 underline underline-offset-2 hover:text-white';
@@ -83,8 +85,9 @@ export const ConsentBox: React.FC<BoxProps> = ({ id, name, checked, onChange, re
  *  3. marketing texts (optional, separate, with the disclosures carriers and Twilio require),
  *  4. marketing emails (optional).
  */
-const ContactConsentFields: React.FC<ContactConsentFieldsProps> = ({ consent, onChange, showErrors }) => {
-    const { lang } = useLanguage();
+const ContactConsentFields: React.FC<ContactConsentFieldsProps> = ({ consent, onChange, showErrors, lang: langOverride }) => {
+    const { lang: siteLang } = useLanguage();
+    const lang = langOverride ?? siteLang;
     const text = CONSENT_TEXT[lang];
     const baseId = useId();
 

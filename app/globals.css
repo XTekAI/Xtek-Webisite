@@ -368,3 +368,21 @@ html {
   .blog-body h2 { font-size: 1.4rem !important; }
   .blog-body .blog-callout { padding: 1.25rem; }
 }
+
+/* ===== Ad landing pages (/free-audit, /auditoria-gratis) ===== */
+.audit-orb { animation: auditOrb 18s cubic-bezier(0.45, 0, 0.55, 1) infinite alternate; will-change: transform; }
+.audit-orb--slow { animation-duration: 24s; animation-direction: alternate-reverse; }
+@keyframes auditOrb {
+  0% { transform: translate3d(0, 0, 0) scale(1); }
+  100% { transform: translate3d(8%, 10%, 0) scale(1.15); }
+}
+.audit-marquee { animation: auditMarquee 40s linear infinite; }
+@keyframes auditMarquee { to { transform: translate3d(-50%, 0, 0); } }
+.audit-grain {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+/* One page, one action: hide the voice-agent bubble on the ad landing pages. */
+body:has(.audit-landing) elevenlabs-convai { display: none !important; }
+@media (prefers-reduced-motion: reduce) {
+  .audit-orb, .audit-marquee { animation: none; }
+}
