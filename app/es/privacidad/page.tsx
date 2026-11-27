@@ -448,6 +448,32 @@ const sections: LegalSection[] = [
         ),
     },
     {
+        id: 'darse-de-baja',
+        title: 'Cómo darte de baja de los correos y mensajes de texto',
+        body: (
+            <>
+                <UL>
+                    <li>
+                        <strong>Correos.</strong> Cada correo que enviamos tiene al final un enlace para darte de baja, o puedes responder &ldquo;baja&rdquo;. El enlace
+                        sigue funcionando al menos 30 días después de enviado el correo. Dejamos de enviarte correos de marketing y seguimientos automáticos de inmediato,
+                        y siempre en un máximo de 10 días hábiles. Después solo te escribimos sobre una cita que agendaste o un proyecto que tengas con nosotros, o para
+                        responderte si tú nos escribes.
+                    </li>
+                    <li>
+                        <strong>Mensajes de texto.</strong> Responde <strong>STOP</strong> a cualquier mensaje (o END, CANCEL, UNSUBSCRIBE o QUIT) y dejamos de enviarte
+                        todos los mensajes de texto, de servicio y de marketing, después de un último mensaje que lo confirma. Responde <strong>START</strong> para
+                        volver a recibirlos y <strong>HELP</strong> para obtener ayuda. Consulta nuestros <A href={LEGAL_PATHS.es.sms}>Términos de SMS</A>.
+                    </li>
+                    <li>
+                        <strong>Cualquier otra forma.</strong> Escribe a <A href={`mailto:${LEGAL.email}`}>{LEGAL.email}</A> o llama al{' '}
+                        <A href={LEGAL.phoneHref}>{LEGAL.phoneDisplay}</A> y dinos qué mensajes quieres dejar de recibir.
+                    </li>
+                </UL>
+                <P>Darte de baja es gratis, y nunca te pedimos nada más que tu correo o tu respuesta.</P>
+            </>
+        ),
+    },
+    {
         id: 'menores',
         title: 'Menores de edad',
         body: (

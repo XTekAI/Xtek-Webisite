@@ -438,6 +438,31 @@ const sections: LegalSection[] = [
         ),
     },
     {
+        id: 'unsubscribe',
+        title: 'How to unsubscribe from emails and text messages',
+        body: (
+            <>
+                <UL>
+                    <li>
+                        <strong>Emails.</strong> Every email we send has an unsubscribe link at the bottom, or you can reply &ldquo;unsubscribe&rdquo;. The link keeps
+                        working for at least 30 days after the email is sent. We stop marketing emails and automatic follow-ups right away, and always within 10 business
+                        days. After that we only email you about an appointment you booked or a project you have with us, or to answer you if you write to us.
+                    </li>
+                    <li>
+                        <strong>Text messages.</strong> Reply <strong>STOP</strong> to any text (or END, CANCEL, UNSUBSCRIBE or QUIT) and we stop all texts, both service
+                        and marketing, after one last message confirming it. Reply <strong>START</strong> to receive texts again and <strong>HELP</strong> for help. See our{' '}
+                        <A href="/sms-terms">SMS Terms</A>.
+                    </li>
+                    <li>
+                        <strong>Any other way.</strong> Write to <A href={`mailto:${LEGAL.email}`}>{LEGAL.email}</A> or call <A href={LEGAL.phoneHref}>{LEGAL.phoneDisplay}</A>{' '}
+                        and tell us which messages you want to stop.
+                    </li>
+                </UL>
+                <P>Unsubscribing is free, and we never ask you for anything beyond your email address or your reply.</P>
+            </>
+        ),
+    },
+    {
         id: 'children',
         title: 'Children',
         body: (
