@@ -8,6 +8,7 @@ const FORMS = new Set([
     'contact_form',
     'next_horizon_quote',
     'landing_contact_form',
+    'meta_ads_audit', // /free-audit + /auditoria-gratis (Meta Ads landing pages)
     'blog_index_newsletter',
     'blog_post_newsletter',
     'blog_page_newsletter',
@@ -131,7 +132,7 @@ export async function POST(req: NextRequest) {
             headers: { 'Content-Type': 'application/json', 'X-XTEK-Key': webhookKey },
             body: JSON.stringify({
                 ...clean,
-                site: host.startsWith('landing.') ? 'landing' : 'main',
+                site: source === 'meta_ads_audit' ? 'meta_ads' : host.startsWith('landing.') ? 'landing' : 'main',
                 clientIp: ip,
                 receivedAt: new Date().toISOString(),
             }),

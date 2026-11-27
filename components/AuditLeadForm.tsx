@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
 import { ArrowLeft, ArrowRight, ArrowUpRight, Check, Lock } from 'lucide-react';
 import PhoneField from './PhoneField';
@@ -11,12 +11,12 @@ import { DEFAULT_PHONE_COUNTRY, isValidEmail, isValidPersonName, isValidPhone, s
 import { buildConsentRecord, emptyConsent, hasRequiredConsent, type ContactConsent } from '../lib/contactConsent';
 import { submitLead } from '../lib/submitLead';
 import { CONTACT } from '../lib/seo';
-import { AUDIT_COPY, type AuditLang } from '../content/audit-landing';
+import { AUDIT_COPY, AUDIT_PATHS, type AuditLang } from '../content/audit-landing';
 
 // 4-step lead wizard for the Meta Ads landing pages:
-//   1. one tap: what to improve first  2. business + name  3. phone + email  4. consent + send.
-// n8n's welcome email (sent in `preferredLanguage`) carries the Calendly link. Source stays
-// 'landing_contact_form', which the CRM already knows; the goal goes in `description` / `challenges`.
+//   1. what to improve (multi-select)  2. business + name  3. phone + email  4. consent + send.
+// n8n's welcome email (sent in `preferredLanguage`) carries the Calendly link. Source is
+// 'meta_ads_audit' so the CRM tells these leads apart from the main site's; goals go in `description` / `challenges`.
 
 const TOTAL = 4;
 const EASE = [0.32, 0.72, 0, 1] as const;
@@ -57,7 +57,7 @@ const AuditLeadForm: React.FC<{ lang: AuditLang; id?: string }> = ({ lang, id })
     const [step, setStep] = useState(0);
     const [dir, setDir] = useState(1);
     const [interacted, setInteracted] = useState(false);
-    const [goal, setGoal] = useState('');
+    const [goals, setGoals] = useState<string[]>([]);
     const [business, setBusiness] = useState('');
     const [name, setName] = useState('');
     const [phone, setPhone] = useState('');
@@ -72,10 +72,6 @@ const AuditLeadForm: React.FC<{ lang: AuditLang; id?: string }> = ({ lang, id })
     const [done, setDone] = useState(false);
     const turnstile = useRef<TurnstileWidgetHandle>(null);
     const top = useRef<HTMLDivElement>(null);
-    const advanceTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
-
-    useEffect(() => () => { if (advanceTimer.current) clearTimeout(advanceTimer.current); }, []);
-
     const goTo = (next: number) => {
         setError('');
         setInteracted(true);
@@ -91,7 +87,7 @@ const AuditLeadForm: React.FC<{ lang: AuditLang; id?: string }> = ({ lang, id })
     };
 
     const stepError = (s: number): string => {
-        if (s === 0 && !goal) return c.errGoal;
+        if (s === 0 && goals.length === 0) return c.errGoal;
         if (s === 1) {
             if (!business.trim() || !name.trim()) return c.errRequired;
             if (!isValidPersonName(name)) return c.errName;
@@ -110,14 +106,17 @@ const AuditLeadForm: React.FC<{ lang: AuditLang; id?: string }> = ({ lang, id })
         goTo(step + 1);
     };
 
-    const pickGoal = (v: string) => {
-        setGoal(v);
+    // "Not sure" stands alone: picking it clears the others, and picking any other option clears it.
+    const toggleGoal = (v: string) => {
         setError('');
-        if (advanceTimer.current) clearTimeout(advanceTimer.current);
-        advanceTimer.current = setTimeout(() => goTo(1), 260);
+        setGoals((prev) => {
+            if (prev.includes(v)) return prev.filter((g) => g !== v);
+            if (v === 'not_sure') return [v];
+            return [...prev.filter((g) => g !== 'not_sure'), v];
+        });
     };
 
-    const goalLabelEn = AUDIT_COPY.en.form.goals.find((g) => g.v === goal)?.l ?? goal;
+    const goalLabelsEn = AUDIT_COPY.en.form.goals.filter((g) => goals.includes(g.v)).map((g) => g.l).join('; ');
 
     const onSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -134,11 +133,11 @@ const AuditLeadForm: React.FC<{ lang: AuditLang; id?: string }> = ({ lang, id })
                 email: email.trim(),
                 phone: toE164(phone, country),
                 preferredLanguage: lang,
-                description: `Free audit request (Meta Ads landing). Wants to improve first: ${goalLabelEn}.`,
-                challenges: [goal],
+                description: `Free audit request (Meta Ads landing ${AUDIT_PATHS[lang]}). Wants to improve: ${goalLabelsEn}.`,
+                challenges: goals,
                 offer: 'free_audit',
                 ...buildConsentRecord(consent, lang),
-                source: 'landing_contact_form',
+                source: 'meta_ads_audit',
             },
             token,
             honeypot,
@@ -236,16 +235,16 @@ const AuditLeadForm: React.FC<{ lang: AuditLang; id?: string }> = ({ lang, id })
                                 <p className="text-white/55 text-sm mt-2 mb-6 leading-relaxed">{c.steps[step].h}</p>
 
                                 {step === 0 && (
-                                    <div className="grid gap-2.5" role="radiogroup">
+                                    <div className="grid gap-2.5" role="group" aria-label={c.steps[0].t}>
                                         {c.goals.map((g, i) => {
-                                            const selected = goal === g.v;
+                                            const selected = goals.includes(g.v);
                                             return (
                                                 <motion.button
                                                     key={g.v}
                                                     type="button"
-                                                    role="radio"
+                                                    role="checkbox"
                                                     aria-checked={selected}
-                                                    onClick={() => pickGoal(g.v)}
+                                                    onClick={() => toggleGoal(g.v)}
                                                     initial={reduce ? false : { opacity: 0, y: 10 }}
                                                     animate={{ opacity: 1, y: 0 }}
                                                     transition={{ duration: 0.5, delay: 0.05 * i, ease: EASE }}
@@ -254,7 +253,7 @@ const AuditLeadForm: React.FC<{ lang: AuditLang; id?: string }> = ({ lang, id })
                                                         selected ? 'bg-accent/15 border-accent text-white' : 'bg-white/[0.05] border-white/10 text-white/85 hover:border-accent/50 hover:bg-white/[0.08]'
                                                     }`}
                                                 >
-                                                    <span className={`w-5 h-5 shrink-0 rounded-full border flex items-center justify-center transition-colors ${selected ? 'bg-accent border-accent' : 'border-white/30'}`}>
+                                                    <span className={`w-5 h-5 shrink-0 rounded-md border flex items-center justify-center transition-colors ${selected ? 'bg-accent border-accent' : 'border-white/30'}`}>
                                                         {selected && <Check className="w-3 h-3 text-white" strokeWidth={4} />}
                                                     </span>
                                                     {g.l}
@@ -313,15 +312,13 @@ const AuditLeadForm: React.FC<{ lang: AuditLang; id?: string }> = ({ lang, id })
                             <p role="alert" className="mt-4 text-sm font-semibold text-red-300">{error}</p>
                         )}
 
-                        {step > 0 && (
-                            <div className="mt-6">
-                                {step < TOTAL - 1 ? (
-                                    <PrimaryButton type="submit">{c.next}</PrimaryButton>
-                                ) : (
-                                    <PrimaryButton type="submit" disabled={sending} arrow="up">{sending ? c.sending : c.submit}</PrimaryButton>
-                                )}
-                            </div>
-                        )}
+                        <div className="mt-6">
+                            {step < TOTAL - 1 ? (
+                                <PrimaryButton type="submit">{c.next}</PrimaryButton>
+                            ) : (
+                                <PrimaryButton type="submit" disabled={sending} arrow="up">{sending ? c.sending : c.submit}</PrimaryButton>
+                            )}
+                        </div>
                         <p className="mt-4 flex items-center justify-center gap-2 text-xs text-white/45">
                             <Lock className="w-3.5 h-3.5" /> {c.trust}
                         </p>
