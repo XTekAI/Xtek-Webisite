@@ -29,7 +29,7 @@ export const FOUNDER = {
 };
 
 export const OG_IMAGE = {
-    url: '/og-image.jpg',
+    url: '/og-xtek.jpg',
     width: 1200,
     height: 630,
     alt: 'Xtek AI - Intelligence in Action',

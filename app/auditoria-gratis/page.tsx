@@ -10,7 +10,8 @@ export const metadata: Metadata = {
     description: copy.description,
     alternates: { canonical: AUDIT_PATHS.es, languages: { en: AUDIT_PATHS.en, es: AUDIT_PATHS.es } },
     robots: { index: false, follow: true },
-    openGraph: { title: copy.title, description: copy.description, url: AUDIT_PATHS.es, locale: 'es_US' },
+    openGraph: { title: copy.title, description: copy.description, url: AUDIT_PATHS.es, locale: 'es_US', images: [{ url: '/og-audit-es.jpg', width: 1200, height: 630, alt: 'Tu negocio está perdiendo clientes en algún punto. Auditoría gratis de Xtek AI' }] },
+    twitter: { card: 'summary_large_image', title: copy.title, description: copy.description, images: ['/og-audit-es.jpg'] },
 };
 
 export default function Page() {
