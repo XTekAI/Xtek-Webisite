@@ -54,37 +54,52 @@ export const Table: React.FC<{ head: string[]; rows: React.ReactNode[][] }> = ({
 
 // ---- Page layout -----------------------------------------------------------
 
+const CHROME = {
+    en: { home: 'Home', effective: 'Effective date:', updated: 'Last updated:', contents: 'Contents', back: 'Back to home' },
+    es: { home: 'Inicio', effective: 'Fecha de entrada en vigor:', updated: 'Última actualización:', contents: 'Contenido', back: 'Volver al inicio' },
+};
+
 interface LegalDocumentProps {
     title: string;
     intro: React.ReactNode;
     sections: LegalSection[];
     otherPage: { href: string; label: string };
+    /** Language of the document (default English). */
+    lang?: 'en' | 'es';
+    /** The same document in the other language. */
+    translation: { href: string; label: string };
 }
 
 /** Long-form legal page: breadcrumb, effective date, table of contents and numbered sections. */
-export default function LegalDocument({ title, intro, sections, otherPage }: LegalDocumentProps) {
+export default function LegalDocument({ title, intro, sections, otherPage, lang = 'en', translation }: LegalDocumentProps) {
+    const t = CHROME[lang];
     return (
-        <div className="pt-40 pb-24 px-6 min-h-screen">
+        <div className="pt-40 pb-24 px-6 min-h-screen" lang={lang}>
             <div className="max-w-4xl mx-auto">
-                <nav aria-label="Breadcrumb" className="mb-8 text-sm text-white/55">
-                    <LegalLink href="/" className="hover:text-accent transition-colors">Home</LegalLink>
-                    <span className="mx-2">/</span>
-                    <span className="text-white/80">{title}</span>
+                <nav aria-label="Breadcrumb" className="mb-8 flex flex-wrap items-center justify-between gap-3 text-sm text-white/55">
+                    <span>
+                        <LegalLink href="/" className="hover:text-accent transition-colors">{t.home}</LegalLink>
+                        <span className="mx-2">/</span>
+                        <span className="text-white/80">{title}</span>
+                    </span>
+                    <LegalLink href={translation.href} className="rounded-full border border-white/15 px-3 py-1 text-white/75 hover:text-white hover:border-white/40 transition-colors">
+                        {translation.label}
+                    </LegalLink>
                 </nav>
 
                 <h1 className="text-4xl md:text-5xl font-bold mb-4 text-white">{title}</h1>
                 <p className="text-white/60 mb-8">
-                    <strong className="text-white/80">Effective date:</strong>{' '}
-                    <time dateTime={LEGAL.lastUpdatedIso}>{LEGAL.effectiveDate}</time>
+                    <strong className="text-white/80">{t.effective}</strong>{' '}
+                    <time dateTime="2026-09-24">{lang === 'es' ? LEGAL.effectiveDateEs : LEGAL.effectiveDate}</time>
                     <span className="mx-2">·</span>
-                    <strong className="text-white/80">Last updated:</strong>{' '}
-                    <time dateTime={LEGAL.lastUpdatedIso}>{LEGAL.effectiveDate}</time>
+                    <strong className="text-white/80">{t.updated}</strong>{' '}
+                    <time dateTime={LEGAL.lastUpdatedIso}>{lang === 'es' ? LEGAL.lastUpdatedEs : LEGAL.lastUpdated}</time>
                 </p>
 
                 <div className="glass rounded-[32px] border border-white/5 p-8 md:p-12 mb-10 space-y-4">{intro}</div>
 
                 <nav aria-labelledby="toc-heading" className="glass rounded-[32px] border border-white/5 p-8 md:p-10 mb-12">
-                    <h2 id="toc-heading" className="text-xl font-bold mb-5 text-white">Contents</h2>
+                    <h2 id="toc-heading" className="text-xl font-bold mb-5 text-white">{t.contents}</h2>
                     <ol className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-2 list-decimal pl-5 text-white/75 marker:text-sky-300">
                         {sections.map((section) => (
                             <li key={section.id}>
@@ -108,7 +123,7 @@ export default function LegalDocument({ title, intro, sections, otherPage }: Leg
 
                 <div className="mt-16 pt-8 border-t border-white/10 flex flex-wrap gap-6 text-sm">
                     <LegalLink href={otherPage.href} className="text-sky-300 underline underline-offset-2 hover:text-white">{otherPage.label}</LegalLink>
-                    <LegalLink href="/" className="text-white/60 hover:text-white transition-colors">Back to home</LegalLink>
+                    <LegalLink href="/" className="text-white/60 hover:text-white transition-colors">{t.back}</LegalLink>
                 </div>
             </div>
         </div>

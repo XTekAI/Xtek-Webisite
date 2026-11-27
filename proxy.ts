@@ -11,8 +11,10 @@ const MAIN_HOSTS = new Set(['xtekai.com', 'www.xtekai.com']);
 const LANDING_HOSTS = new Set(['landing.xtekai.com', 'landing.localhost']);
 const LANDING_ORIGIN = 'https://landing.xtekai.com';
 
-const LANDING_PAGES = new Set(['/', '/free-audit', '/auditoria-gratis', '/legal/privacy', '/legal/terms', '/legal/sms-terms']);
-const LEGAL_COPIES: Record<string, string> = { '/privacy': '/legal/privacy', '/terms': '/legal/terms', '/sms-terms': '/legal/sms-terms' };
+// The main site's legal pages, in both languages; the landing serves each one under /legal (same path).
+const LEGAL = ['/privacy', '/terms', '/sms-terms', '/es/privacidad', '/es/terminos', '/es/terminos-sms'];
+const LANDING_PAGES = new Set(['/', '/free-audit', '/auditoria-gratis', ...LEGAL.map((p) => `/legal${p}`)]);
+const LEGAL_COPIES: Record<string, string> = Object.fromEntries(LEGAL.map((p) => [p, `/legal${p}`]));
 
 export function proxy(request: NextRequest) {
     const { pathname, search } = request.nextUrl;

@@ -5,6 +5,7 @@ import { useRouter, usePathname, redirect } from 'next/navigation';
 
 import React from 'react';
 import { useLanguage } from '../context/LanguageContext';
+import { LEGAL_PATHS } from '../content/legal';
 import { handleSmoothScroll } from '../lib/utils';
 import { SOCIAL_LINKS } from '../lib/seo';
 import { openCookieSettings } from '../lib/consent';
@@ -131,9 +132,9 @@ const Footer: React.FC = () => {
           <div>
             <h4 className="font-bold mb-6 text-sm uppercase tracking-widest text-primary-light">{t.footer.col3_title}</h4>
             <ul className="space-y-4 text-sm text-white/60">
-              <li><Link href="/terms" className="hover:text-accent transition-colors">{t.footer.col3_item1}</Link></li>
-              <li><Link href="/sms-terms" className="hover:text-accent transition-colors">SMS Terms</Link></li>
-              <li><Link href="/privacy" className="hover:text-accent transition-colors">{t.footer.col3_item2}</Link></li>
+              <li><Link href={LEGAL_PATHS[lang].terms} className="hover:text-accent transition-colors">{t.footer.col3_item1}</Link></li>
+              <li><Link href={LEGAL_PATHS[lang].sms} className="hover:text-accent transition-colors">SMS Terms</Link></li>
+              <li><Link href={LEGAL_PATHS[lang].privacy} className="hover:text-accent transition-colors">{t.footer.col3_item2}</Link></li>
               <li><Link href="/privacy#cookies" className="hover:text-accent transition-colors">{t.footer.col3_item3}</Link></li>
               <li><button type="button" onClick={openCookieSettings} className="hover:text-accent transition-colors text-left">Your Privacy Choices</button></li>
             </ul>

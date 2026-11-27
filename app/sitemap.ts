@@ -11,7 +11,7 @@ const SITE_LAST_UPDATED = '2026-11-23';
 const SERVICES_LAST_UPDATED = '2026-11-12';
 
 export default function sitemap(): MetadataRoute.Sitemap {
-    const staticPages = ['/', '/service-areas', '/industries', '/solutions', '/blog', '/stories', '/products', '/next-horizon', '/privacy', '/terms', '/sms-terms'].map((path) => ({
+    const staticPages = ['/', '/service-areas', '/industries', '/solutions', '/blog', '/stories', '/products', '/next-horizon', '/privacy', '/terms', '/sms-terms', '/es/privacidad', '/es/terminos', '/es/terminos-sms'].map((path) => ({
         url: absoluteUrl(path),
         lastModified: SITE_LAST_UPDATED,
     }));

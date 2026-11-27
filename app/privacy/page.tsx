@@ -2,18 +2,22 @@ import type { Metadata } from 'next';
 import LegalDocument, { A, H3, P, Table, UL, type LegalSection } from '../../components/LegalDocument';
 import CookieSettingsButton from '../../components/CookieSettingsButton';
 import JsonLd from '../../components/JsonLd';
-import { LEGAL } from '../../content/legal';
+import { LEGAL, LEGAL_PATHS } from '../../content/legal';
 import { breadcrumbJsonLd, buildMetadata, webPageJsonLd } from '../../lib/seo';
 
 const TITLE = 'Privacy Policy (CCPA & US State Privacy Laws) | Xtek AI';
 const DESCRIPTION =
     'How Xtek AI collects, uses, shares and protects personal information, and the privacy rights you have under the CCPA/CPRA and other US state laws.';
 
-export const metadata: Metadata = buildMetadata({
+const base = buildMetadata({
     title: TITLE,
     description: DESCRIPTION,
     path: '/privacy',
 });
+export const metadata: Metadata = {
+    ...base,
+    alternates: { canonical: LEGAL_PATHS.en.privacy, languages: { en: LEGAL_PATHS.en.privacy, es: LEGAL_PATHS.es.privacy } },
+};
 
 const sections: LegalSection[] = [
     {
@@ -79,7 +83,7 @@ const sections: LegalSection[] = [
                         ],
                         [
                             'Device and usage data',
-                            'IP address, browser and device type, pages viewed, referring page, approximate location derived from your IP address, date and time.',
+                            'IP address, browser and device type, pages viewed, referring page, approximate location derived from your IP address, date and time, and the ad or link that brought you to the site (campaign tags such as UTM parameters and the Facebook click ID), which we save with any form you submit.',
                             'Automatically from your browser. Server logs are always created; analytics and advertising tools apply as described under Cookies.',
                             'Internet or other network activity; geolocation data (approximate only)',
                         ],
@@ -96,7 +100,19 @@ const sections: LegalSection[] = [
                             'Commercial information; professional information',
                         ],
                         [
-                            'Public profile interactions',
+                                'Instagram conversations',
+                                'Messages and comments you send to our Instagram account and our replies, some of which are written by an AI agent (see “AI assistants”), and the contact details you share there.',
+                                'You, through Instagram (Meta).',
+                                'Identifiers; commercial information; electronic information',
+                            ],
+                            [
+                                'Public information about your business',
+                                'Your business’s public Google Business Profile, website, reviews and social media pages, which we review to prepare the free audit you request and our proposals.',
+                                'Publicly available sources.',
+                                'Commercial information; professional information',
+                            ],
+                            [
+                                'Public profile interactions',
                             'Reviews, messages or comments you post on our Google Business Profile, Facebook, Instagram or LinkedIn pages.',
                             'You and the platform.',
                             'Identifiers; electronic information',
@@ -124,8 +140,10 @@ const sections: LegalSection[] = [
                     <li>to provide, manage, support and bill for our services, and to keep records for tax, accounting and legal purposes;</li>
                     <li>to send our newsletter and other marketing about our services (you can opt out at any time);</li>
                     <li>to understand how the site is used and improve it (Google Analytics);</li>
-                    <li>to measure and improve our advertising on Facebook and Instagram (Meta Pixel);</li>
-                    <li>to operate the AI voice and chat assistant and answer visitors&rsquo; questions;</li>
+                    <li>to measure our advertising on Facebook and Instagram and to show our ads to people who visited our site (retargeting) with the Meta Pixel, unless you opt out;</li>
+                    <li>if you submitted a form, to include your email address (never your phone number) in our ad audiences on Facebook and Instagram, unless you opt out;</li>
+                    <li>to prepare the free audit you request, by reviewing your business&rsquo;s public online presence before our call;</li>
+                    <li>to operate our AI assistants (the voice and chat assistant on the site and the agent that answers Instagram messages and comments);</li>
                     <li>to keep the site and our business secure, prevent fraud and abuse, and fix errors;</li>
                     <li>to comply with the law and to establish, exercise or defend legal claims.</li>
                 </UL>
@@ -157,7 +175,14 @@ const sections: LegalSection[] = [
                             'Until you change it or clear your browser data',
                         ],
                         [
-                            <code key="c2">_ga, _ga_G-29BT1LZTS0</code>,
+                                <code key="c4">xtek_tracking, xtek_landing_path</code>,
+                                'Xtek AI (stored in your browser’s session storage)',
+                                'Keeps the campaign tags of the link you arrived from (for example UTM parameters and the Facebook click ID) so they are saved with a form you submit, and the landing page you came from so our legal pages can send you back to it.',
+                                'Functional (first party)',
+                                'Until you close the tab',
+                            ],
+                            [
+                                <code key="c2">_ga, _ga_G-29BT1LZTS0</code>,
                             'Google Analytics 4 (Google LLC)',
                             'Tells visitors apart and measures how the site is used.',
                             'Analytics',
@@ -209,7 +234,7 @@ const sections: LegalSection[] = [
     },
     {
         id: 'ai-assistant',
-        title: 'AI voice and chat assistant',
+        title: 'AI assistants',
         body: (
             <>
                 <P>
@@ -223,7 +248,17 @@ const sections: LegalSection[] = [
                     <li>Do not share sensitive information (health, financial account, government ID or password details) with the assistant.</li>
                     <li>The assistant can make mistakes. It does not give legal, medical or financial advice, and nothing it says is a binding offer.</li>
                     <li>Conversation data is handled under our agreement with the provider and this policy, and kept only as long as described under &ldquo;How long we keep information&rdquo;.</li>
-                </UL>
+                    </UL>
+                    <P>
+                        <strong>Instagram.</strong> Messages and comments sent to our Instagram account may be answered by an AI agent. It can answer questions about our
+                        services and help you book a call; a person on our team reviews the conversations and can take over at any time. If you share your contact details
+                        there, we save them and the conversation in our customer records as described in this policy.
+                    </P>
+                    <P>
+                        <strong>AI tools we use internally.</strong> To answer and organize inquiries faster, we use AI services from providers such as Anthropic, OpenAI and
+                        Google to help draft replies and emails and to summarize and organize our records. These providers process the information on our behalf as service
+                        providers.
+                    </P>
             </>
         ),
     },
@@ -237,9 +272,9 @@ const sections: LegalSection[] = [
                 </P>
                 <UL>
                     <li>
-                        <strong>Service messages (text and email)</strong> about your inquiry and appointments: replies, meeting scheduling, confirmations, reminders and
-                        follow-ups. You agree to these by checking the required service-messages box when you submit a form, because we use them to answer you and manage
-                        your appointments.
+                        <strong>Service messages (text and email)</strong>: only the messages we need to handle your request and your appointments, such as replies to your
+                        request and follow-ups about it, appointment scheduling, confirmations, reminders, and changes or cancellations. You agree to these by checking the
+                        required service-messages box when you submit a form, because without them we cannot answer you or manage your appointments.
                     </li>
                     <li>
                         <strong>Marketing messages</strong>: offers, promotions and news about our services. These are <strong>optional</strong>. Marketing texts and marketing
@@ -270,8 +305,9 @@ const sections: LegalSection[] = [
                 <UL>
                     <li>
                         <strong>Service providers</strong> that act on our instructions: website hosting and content delivery; workflow-automation and email/CRM tools that
-                        receive form submissions; scheduling and video-meeting tools; the AI assistant provider (ElevenLabs); and analytics (Google) and advertising
-                        measurement (Meta) providers.
+                            receive form submissions; internal team-notification tools; scheduling and video-meeting tools; the AI assistant provider (ElevenLabs); AI model
+                            providers (such as Anthropic, OpenAI and Google) that help us draft replies and organize records; and analytics (Google) and advertising
+                            measurement (Meta) providers.
                     </li>
                     <li><strong>Professional advisers</strong> such as accountants, lawyers and insurers, under confidentiality duties.</li>
                     <li><strong>Authorities and other parties</strong> when the law requires it or to protect rights, safety and security.</li>
@@ -284,6 +320,13 @@ const sections: LegalSection[] = [
                     cross-context behavioral advertising. We do this only for visitors who have not opted out. You can opt out at any time through{' '}
                     <CookieSettingsButton>Your Privacy Choices</CookieSettingsButton> or with a Global Privacy Control signal. We do not knowingly sell or share the personal
                     information of anyone under 16.
+                </P>
+                <P>
+                    <strong>Email audiences on Meta (Custom Audiences).</strong> If you submit one of our forms, we may share your <strong>email address only</strong>, in
+                    hashed (encoded) form, with Meta so we can show our ads on Facebook and Instagram to you or to people similar to our customers, or avoid showing them to
+                    you. Meta uses it to find matching accounts and deletes the emails it cannot match. We never share your phone number for this. Some state laws treat this
+                    as &ldquo;sharing&rdquo; for targeted advertising: to opt out, email <A href={`mailto:${LEGAL.email}`}>{LEGAL.email}</A> with the subject &ldquo;Do not
+                    share&rdquo; and we will remove your email from our audiences and leave it out of future ones.
                 </P>
                 <P>
                     <strong>Mobile information.</strong> No mobile information will be shared with third parties or affiliates for marketing or promotional purposes. Text messaging
@@ -352,7 +395,7 @@ const sections: LegalSection[] = [
                     <li><strong>Delete</strong> personal information we collected from you, subject to legal exceptions;</li>
                     <li><strong>Correct</strong> inaccurate personal information;</li>
                     <li><strong>Portability:</strong> receive your information in a portable, readily usable format;</li>
-                    <li><strong>Opt out of sale, sharing and targeted advertising:</strong> use <CookieSettingsButton>Your Privacy Choices</CookieSettingsButton> or a GPC signal, which we treat as a valid opt-out request;</li>
+                    <li><strong>Opt out of sale, sharing and targeted advertising:</strong> use <CookieSettingsButton>Your Privacy Choices</CookieSettingsButton> or a GPC signal, which we treat as a valid opt-out request, and email us to keep your email address out of our Meta audiences (see &ldquo;Who we share personal information with&rdquo;);</li>
                     <li><strong>Limit use of sensitive personal information:</strong> not applicable, because we do not collect it for inference or profiling;</li>
                     <li><strong>No retaliation:</strong> we will not deny you services, charge different prices or give a different quality of service because you exercised a right.</li>
                 </UL>
@@ -386,7 +429,7 @@ const sections: LegalSection[] = [
                 </P>
                 <P>
                     We may call you about your inquiry at the number you provide; tell us if you prefer not to be called and we will stop and add your number to our internal
-                    do-not-call list. We send <strong>service messages</strong> by text and email (replies, scheduling, confirmations, reminders and follow-ups) because you agreed to
+                    do-not-call list. We send <strong>service messages</strong> by text and email (replies to your request and follow-ups about it, appointment scheduling, confirmations, reminders, and changes or cancellations) because you agreed to
                     them when you submitted a form. We send <strong>marketing</strong> texts and emails only if you checked the separate, optional boxes for them or otherwise opted
                     in (see &ldquo;Text and email messages&rdquo; and our <A href="/sms-terms">SMS Terms</A>), and we never make consent to marketing a condition of buying anything
                     (Telephone Consumer Protection Act). You can opt out of marketing at any time.
@@ -473,6 +516,7 @@ export default function PrivacyPage() {
                         </P>
                     </>
                 }
+                translation={{ href: '/es/privacidad', label: 'Leer en español' }}
                 sections={sections}
                 otherPage={{ href: '/terms', label: 'Read our Terms and Conditions' }}
             />

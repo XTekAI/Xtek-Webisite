@@ -23,7 +23,7 @@ interface ContactConsentFieldsProps {
 const linkClass = 'text-sky-300 underline underline-offset-2 hover:text-white';
 
 /** Renders consent wording, turning {terms} / {privacy} / {sms} into links that open in a new tab. */
-export function renderConsentText(text: string, lang: 'en' | 'es', hrefs: Record<'terms' | 'privacy' | 'sms', string> = CONSENT_LINK_HREFS): React.ReactNode[] {
+export function renderConsentText(text: string, lang: 'en' | 'es', hrefs: Record<'terms' | 'privacy' | 'sms', string> = CONSENT_LINK_HREFS[lang]): React.ReactNode[] {
     const labels = CONSENT_LINK_LABELS[lang];
     return text.split(/(\{terms\}|\{privacy\}|\{sms\})/).map((part, index) => {
         const match = part.match(/^\{(terms|privacy|sms)\}$/);

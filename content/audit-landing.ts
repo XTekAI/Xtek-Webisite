@@ -10,7 +10,10 @@ export const AUDIT_PATHS: Record<AuditLang, string> = { en: '/free-audit', es: '
 // reaching the main site). Its legal pages have their own paths so the server can render them with the
 // landing's minimal header instead of the main site's menu.
 export const LANDING_ORIGIN = 'https://landing.xtekai.com';
-export const AUDIT_LEGAL = { privacy: '/legal/privacy', terms: '/legal/terms', sms: '/legal/sms-terms' } as const;
+export const AUDIT_LEGAL = {
+    en: { privacy: '/legal/privacy', terms: '/legal/terms', sms: '/legal/sms-terms' },
+    es: { privacy: '/legal/es/privacidad', terms: '/legal/es/terminos', sms: '/legal/es/terminos-sms' },
+} as const;
 /** sessionStorage key: the last landing page visited, so the legal pages can send people back to it. */
 export const LANDING_LAST_KEY = 'xtek_landing_path';
 

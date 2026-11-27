@@ -1,18 +1,22 @@
 import type { Metadata } from 'next';
 import LegalDocument, { A, P, UL, type LegalSection } from '../../components/LegalDocument';
 import JsonLd from '../../components/JsonLd';
-import { LEGAL } from '../../content/legal';
+import { LEGAL, LEGAL_PATHS } from '../../content/legal';
 import { breadcrumbJsonLd, buildMetadata, webPageJsonLd } from '../../lib/seo';
 
 const TITLE = 'Terms and Conditions | Xtek AI';
 const DESCRIPTION =
     'The terms for using the Xtek AI website and our AI automation, marketing and web services: engagements, payment, IP, AI use, liability and governing law.';
 
-export const metadata: Metadata = buildMetadata({
+const base = buildMetadata({
     title: TITLE,
     description: DESCRIPTION,
     path: '/terms',
 });
+export const metadata: Metadata = {
+    ...base,
+    alternates: { canonical: LEGAL_PATHS.en.terms, languages: { en: LEGAL_PATHS.en.terms, es: LEGAL_PATHS.es.terms } },
+};
 
 const sections: LegalSection[] = [
     {
@@ -75,6 +79,7 @@ const sections: LegalSection[] = [
                     engagement are set out in a Proposal.
                 </P>
                 <UL>
+                    <li><strong>Free audit.</strong> The initial call and audit we offer on our landing pages are free and carry no obligation to buy. Before the call we review your business&rsquo;s public online presence and then share what we find.</li>
                     <li>Services are delivered based on the findings of the initial strategic audit and the scope agreed in the Proposal. Work outside that scope is a change request that we will quote separately.</li>
                     <li>Implementation timelines are estimates. They depend on the complexity of your business and on the data, access and approvals you provide on time.</li>
                     <li>We may use subcontractors and third-party tools to perform the Services and remain responsible for their work on our engagement.</li>
@@ -167,7 +172,7 @@ const sections: LegalSection[] = [
             <>
                 <P>
                     <strong>Service messages (required).</strong> To submit one of our forms you must agree to receive service messages from Xtek AI by text (SMS) and email,
-                    including automated ones: replies to your inquiry, meeting scheduling, confirmations, reminders and follow-ups. This is how we respond and manage appointments.
+                    including automated ones, limited to what we need to handle your request and your appointments: replies to your request and follow-ups about it, appointment scheduling, confirmations, reminders, and changes or cancellations. This is how we respond and manage appointments.
                 </P>
                 <P>
                     <strong>Marketing messages (optional).</strong> Using separate, unchecked boxes you may also choose to receive marketing texts and/or marketing emails
@@ -335,6 +340,7 @@ export default function TermsPage() {
                         </P>
                     </>
                 }
+                translation={{ href: '/es/terminos', label: 'Leer en español' }}
                 sections={sections}
                 otherPage={{ href: '/privacy', label: 'Read our Privacy Policy' }}
             />

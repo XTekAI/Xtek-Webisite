@@ -11,12 +11,12 @@
 export type ConsentLanguage = 'en' | 'es';
 
 /** Bump when the consent wording or the linked policies change materially. */
-export const POLICY_VERSION = '2026-09-20';
+export const POLICY_VERSION = '2026-11-27';
 
 export interface ContactConsent {
     /** Required: agrees to the Terms and Conditions and Privacy Policy. */
     terms: boolean;
-    /** Required: agrees to service messages by text and email (replies, scheduling, reminders, follow-ups). */
+    /** Required: agrees to necessary service messages by text and email (replies and follow-ups on the request, appointment scheduling, confirmations, reminders, changes). */
     service: boolean;
     /** Optional: agrees to marketing text messages. */
     marketingSms: boolean;
@@ -34,7 +34,7 @@ export const CONSENT_TEXT = {
     en: {
         terms: 'I have read and agree to the {terms} and the {privacy}.',
         service:
-            'I agree to receive service messages from Xtek AI by text (SMS) and email, at the phone number and email address I provided, including automated messages about my inquiry and appointments: replies, meeting scheduling, confirmations, reminders and follow-ups. Message frequency varies. Message and data rates may apply. Reply STOP to cancel texts or HELP for help. See our {privacy} and {sms}.',
+            'I agree to receive service messages from Xtek AI by text (SMS) and email, at the phone number and email address I provided, including automated messages needed to handle my request and my appointments: replies to my request and follow-ups about it, appointment scheduling, confirmations, reminders, and changes or cancellations. Message frequency varies. Message and data rates may apply. Reply STOP to cancel texts or HELP for help. See our {privacy} and {sms}.',
         marketingSms:
             'I also agree to receive marketing text (SMS) messages from Xtek AI at the phone number I provided, including automated offers, promotions and news about our services. Consent is not a condition of any purchase. Message frequency varies. Message and data rates may apply. Reply STOP to cancel or HELP for help. See our {privacy} and {sms}.',
         marketingEmail:
@@ -46,7 +46,7 @@ export const CONSENT_TEXT = {
     es: {
         terms: 'He leído y acepto los {terms} y la {privacy}.',
         service:
-            'Acepto recibir mensajes de servicio de Xtek AI por mensaje de texto (SMS) y correo electrónico, al número de teléfono y al correo que proporcioné, incluidos mensajes automatizados sobre mi consulta y mis citas: respuestas, programación de reuniones, confirmaciones, recordatorios y seguimientos. La frecuencia de los mensajes varía. Pueden aplicarse tarifas de mensajes y datos. Responde STOP para cancelar los mensajes de texto o HELP para obtener ayuda. Consulta nuestra {privacy} y los {sms}.',
+            'Acepto recibir mensajes de servicio de Xtek AI por mensaje de texto (SMS) y correo electrónico, al número de teléfono y al correo que proporcioné, incluidos mensajes automatizados necesarios para atender mi solicitud y mis citas: respuestas a mi solicitud y seguimientos sobre ella, programación de citas, confirmaciones, recordatorios, y cambios o cancelaciones. La frecuencia de los mensajes varía. Pueden aplicarse tarifas de mensajes y datos. Responde STOP para cancelar los mensajes de texto o HELP para obtener ayuda. Consulta nuestra {privacy} y los {sms}.',
         marketingSms:
             'También acepto recibir mensajes de texto (SMS) de marketing de Xtek AI al número que proporcioné, incluidas ofertas y promociones automatizadas y novedades sobre nuestros servicios. El consentimiento no es una condición para ninguna compra. La frecuencia de los mensajes varía. Pueden aplicarse tarifas de mensajes y datos. Responde STOP para cancelar o HELP para obtener ayuda. Consulta nuestra {privacy} y los {sms}.',
         marketingEmail:
@@ -62,7 +62,11 @@ export const CONSENT_LINK_LABELS = {
     es: { terms: 'Términos y Condiciones', privacy: 'Política de Privacidad', sms: 'Términos de SMS' },
 } as const;
 
-export const CONSENT_LINK_HREFS = { terms: '/terms', privacy: '/privacy', sms: '/sms-terms' } as const;
+/** Policy links shown in the consent wording, in the reader's language. */
+export const CONSENT_LINK_HREFS = {
+    en: { terms: '/terms', privacy: '/privacy', sms: '/sms-terms' },
+    es: { terms: '/es/terminos', privacy: '/es/privacidad', sms: '/es/terminos-sms' },
+} as const;
 
 /** The wording with the link tokens replaced by their names (what gets stored). */
 export function plainConsentText(text: string, lang: ConsentLanguage): string {

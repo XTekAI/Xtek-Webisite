@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useSyncExternalStore } from 'react';
+import { usePathname } from 'next/navigation';
 import { ArrowLeft } from 'lucide-react';
 import { AUDIT_LEGAL, AUDIT_PATHS, LANDING_LAST_KEY } from '../content/audit-landing';
 
@@ -21,7 +22,9 @@ export const useLandingBackHref = () => useSyncExternalStore(noSubscribe, readLa
 
 const AuditLegalShell: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const back = useLandingBackHref();
-    const es = back.startsWith(AUDIT_PATHS.es);
+    const pathname = usePathname() ?? '';
+    const es = pathname.startsWith('/legal/es/') || back.startsWith(AUDIT_PATHS.es);
+    const links = AUDIT_LEGAL[es ? 'es' : 'en'];
 
     return (
         <div className="audit-landing relative bg-primary text-white min-h-screen">
@@ -45,9 +48,9 @@ const AuditLegalShell: React.FC<{ children: React.ReactNode }> = ({ children }) 
                 <div className="mx-auto max-w-4xl flex flex-col md:flex-row items-center justify-between gap-5 text-sm text-white/45">
                     <p>© {new Date().getFullYear()} X-Tek AI LLC · New Jersey, US</p>
                     <div className="flex gap-5">
-                        <a href={AUDIT_LEGAL.privacy} className="hover:text-white">{es ? 'Privacidad' : 'Privacy'}</a>
-                        <a href={AUDIT_LEGAL.terms} className="hover:text-white">{es ? 'Términos' : 'Terms'}</a>
-                        <a href={AUDIT_LEGAL.sms} className="hover:text-white">SMS</a>
+                        <a href={links.privacy} className="hover:text-white">{es ? 'Privacidad' : 'Privacy'}</a>
+                        <a href={links.terms} className="hover:text-white">{es ? 'Términos' : 'Terms'}</a>
+                        <a href={links.sms} className="hover:text-white">SMS</a>
                     </div>
                 </div>
             </footer>

@@ -1,18 +1,22 @@
 import type { Metadata } from 'next';
 import LegalDocument, { A, P, UL, type LegalSection } from '../../components/LegalDocument';
 import JsonLd from '../../components/JsonLd';
-import { LEGAL } from '../../content/legal';
+import { LEGAL, LEGAL_PATHS } from '../../content/legal';
 import { breadcrumbJsonLd, buildMetadata, webPageJsonLd } from '../../lib/seo';
 
 const TITLE = 'SMS Terms and Messaging Policy | Xtek AI';
 const DESCRIPTION =
     'Terms for text messages from Xtek AI: how you opt in, message types and frequency, rates, how to opt out with STOP, how to get HELP, and how we protect your mobile information.';
 
-export const metadata: Metadata = buildMetadata({
+const base = buildMetadata({
     title: TITLE,
     description: DESCRIPTION,
     path: '/sms-terms',
 });
+export const metadata: Metadata = {
+    ...base,
+    alternates: { canonical: LEGAL_PATHS.en.sms, languages: { en: LEGAL_PATHS.en.sms, es: LEGAL_PATHS.es.sms } },
+};
 
 const sections: LegalSection[] = [
     {
@@ -26,8 +30,9 @@ const sections: LegalSection[] = [
                 </P>
                 <UL>
                     <li>
-                        <strong>Service messages</strong> (also sent by email): replies and follow-ups about your inquiry or quote request; meeting scheduling, confirmations and
-                        reminders; and updates about services and projects you have with us.
+                        <strong>Service messages</strong> (also sent by email): only what we need to handle your request and your appointments, such as replies to your inquiry or
+                        quote request and follow-ups about it; appointment scheduling, confirmations, reminders, and changes or cancellations; and updates about services and
+                        projects you have with us.
                     </li>
                     <li>
                         <strong>Marketing messages</strong> (optional): offers, promotions and news about our AI automation, marketing and web services.
@@ -42,7 +47,7 @@ const sections: LegalSection[] = [
         title: 'How you join and your consent',
         body: (
             <>
-                <P>You join by checking the boxes on one of our contact forms (the contact form on the home page, the landing-page form, or the Next Horizon request form) and submitting it with your mobile number. None of the boxes is pre-selected.</P>
+                <P>You join by checking the boxes on one of our contact forms (the contact form on the home page, the free-audit form on our landing pages at landing.xtekai.com/free-audit and landing.xtekai.com/auditoria-gratis, or the Next Horizon request form) and submitting it with your mobile number. None of the boxes is pre-selected.</P>
                 <UL>
                     <li>
                         <strong>Service messages: required to submit a form.</strong> You agree to receive service messages by text and email about your inquiry and appointments.
@@ -192,6 +197,7 @@ export default function SmsTermsPage() {
                         </P>
                     </>
                 }
+                translation={{ href: '/es/terminos-sms', label: 'Leer en español' }}
                 sections={sections}
                 otherPage={{ href: '/privacy', label: 'Read our Privacy Policy' }}
             />

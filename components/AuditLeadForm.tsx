@@ -302,7 +302,7 @@ const AuditLeadForm: React.FC<{ lang: AuditLang; id?: string }> = ({ lang, id })
                                             <p><span className="text-white font-semibold">{business}</span> · {name}</p>
                                             <p>{email}</p>
                                         </div>
-                                        <ContactConsentFields consent={consent} onChange={(v) => { setConsent(v); setError(''); }} showErrors={consentTried} lang={lang} hrefs={AUDIT_LEGAL} />
+                                        <ContactConsentFields consent={consent} onChange={(v) => { setConsent(v); setError(''); }} showErrors={consentTried} lang={lang} hrefs={AUDIT_LEGAL[lang]} />
                                     </div>
                                 )}
                             </motion.div>

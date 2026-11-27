@@ -732,9 +732,9 @@ const Footer: React.FC<{ lang: AuditLang }> = ({ lang }) => {
                 <img src="/brand/xtek-horizontal-negativo.svg" alt="Xtek AI" className="h-7 w-auto opacity-80" />
                 <p>© {new Date().getFullYear()} X-Tek AI LLC · New Jersey, US · {c.rights}</p>
                 <div className="flex gap-5">
-                    <a href={AUDIT_LEGAL.privacy} className="hover:text-white">{c.privacy}</a>
-                    <a href={AUDIT_LEGAL.terms} className="hover:text-white">{c.terms}</a>
-                    <a href={AUDIT_LEGAL.sms} className="hover:text-white">SMS</a>
+                    <a href={AUDIT_LEGAL[lang].privacy} className="hover:text-white">{c.privacy}</a>
+                    <a href={AUDIT_LEGAL[lang].terms} className="hover:text-white">{c.terms}</a>
+                    <a href={AUDIT_LEGAL[lang].sms} className="hover:text-white">SMS</a>
                 </div>
             </div>
         </footer>
